@@ -3,12 +3,16 @@ export default defineNuxtConfig({
   srcDir: 'src',
 
   dir: {
-    app: 'src/app',
-    middleware: 'src/app',
-    layouts: 'src/app',
-    plugins: 'src/app',
-    assets: 'src/app'
+    middleware: 'app/middleware',
+    layouts: 'app/layouts',
+    plugins: 'app/plugins',
+    assets: 'app/assets'
   },
+
+  modules: [
+    '@nuxt/eslint',
+    '@nuxtjs/tailwindcss'
+  ],
 
   typescript: {
     typeCheck: true
@@ -20,6 +24,4 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-
-  modules: ['@nuxt/eslint'],
 })
