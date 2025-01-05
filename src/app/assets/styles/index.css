@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .icon {
+   @apply
+    w-full
+    h-full;
+} */
