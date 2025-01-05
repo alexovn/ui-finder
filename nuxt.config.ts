@@ -22,11 +22,7 @@ export default defineNuxtConfig({
     assets: 'app/assets'
   },
 
-  modules: [
-    '@nuxt/eslint',
-    '@nuxtjs/tailwindcss',
-    '@nuxt/fonts'
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui'],
 
   css: [
     '@/app/assets/styles/index.css'
@@ -35,6 +31,16 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
+
+  eslint: {
+    config: {
+      standalone: false
+    }
+  },
+
+  // colorMode: {
+  //   preference: 'light'
+  // },
 
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },

@@ -3,7 +3,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
   antfu({
-    ignores: ["*","*/**","!src","!src/**","!server","!server/**"],
+    ignores: ["*", "*/**", "!src", "!src/**", "!server", "!server/**"],
     vue: {
       overrides: {
         'vue/first-attribute-linebreak': ['error', {
@@ -13,7 +13,7 @@ export default withNuxt(
         'vue/max-attributes-per-line': ['error', {
           "singleline": {
             "max": 1
-          },      
+          },
           "multiline": {
             "max": 1
           }

@@ -1,7 +1,7 @@
 {
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
 
   // Auto fix
   "editor.codeActionsOnSave": {
@@ -33,7 +33,6 @@
     "html",
     "markdown",
     "json",
-    "json5",
     "jsonc",
     "yaml",
     "toml",
@@ -41,6 +40,7 @@
     "gql",
     "graphql",
     "astro",
+    "svelte",
     "css",
     "less",
     "scss",
