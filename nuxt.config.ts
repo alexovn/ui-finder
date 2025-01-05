@@ -1,6 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  srcDir: 'src',
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover',
+      link: [
+        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+      ],
+    },
+  },
+
+  srcDir: 'src/',
 
   dir: {
     middleware: 'app/middleware',
@@ -11,7 +24,12 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/eslint',
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@nuxt/fonts'
+  ],
+
+  css: [
+    '@/app/assets/styles/index.css'
   ],
 
   typescript: {
