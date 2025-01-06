@@ -8,28 +8,51 @@ const isDark = computed({
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   },
 })
-
 function toggleColorMode() {
   isDark.value = !isDark.value
+}
+
+const isFilterPanelOpened = ref(false)
+function openFilterPanel() {
+  isFilterPanelOpened.value = true
 }
 </script>
 
 <template>
-  <header class="px-6 h-14 sticky top-0 flex justify-between items-center gap-5 border-b bg-white dark:bg-black">
-    <NuxtLink
-      class="flex items-center gap-2"
-      to="/"
-    >
-      <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg bg-black dark:bg-white">
-        <UIcon
-          class="w-6 h-6 bg-white dark:bg-black"
-          name="i-bxs:component"
+  <header class="z-50 px-4 lg:px-6 min-h-[--header-height] sticky top-0 flex justify-between items-center gap-5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur border-b border-neutral-200 dark:border-neutral-800">
+    <div class="flex items-center gap-4">
+      <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-2 after:translate-x-1/2">
+        <UButton
+          icon="i-heroicons:adjustments-horizontal"
+          color="black"
+          variant="outline"
+          aria-label="Open filter panel"
+          @click="openFilterPanel"
         />
       </div>
-      <div class="font-medium text-xl">
-        UI Collection
-      </div>
-    </NuxtLink>
+
+      <USlideover
+        v-model="isFilterPanelOpened"
+        side="left"
+      >
+        Filters
+      </USlideover>
+
+      <NuxtLink
+        class="flex items-center gap-2"
+        to="/"
+      >
+        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg bg-black dark:bg-white">
+          <UIcon
+            class="w-6 h-6 bg-white dark:bg-black"
+            name="i-bxs:component"
+          />
+        </div>
+        <div class="font-medium text-lg lg:text-xl">
+          UI Collection
+        </div>
+      </NuxtLink>
+    </div>
 
     <div class="flex items-center gap-2">
       <UButton
@@ -45,7 +68,7 @@ function toggleColorMode() {
           class="w-8 h-8"
           :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
           variant="ghost"
-          aria-label="Theme switcher"
+          aria-label="Toggle color mode"
           color="black"
           @click="toggleColorMode"
         />

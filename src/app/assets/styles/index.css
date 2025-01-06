@@ -1,9 +1,20 @@
+@import './variables.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* .icon {
-   @apply
-    w-full
-    h-full;
-} */
+@layer base {
+    body {
+        @apply
+        bg-white
+        dark:bg-neutral-900;
+    }
+}
+
+@layer components {
+    .text-dark {
+        @apply
+        text-neutral-900;
+    }
+}
