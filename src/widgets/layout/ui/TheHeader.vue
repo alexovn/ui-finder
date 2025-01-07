@@ -26,7 +26,7 @@ function openFilterPanel() {
       <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-2 after:translate-x-1/2">
         <UButton
           icon="i-heroicons:adjustments-horizontal"
-          color="black"
+          color="white"
           variant="outline"
           aria-label="Open filter panel"
           @click="openFilterPanel"
@@ -69,7 +69,7 @@ function openFilterPanel() {
         target="_blank"
         icon="i-mdi:github"
         variant="ghost"
-        color="black"
+        color="white"
       />
 
       <ClientOnly>
@@ -78,7 +78,7 @@ function openFilterPanel() {
           :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
           variant="ghost"
           aria-label="Toggle color mode"
-          color="black"
+          color="white"
           @click="toggleColorMode"
         />
         <template #fallback>
