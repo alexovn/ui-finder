@@ -5,7 +5,7 @@ import { TheHeader } from '@/widgets'
 <template>
   <div class="flex flex-col min-h-screen">
     <TheHeader />
-    <main class="grow">
+    <main class="max-lg:flex max-lg:flex-col grow">
       <slot />
     </main>
   </div>

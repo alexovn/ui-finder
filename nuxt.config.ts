@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     assets: 'app/assets'
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui', '@pinia/nuxt'],
 
   css: [
     '@/app/assets/styles/index.css'
@@ -37,10 +37,6 @@ export default defineNuxtConfig({
       standalone: false
     }
   },
-
-  // colorMode: {
-  //   preference: 'light'
-  // },
 
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },

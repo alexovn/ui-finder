@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { FilterList } from '@/entities/filter'
+
 const colorMode = useColorMode()
 const isDark = computed({
   get() {
@@ -34,8 +36,15 @@ function openFilterPanel() {
       <USlideover
         v-model="isFilterPanelOpened"
         side="left"
+        :ui="{
+          padding: 'p-4',
+          overlay: {
+            background: 'bg-neutral-200/75 dark:bg-neutral-800/75',
+          },
+          background: 'dark:bg-neutral-900',
+        }"
       >
-        Filters
+        <FilterList />
       </USlideover>
 
       <NuxtLink
@@ -48,7 +57,7 @@ function openFilterPanel() {
             name="i-bxs:component"
           />
         </div>
-        <div class="font-medium text-lg lg:text-xl">
+        <div class="font-medium md:text-lg lg:text-xl">
           UI Collection
         </div>
       </NuxtLink>
