@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
     primary: 'neutral',
-    gray: 'cool',
+    gray: 'neutral',
   },
   icon: {
     class: 'icon',
