@@ -2,6 +2,7 @@
 const route = useRoute()
 const router = useRouter()
 
+const searchEl = useTemplateRef('searchEl')
 const search = ref(route.query.search || '')
 function handleSearch() {
   router.push({
@@ -21,6 +22,15 @@ function clearSearch() {
     },
   })
 }
+
+const { metaSymbol } = useShortcuts()
+defineShortcuts({
+  meta_k: {
+    handler: () => {
+      searchEl.value?.focus()
+    },
+  },
+})
 </script>
 
 <template>
@@ -32,22 +42,28 @@ function clearSearch() {
       />
     </div>
     <input
+      ref="searchEl"
       v-model="search"
       type="text"
-      class="p-3 px-12 w-full border-b border-neutral-300 bg-white placeholder-neutral-500 truncate focus:outline-none focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
+      class="p-3 px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-none focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
       placeholder="Search library by name, framework or feature..."
       @update:model-value="handleSearch"
     >
-    <div
-      v-if="search.length"
-      class="pr-3 absolute inset-y-0 right-0 flex items-center"
-    >
+    <div class="pr-3 absolute inset-y-0 right-0 flex items-center">
       <UButton
+        v-if="search.length"
         variant="ghost"
         color="white"
         icon="i-heroicons-x-mark"
         @click="clearSearch"
       />
+      <div
+        v-else
+        class="flex items-center gap-0.5"
+      >
+        <UKbd>{{ metaSymbol }}</UKbd>
+        <UKbd>K</UKbd>
+      </div>
     </div>
   </div>
 </template>
