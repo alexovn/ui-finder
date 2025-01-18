@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Datepicker",
+    "value": "datepicker"
+  },
+  {
+    "name": "Select",
+    "value": "select"
+  },
+  {
+    "name": "Dropdown",
+    "value": "dropdown"
+  },
+  {
+    "name": "Accordion",
+    "value": "accordion"
+  },
+  {
+    "name": "Table",
+    "value": "table"
+  },
+  {
+    "name": "Pagination",
+    "value": "pagination"
+  },
+  {
+    "name": "Modal",
+    "value": "modal"
+  },
+  {
+    "name": "Tabs",
+    "value": "tabs"
+  },
+  {
+    "name": "Notification",
+    "value": "notification"
+  },
+  {
+    "name": "Carousel",
+    "value": "carousel"
+  }
+]

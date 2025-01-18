@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Tailwind CSS",
+    "value": "tailwindCSS"
+  },
+  {
+    "name": "TypeScript",
+    "value": "typescript"
+  },
+  {
+    "name": "Styled",
+    "value": "styled"
+  },
+  {
+    "name": "Unstyled",
+    "value": "unstyled"
+  },
+  {
+    "name": "Free",
+    "value": "free"
+  },
+  {
+    "name": "Paid",
+    "value": "paid"
+  },
+  {
+    "name": "Figma Assets",
+    "value": "figmaAssets"
+  }
+]

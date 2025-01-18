@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Vue",
+    "value": "vue"
+  },
+  {
+    "name": "Nuxt",
+    "value": "nuxt"
+  },
+  {
+    "name": "React",
+    "value": "react"
+  },
+  {
+    "name": "Angular",
+    "value": "angular"
+  },
+  {
+    "name": "Svelte",
+    "value": "svelte"
+  }
+]

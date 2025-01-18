@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     assets: 'app/assets'
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui', '@pinia/nuxt', '@prisma/nuxt'],
 
   css: [
     '@/app/assets/styles/index.css'

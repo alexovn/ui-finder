@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Nuxt UI",
+    "value": "nuxt-ui",
+    "img": null,
+    "link": "https://ui.nuxt.com/",
+    "category": "library",
+    "frameworks": ["nuxt"],
+    "features": [
+      "tailwind",
+      "typescript",
+      "styled",
+      "free",
+      "paid",
+      "figma_assets"
+    ],
+    "components": [
+      "datepicker",
+      "select",
+      "dropdown",
+      "accordion",
+      "table",
+      "pagination",
+      "modal",
+      "tabs",
+      "notification",
+      "carousel"
+    ],
+    "githubLink": "https://github.com/nuxt/ui",
+    "npmLink": "https://www.npmjs.com/package/@nuxt/ui"
+  },
+  {
+    "name": "PrimeVue",
+    "value": "prime-vue",
+    "img": null,
+    "link": "https://primevue.org/",
+    "category": "library",
+    "frameworks": ["nuxt", "vue"],
+    "features": [
+      "tailwind",
+      "typescript",
+      "styled",
+      "unstyled",
+      "free",
+      "figma_assets"
+    ],
+    "components": [
+      "datepicker",
+      "select",
+      "dropdown",
+      "accordion",
+      "table",
+      "pagination",
+      "modal",
+      "tabs",
+      "notification",
+      "carousel"
+    ],
+    "githubLink": "https://github.com/primefaces/primevue",
+    "npmLink": "https://www.npmjs.com/package/primevue"
+  },
+  {
+    "name": "Vue Datepicker",
+    "value": "vue-datepicker",
+    "img": null,
+    "link": "https://vue3datepicker.com/",
+    "category": "component",
+    "frameworks": ["nuxt", "vue"],
+    "features": [
+      "typescript",
+      "styled",
+      "free"
+    ],
+    "components": ["datepicker"],
+    "githubLink": "https://github.com/Vuepic/vue-datepicker",
+    "npmLink": "https://www.npmjs.com/package/@vuepic/vue-datepicker"
+  }
+]
