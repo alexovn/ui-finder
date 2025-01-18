@@ -37,7 +37,7 @@ function openFilterPanel() {
         v-model="isFilterPanelOpened"
         side="left"
         :ui="{
-          padding: 'p-4',
+          padding: 'p-4 overflow-y-auto',
           overlay: {
             background: 'bg-neutral-200/75 dark:bg-neutral-800/75',
           },

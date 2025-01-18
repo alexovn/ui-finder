@@ -3,7 +3,7 @@ defineProps<{
   item: {
     label: string
     value: string
-    icon: string
+    icon: string | null
   }
 }>()
 
@@ -23,6 +23,7 @@ const model = defineModel({
     >
     <div class="flex items-center gap-3">
       <UIcon
+        v-if="item.icon"
         class="size-6"
         :name="item.icon"
       />

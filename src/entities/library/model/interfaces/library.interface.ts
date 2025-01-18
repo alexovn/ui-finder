@@ -1,24 +1,34 @@
-interface Badge {
-  label: string
-  value: string
-  icon: string
+export interface Category {
+  id: number
+  name: string
 }
 
-interface Github {
-  starCount: string
-  link: string
-};
+export interface Framework {
+  id: number
+  name: string
+}
 
-interface Npm {
-  downloadCount: string
-  link: string
-};
+export interface Feature {
+  id: number
+  name: string
+}
+
+export interface Component {
+  id: number
+  name: string
+}
 
 export interface Library {
+  id: string
+  createdAt: string
+  updatedAt: string
   name: string
   img: string
   link: string
-  badges: Badge[]
-  github: Github
-  npm: Npm
+  frameworks: Framework[]
+  features: Feature[]
+  components: Component[]
+  category: Category
+  githubLink: string
+  npmLink: string
 };

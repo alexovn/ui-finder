@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Library } from '@/entities/library'
+import type { Library } from '@prisma/client'
 
 defineProps<{
-  library?: Library
+  library: Library | null
 }>()
 </script>
 
@@ -10,13 +10,17 @@ defineProps<{
   <div class="p-4 flex flex-col gap-3 min-h-56 border border-neutral-200 transition-colors hover:bg-neutral-200/25 dark:border-neutral-800 rounded-md dark:hover:bg-neutral-700/40">
     <div class="px-2.5 flex items-start justify-between gap-16 flex-1">
       <NuxtLink
+        v-if="library?.link"
         class="group flex flex-col gap-1 shrink-0"
-        :to="library?.link"
+        :to="library.link"
         external
       >
-        <div class="size-14 flex items-center justify-center">
+        <div
+          v-if="library?.img"
+          class="size-14 flex items-center justify-center"
+        >
           <img
-            :src="library?.img"
+            :src="library.img"
             :alt="library?.name"
             class="object-cover drop-shadow-lg"
           >
@@ -32,7 +36,7 @@ defineProps<{
         </div>
       </NuxtLink>
 
-      <div class="flex items-end content-start flex-wrap gap-1">
+      <!-- <div class="flex items-end content-start flex-wrap gap-1">
         <UBadge
           v-for="item in library?.badges"
           :key="item.value"
@@ -43,11 +47,11 @@ defineProps<{
             rounded: 'rounded-full',
           }"
         />
-      </div>
+      </div> -->
     </div>
 
     <div class="flex items-center gap-1">
-      <UButton
+      <!-- <UButton
         variant="ghost"
         color="white"
         leading-icon="i-octicon:star-24"
@@ -62,9 +66,9 @@ defineProps<{
             name="i-lucide:arrow-up-right"
           />
         </template>
-      </UButton>
+      </UButton> -->
 
-      <UButton
+      <!-- <UButton
         variant="ghost"
         color="white"
         leading-icon="i-lucide:download"
@@ -79,7 +83,7 @@ defineProps<{
             name="i-lucide:arrow-up-right"
           />
         </template>
-      </UButton>
+      </UButton> -->
     </div>
   </div>
 </template>

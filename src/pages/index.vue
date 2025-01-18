@@ -3,122 +3,15 @@ import { FilterList } from '@/entities/filter'
 import { LibraryList } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 
-import nuxtLogo from '@/shared/icons/nuxt.svg'
-import primevueLogo from '@/shared/icons/primevue.svg'
-import vuetifyLogo from '@/shared/icons/vuetify.svg'
+const { data: libraries } = useAsyncData('libraries', async () => {
+  const res = await $fetch('/api/libraries')
 
-const libraries = ref([
-  {
-    name: 'Nuxt UI',
-    img: nuxtLogo,
-    link: 'https://ui.nuxt.com/',
-    badges: [
-      {
-        label: 'Nuxt',
-        value: 'nuxt',
-        icon: 'i-lineicons:nuxt',
-      },
-      {
-        label: 'Tailwind CSS',
-        value: 'tailwind',
-        icon: 'i-lineicons:tailwindcss',
-      },
-      {
-        label: 'TypeScript',
-        value: 'typescript',
-        icon: 'i-lineicons:typescript',
-      },
-      {
-        label: 'Styled',
-        value: 'styled',
-        icon: 'i-tabler:palette',
-      },
-    ],
-    github: {
-      starCount: '4.3k',
-      link: 'https://github.com/nuxt/ui',
-    },
-    npm: {
-      downloadCount: '32.8k',
-      link: 'https://www.npmjs.com/package/@nuxt/ui',
-    },
-  },
-  {
-    name: 'Vuetify',
-    img: vuetifyLogo,
-    link: 'https://vuetifyjs.com/',
-    badges: [
-      {
-        label: 'Vue',
-        value: 'vue',
-        icon: 'i-lineicons:vuejs',
-      },
-      {
-        label: 'Nuxt',
-        value: 'nuxt',
-        icon: 'i-lineicons:nuxt',
-      },
-      {
-        label: 'Styled',
-        value: 'styled',
-        icon: 'i-tabler:palette',
-      },
-    ],
-    github: {
-      starCount: '40.1k',
-      link: 'https://github.com/vuetifyjs/vuetify',
-    },
-    npm: {
-      downloadCount: '370.6k',
-      link: 'https://www.npmjs.com/package/vuetify',
-    },
-  },
-  {
-    name: 'PrimeVue',
-    img: primevueLogo,
-    link: 'https://primevue.org/',
-    badges: [
-      {
-        label: 'Vue',
-        value: 'vue',
-        icon: 'i-lineicons:vuejs',
-      },
-      {
-        label: 'Nuxt',
-        value: 'nuxt',
-        icon: 'i-lineicons:nuxt',
-      },
-      {
-        label: 'Tailwind CSS',
-        value: 'tailwind',
-        icon: 'i-lineicons:tailwindcss',
-      },
-      {
-        label: 'TypeScript',
-        value: 'typescript',
-        icon: 'i-lineicons:typescript',
-      },
-      {
-        label: 'Styled',
-        value: 'styled',
-        icon: 'i-tabler:palette',
-      },
-      {
-        label: 'Unstyled',
-        value: 'unstyled',
-        icon: 'i-tabler:palette-off',
-      },
-    ],
-    github: {
-      starCount: '11.3k',
-      link: 'https://github.com/primefaces/primevue',
-    },
-    npm: {
-      downloadCount: '165.2k',
-      link: 'https://www.npmjs.com/package/primevue',
-    },
-  },
-])
+  return res.map((item: any) => ({
+    ...item,
+    createdAt: new Date(item.createdAt),
+    updatedAt: new Date(item.updatedAt),
+  }))
+})
 </script>
 
 <template>
