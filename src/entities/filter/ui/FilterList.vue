@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { FilterItem, useFiltersStore } from '@/entities/filter'
+import { FilterItem, mapFilters, useFiltersStore } from '@/entities/filter'
 
 const filtersStore = useFiltersStore()
+const {
+  mapCategories,
+  mapFrameworks,
+  mapFeatures,
+  mapComponents,
+} = mapFilters()
 
 const { data: filters } = useAsyncData('filters', async () => {
   const [
@@ -47,103 +53,28 @@ const filterSections = [
   },
 ]
 
+const categories = computed(() => {
+  if (!filters.value)
+    return []
+  return mapCategories(filters.value.categories)
+})
+
 const frameworks = computed(() => {
-  return filters.value?.frameworks.map((framework) => {
-    let icon = null
-
-    switch (framework.value) {
-      case 'vue':
-        icon = 'i-lineicons:vuejs'
-        break
-      case 'nuxt':
-        icon = 'i-lineicons:nuxt'
-        break
-      case 'react':
-        icon = 'i-lineicons:react'
-        break
-      case 'angular':
-        icon = 'i-lineicons:angular'
-        break
-      case 'svelte':
-        icon = 'i-lineicons:svelte'
-        break
-    }
-
-    return {
-      ...framework,
-      label: framework.name,
-      value: framework.value,
-      icon,
-    }
-  })
+  if (!filters.value)
+    return []
+  return mapFrameworks(filters.value.frameworks)
 })
 
 const features = computed(() => {
-  return filters.value?.features.map((feature) => {
-    let icon = null
-
-    switch (feature.value) {
-      case 'tailwindCSS':
-        icon = 'i-lineicons:tailwindcss'
-        break
-      case 'typescript':
-        icon = 'i-lineicons:typescript'
-        break
-      case 'styled':
-        icon = 'i-tabler:palette'
-        break
-      case 'unstyled':
-        icon = 'i-tabler:palette-off'
-        break
-      case 'paid':
-        icon = 'i-tabler:currency-dollar'
-        break
-      case 'free':
-        icon = 'i-tabler:currency-dollar-off'
-        break
-      case 'figmaAssets':
-        icon = 'i-lineicons:figma'
-        break
-    }
-
-    return {
-      ...feature,
-      label: feature.name,
-      value: feature.value,
-      icon,
-    }
-  })
+  if (!filters.value)
+    return []
+  return mapFeatures(filters.value.features)
 })
 
 const components = computed(() => {
-  return filters.value?.components.map(component => ({
-    ...component,
-    label: component.name,
-    value: component.value,
-    icon: null,
-  }))
-})
-
-const categories = computed(() => {
-  return filters.value?.categories.map((category) => {
-    let icon = null
-
-    switch (category.value) {
-      case 'component':
-        icon = 'i-tabler:square'
-        break
-      case 'library':
-        icon = 'i-tabler:circle-square'
-        break
-    }
-
-    return {
-      ...category,
-      label: category.name,
-      value: category.value,
-      icon,
-    }
-  })
+  if (!filters.value)
+    return []
+  return mapComponents(filters.value.components)
 })
 </script>
 
