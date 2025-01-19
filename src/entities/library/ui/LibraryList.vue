@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Library } from '@prisma/client'
+import type { Library } from '@/entities/library'
 import { LibraryItem } from '@/entities/library'
 
 defineProps<{

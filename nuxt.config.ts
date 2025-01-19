@@ -22,6 +22,12 @@ export default defineNuxtConfig({
     assets: 'app/assets'
   },
 
+  runtimeConfig: {
+    public: {
+      githubToken: process.env.NUXT_PUBLIC_GITHUB_TOKEN
+    }
+  },
+
   modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui', '@pinia/nuxt', '@prisma/nuxt'],
 
   css: [

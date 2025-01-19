@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { FilterList } from '@/entities/filter'
-import { LibraryList } from '@/entities/library'
+import { apiLibrary, LibraryList } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 
+const { getLibraryList } = apiLibrary()
+
 const { data: libraries } = useAsyncData('libraries', async () => {
-  const res = await $fetch('/api/libraries')
+  const res = await getLibraryList()
+
+  if ('error' in res)
+    return null
 
   return res.map((item: any) => ({
     ...item,
@@ -25,13 +30,16 @@ const { data: libraries } = useAsyncData('libraries', async () => {
       </div>
 
       <div class="px-4 py-4 container mx-auto h-full lg:px-6">
-        <LibraryList :libraries />
-        <!-- <div class="flex flex-col items-center justify-center gap-1 h-full">
+        <div
+          v-if="!libraries || !libraries.length"
+          class="flex flex-col items-center justify-center gap-1 h-full"
+        >
           <UIcon
             name="i-bxs:component"
             class="size-32 text-neutral-300 dark:text-neutral-800"
           />
-        </div> -->
+        </div>
+        <LibraryList :libraries />
       </div>
     </div>
   </div>
