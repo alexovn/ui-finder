@@ -1,7 +1,18 @@
 <script setup lang="ts">
-import { FilterItem, mapFilters, useFiltersStore } from '@/entities/filter'
+import {
+  apiFilter,
+  FilterItem,
+  mapFilters,
+  useFiltersStore,
+} from '@/entities/filter'
 
 const filtersStore = useFiltersStore()
+const {
+  getCategories,
+  getFrameworks,
+  getFeatures,
+  getComponents,
+} = apiFilter()
 const {
   mapCategories,
   mapFrameworks,
@@ -16,10 +27,10 @@ const { data: filters } = useAsyncData('filters', async () => {
     features,
     components,
   ] = await Promise.all([
-    $fetch('/api/categories'),
-    $fetch('/api/frameworks'),
-    $fetch('/api/features'),
-    $fetch('/api/components'),
+    getCategories(),
+    getFrameworks(),
+    getFeatures(),
+    getComponents(),
   ])
 
   return {
@@ -54,25 +65,25 @@ const filterSections = [
 ]
 
 const categories = computed(() => {
-  if (!filters.value)
+  if (!filters.value || 'error' in filters.value.categories)
     return []
   return mapCategories(filters.value.categories)
 })
 
 const frameworks = computed(() => {
-  if (!filters.value)
+  if (!filters.value || 'error' in filters.value.frameworks)
     return []
   return mapFrameworks(filters.value.frameworks)
 })
 
 const features = computed(() => {
-  if (!filters.value)
+  if (!filters.value || 'error' in filters.value.features)
     return []
   return mapFeatures(filters.value.features)
 })
 
 const components = computed(() => {
-  if (!filters.value)
+  if (!filters.value || 'error' in filters.value.components)
     return []
   return mapComponents(filters.value.components)
 })
@@ -86,7 +97,7 @@ const components = computed(() => {
       :ui="{
         wrapper: 'gap-1',
         default: {
-          class: 'text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
+          class: 'pr-4 text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
         },
       }"
     >

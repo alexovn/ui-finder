@@ -17,6 +17,9 @@ import FilterList from './ui/FilterList.vue'
 // UTILS
 import mapFilters from './lib/utils/mapFilters'
 
+// API
+import { apiFilter } from './api/apiFilter'
+
 export {
   // ENUMS
   FilterEnum,
@@ -27,6 +30,8 @@ export {
   FilterList,
   // UTILS
   mapFilters,
+  // API
+  apiFilter,
 }
 
 export type {

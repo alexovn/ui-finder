@@ -4,6 +4,9 @@ defineProps<{
     label: string
     value: string
     icon: string | null
+    _count: {
+      libraries: number
+    }
   }
 }>()
 
@@ -18,16 +21,22 @@ const model = defineModel<string[]>({ default: () => [] })
       type="checkbox"
       class="sr-only"
     >
-    <div class="flex items-center gap-3">
-      <UIcon
-        v-if="item.icon"
-        class="size-6"
-        :name="item.icon"
-      />
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <UIcon
+          v-if="item.icon"
+          class="size-6"
+          :name="item.icon"
+        />
 
-      <div>
-        {{ item.label }}
+        <div>
+          {{ item.label }}
+        </div>
       </div>
+
+      <span class="px-2.5 py-0.5 min-w-8 text-center rounded-full font-medium bg-neutral-100 dark:bg-neutral-700/40 border border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 text-xs md:inline">
+        {{ item._count?.libraries || 0 }}
+      </span>
     </div>
   </label>
 </template>
