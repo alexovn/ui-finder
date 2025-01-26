@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FilterEnum, FilterList } from '@/entities/filter'
-import { apiLibrary, LibraryList } from '@/entities/library'
+import { apiLibrary, LibraryItem, LibraryItemSkeleton } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
 
@@ -8,7 +8,7 @@ const { getLibraryList } = apiLibrary()
 const { parseQuery, extractDataFromQuery } = useQuery()
 const route = useRoute()
 
-const { data: libraries } = useAsyncData('libraries', async () => {
+const { data: libraries, status } = useAsyncData('libraries', async () => {
   const parsedQuery = parseQuery()
 
   const categories = extractDataFromQuery(FilterEnum.CATEGORIES, parsedQuery)
@@ -58,7 +58,25 @@ const { data: libraries } = useAsyncData('libraries', async () => {
             class="size-32 text-neutral-300 dark:text-neutral-800"
           />
         </div>
-        <LibraryList :libraries />
+
+        <div
+          v-else
+          class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+        >
+          <template v-if="status === 'pending'">
+            <LibraryItemSkeleton
+              v-for="(_item, index) in 3"
+              :key="index"
+            />
+          </template>
+          <template v-else>
+            <LibraryItem
+              v-for="library in libraries"
+              :key="library.name"
+              :library
+            />
+          </template>
+        </div>
       </div>
     </div>
   </div>

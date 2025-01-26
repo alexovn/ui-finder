@@ -6,7 +6,7 @@ import type { Library, LibraryListPayload } from './model/interfaces/library.int
 
 // UI
 import LibraryItem from './ui/LibraryItem.vue'
-import LibraryList from './ui/LibraryList.vue'
+import LibraryItemSkeleton from './ui/skeleton/LibraryItemSkeleton.vue'
 
 // API
 import apiLibrary from './api/apiLibrary'
@@ -14,7 +14,7 @@ import apiLibrary from './api/apiLibrary'
 export {
   // UI
   LibraryItem,
-  LibraryList,
+  LibraryItemSkeleton,
   // API
   apiLibrary,
 }

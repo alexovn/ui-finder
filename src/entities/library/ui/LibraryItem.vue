@@ -2,7 +2,7 @@
 import type { Library } from '@/entities/library'
 import { mapFilters } from '@/entities/filter'
 import { apiLibrary } from '@/entities/library'
-import formatCount from '~/shared/lib/utils/formatCount'
+import formatCount from '@/shared/lib/utils/formatCount'
 
 interface Filter {
   id: number
@@ -114,26 +114,33 @@ onMounted(async () => {
     <div class="px-2.5 flex items-start justify-between gap-16 flex-1">
       <NuxtLink
         v-if="library?.link"
-        class="group flex flex-col gap-1 shrink-0"
+        class="group flex flex-col gap-2"
         :to="library.link"
+        target="_blank"
         external
       >
-        <div
-          v-if="library?.img"
-          class="size-14 flex items-center justify-center"
-        >
-          <img
-            :src="library.img"
-            :alt="library?.name"
-            class="object-cover drop-shadow-lg"
-          >
+        <div class="size-20 flex items-center justify-center bg-neutral-300/25 dark:bg-neutral-700/35 rounded-md">
+          <div class="size-14 flex items-center justify-center">
+            <img
+              v-if="library?.img"
+              :src="library.img"
+              :alt="library?.name"
+              class="object-cover drop-shadow-lg"
+            >
+            <UIcon
+              v-else
+              name="i-bxs:component"
+              class="size-full text-neutral-300 dark:text-neutral-700"
+            />
+          </div>
         </div>
+
         <div class="flex gap-1.5">
           <div>
             {{ library?.name }}
           </div>
           <UIcon
-            class="size-3.5 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+            class="size-3.5 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
             name="i-lucide:arrow-up-right"
           />
         </div>
