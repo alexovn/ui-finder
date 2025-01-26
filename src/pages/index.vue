@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { FilterList } from '@/entities/filter'
+import { FilterEnum, FilterList } from '@/entities/filter'
 import { apiLibrary, LibraryList } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
+import { useQuery } from '@/shared/lib/hooks/useQuery'
 
 const { getLibraryList } = apiLibrary()
+const { parseQuery, extractDataFromQuery } = useQuery()
+const route = useRoute()
 
 const { data: libraries } = useAsyncData('libraries', async () => {
-  const res = await getLibraryList()
+  const parsedQuery = parseQuery()
+
+  const categories = extractDataFromQuery(FilterEnum.CATEGORIES, parsedQuery)
+  const frameworks = extractDataFromQuery(FilterEnum.FRAMEWORKS, parsedQuery)
+  const features = extractDataFromQuery(FilterEnum.FEATURES, parsedQuery)
+  const components = extractDataFromQuery(FilterEnum.COMPONENTS, parsedQuery)
+
+  const payload = {
+    [FilterEnum.CATEGORIES]: categories.length ? categories : undefined,
+    [FilterEnum.FRAMEWORKS]: frameworks.length ? frameworks : undefined,
+    [FilterEnum.FEATURES]: features.length ? features : undefined,
+    [FilterEnum.COMPONENTS]: components.length ? components : undefined,
+  }
+  const normalizedPayload = Object.fromEntries(Object.entries(payload).filter(filter => filter[1]))
+  const res = await getLibraryList(normalizedPayload)
 
   if ('error' in res)
     return null
@@ -16,6 +33,8 @@ const { data: libraries } = useAsyncData('libraries', async () => {
     createdAt: new Date(item.createdAt),
     updatedAt: new Date(item.updatedAt),
   }))
+}, {
+  watch: [route],
 })
 </script>
 

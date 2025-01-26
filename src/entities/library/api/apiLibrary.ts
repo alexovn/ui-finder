@@ -1,12 +1,14 @@
 import type { ApiError } from '@/shared/model/interfaces/error.interface'
-import type { Library } from '../model/interfaces/library.interface'
+import type { Library, LibraryListPayload } from '../model/interfaces/library.interface'
 
 export default function apiLibrary() {
   const { $apiGet } = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
 
-  async function getLibraryList() {
-    return await $apiGet<Library[]>('/api/libraries')
+  async function getLibraryList(payload: LibraryListPayload) {
+    return await $apiGet<Library[]>('/api/libraries', {
+      params: payload,
+    })
   }
 
   async function getLibraryGithubData(repoName: string) {

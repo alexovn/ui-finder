@@ -79,71 +79,88 @@ const components = computed(() => {
 </script>
 
 <template>
-  <UAccordion
-    :items="filterSections"
-    multiple
-    :ui="{
-      wrapper: 'gap-1',
-      default: {
-        class: 'text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
-      },
-    }"
-  >
-    <template #categories>
-      <ul class="flex flex-col gap-1">
-        <li
-          v-for="item in categories"
-          :key="item.label"
-        >
-          <FilterItem
-            v-model="filtersStore.state.selectedCategories"
-            :item
-            @update:model-value="filtersStore.handleUpdateFilter('categories', $event)"
-          />
-        </li>
-      </ul>
-    </template>
-    <template #frameworks>
-      <ul class="flex flex-col gap-1">
-        <li
-          v-for="item in frameworks"
-          :key="item.label"
-        >
-          <FilterItem
-            v-model="filtersStore.state.selectedFrameworks"
-            :item
-            @update:model-value="filtersStore.handleUpdateFilter('frameworks', $event)"
-          />
-        </li>
-      </ul>
-    </template>
-    <template #features>
-      <ul class="flex flex-col gap-1">
-        <li
-          v-for="item in features"
-          :key="item.label"
-        >
-          <FilterItem
-            v-model="filtersStore.state.selectedFeatures"
-            :item
-            @update:model-value="filtersStore.handleUpdateFilter('features', $event)"
-          />
-        </li>
-      </ul>
-    </template>
-    <template #components>
-      <ul class="flex flex-col gap-1">
-        <li
-          v-for="item in components"
-          :key="item.label"
-        >
-          <FilterItem
-            v-model="filtersStore.state.selectedComponents"
-            :item
-            @update:model-value="filtersStore.handleUpdateFilter('components', $event)"
-          />
-        </li>
-      </ul>
-    </template>
-  </UAccordion>
+  <div>
+    <UAccordion
+      :items="filterSections"
+      multiple
+      :ui="{
+        wrapper: 'gap-1',
+        default: {
+          class: 'text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
+        },
+      }"
+    >
+      <template #categories>
+        <ul class="flex flex-col gap-1">
+          <li
+            v-for="item in categories"
+            :key="item.label"
+          >
+            <FilterItem
+              v-model="filtersStore.state.categories"
+              :item
+              @update:model-value="filtersStore.handleUpdateFilter('categories', $event)"
+            />
+          </li>
+        </ul>
+      </template>
+      <template #frameworks>
+        <ul class="flex flex-col gap-1">
+          <li
+            v-for="item in frameworks"
+            :key="item.label"
+          >
+            <FilterItem
+              v-model="filtersStore.state.frameworks"
+              :item
+              @update:model-value="filtersStore.handleUpdateFilter('frameworks', $event)"
+            />
+          </li>
+        </ul>
+      </template>
+      <template #features>
+        <ul class="flex flex-col gap-1">
+          <li
+            v-for="item in features"
+            :key="item.label"
+          >
+            <FilterItem
+              v-model="filtersStore.state.features"
+              :item
+              @update:model-value="filtersStore.handleUpdateFilter('features', $event)"
+            />
+          </li>
+        </ul>
+      </template>
+      <template #components>
+        <ul class="flex flex-col gap-1">
+          <li
+            v-for="item in components"
+            :key="item.label"
+          >
+            <FilterItem
+              v-model="filtersStore.state.components"
+              :item
+              @update:model-value="filtersStore.handleUpdateFilter('components', $event)"
+            />
+          </li>
+        </ul>
+      </template>
+    </UAccordion>
+
+    <div class="mt-5">
+      <UButton
+        v-if="filtersStore.areFiltersActive"
+        :ui="{
+          base: 'w-full justify-center',
+        }"
+        icon="i-heroicons-trash"
+        trailing
+        color="red"
+        variant="outline"
+        label="Clear filters"
+        @click="filtersStore.clearFilters"
+      />
+    </div>
+  </div>
 </template>

@@ -7,10 +7,7 @@ defineProps<{
   }
 }>()
 
-const model = defineModel({
-  type: Array,
-  default: () => [],
-})
+const model = defineModel<string[]>({ default: () => [] })
 </script>
 
 <template>

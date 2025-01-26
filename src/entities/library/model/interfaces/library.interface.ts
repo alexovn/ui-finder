@@ -1,3 +1,5 @@
+import type { FilterEnum } from '~/entities/filter'
+
 export interface Category {
   id: number
   name: string
@@ -37,3 +39,10 @@ export interface Library {
   githubLink: string
   npmLink: string
 };
+
+export interface LibraryListPayload {
+  [FilterEnum.CATEGORIES]?: string[]
+  [FilterEnum.FRAMEWORKS]?: string[]
+  [FilterEnum.FEATURES]?: string[]
+  [FilterEnum.COMPONENTS]?: string[]
+}

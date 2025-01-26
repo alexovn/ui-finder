@@ -4,6 +4,9 @@
 // INTERFACES
 import type { Category, Component, Feature, Framework } from './lib/model/interfaces/filter.interface'
 
+// ENUMS
+import { FilterEnum } from './lib/enums/filter.enum'
+
 // STORES
 import { useFiltersStore } from './lib/model/stores/filters'
 
@@ -15,6 +18,8 @@ import FilterList from './ui/FilterList.vue'
 import mapFilters from './lib/utils/mapFilters'
 
 export {
+  // ENUMS
+  FilterEnum,
   // STORES
   useFiltersStore,
   // UI
