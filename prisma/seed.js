@@ -81,6 +81,8 @@ async function seed() {
       await prisma.library.upsert({
         where: { value: library.value },
         update: {
+          name: library.name,
+          value: library.value,
           img: library.img,
           link: library.link,
           githubLink: library.githubLink,
