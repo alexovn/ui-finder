@@ -37,7 +37,7 @@ export default function mapFilters() {
       let icon = null
 
       switch (feature.value) {
-        case 'tailwindCSS':
+        case 'tailwind':
           icon = 'i-lineicons:tailwindcss'
           break
         case 'typescript':
