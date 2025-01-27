@@ -50,8 +50,8 @@ model Library {
   frameworks Framework[]
   features   Feature[]
   components Component[]
-  githubLink String
-  npmLink    String
+  githubLink String?
+  npmLink    String?
   category   Category    @relation(fields: [categoryId], references: [id])
   categoryId Int
 }
