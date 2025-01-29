@@ -97,7 +97,7 @@ const components = computed(() => {
       :ui="{
         wrapper: 'gap-1',
         default: {
-          class: 'pr-4 text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
+          class: 'text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
         },
       }"
     >
@@ -164,11 +164,12 @@ const components = computed(() => {
         v-if="filtersStore.areFiltersActive"
         :ui="{
           base: 'w-full justify-center',
+          rounded: 'rounded-full',
         }"
         icon="i-heroicons-trash"
         trailing
-        color="red"
-        variant="outline"
+        color="gray"
+        variant="solid"
         label="Clear filters"
         @click="filtersStore.clearFilters"
       />

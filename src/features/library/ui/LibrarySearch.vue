@@ -34,7 +34,7 @@ defineShortcuts({
 </script>
 
 <template>
-  <div class="relative w-full text-base">
+  <div class="relative w-full text-base h-[--search-height]">
     <div class="pl-3 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
       <UIcon
         name="i-heroicons-magnifying-glass"

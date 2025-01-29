@@ -34,7 +34,7 @@ const model = defineModel<string[]>({ default: () => [] })
         </div>
       </div>
 
-      <span class="px-2.5 py-0.5 min-w-8 text-center rounded-full font-medium bg-neutral-100 dark:bg-neutral-700/40 border border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 text-xs md:inline">
+      <span class="px-2.5 py-0.5 min-w-8 text-center rounded-full font-medium bg-neutral-100 dark:bg-neutral-800/25 border border-neutral-300 dark:border-neutral-500 text-neutral-600 dark:text-neutral-400 text-xs md:inline">
         {{ item._count?.libraries || 0 }}
       </span>
     </div>

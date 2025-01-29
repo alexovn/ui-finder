@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FilterEnum, FilterList } from '@/entities/filter'
-import { apiLibrary, LibraryItem, LibraryItemSkeleton } from '@/entities/library'
+import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
 
@@ -44,38 +44,56 @@ const { data: libraries, status } = useAsyncData('libraries', async () => {
       <FilterList />
     </aside>
     <div class="lg:ml-[--aside-left-width] grow">
-      <div class="sticky top-[--header-height] z-50">
+      <div class="sticky top-[--header-height] min-h-px z-50">
         <LibrarySearch />
-      </div>
-
-      <div class="px-4 py-4 container mx-auto h-full lg:px-6">
-        <div
-          v-if="!libraries || !libraries.length"
-          class="flex flex-col items-center justify-center gap-1 h-full"
-        >
-          <UIcon
-            name="i-bxs:component"
-            class="size-32 text-neutral-300 dark:text-neutral-800"
+        <div class="w-full h-px absolute bottom-0 z-[100]">
+          <UProgress
+            v-if="status === 'pending'"
+            size="2xs"
+            animation="carousel"
           />
         </div>
+      </div>
 
-        <div
-          v-else
-          class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
-        >
-          <template v-if="status === 'pending'">
-            <LibraryItemSkeleton
-              v-for="(_item, index) in 3"
-              :key="index"
+      <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height)))] lg:px-6">
+        <div>
+          <div
+            v-if="!libraries || !libraries.length"
+            class="flex flex-col items-center justify-center gap-1 h-full"
+          >
+            <UIcon
+              name="i-bxs:component"
+              class="size-32 text-neutral-300 dark:text-neutral-800"
             />
-          </template>
-          <template v-else>
+          </div>
+          <div
+            v-else
+            class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          >
             <LibraryItem
               v-for="library in libraries"
               :key="library.name"
               :library
             />
-          </template>
+          </div>
+        </div>
+        <div class="mt-4 flex justify-center sticky bottom-4">
+          <UButton
+            :ui="{
+              base: 'transition-colors',
+              rounded: 'rounded-full',
+              icon: {
+                size: {
+                  md: 'h-4 w-4',
+                },
+              },
+            }"
+            size="md"
+            color="gray"
+            icon="i-lucide:arrow-down"
+            trailing
+            label="Load more"
+          />
         </div>
       </div>
     </div>

@@ -172,6 +172,7 @@ onMounted(async () => {
         :label="`${githubStarsCount}`"
         class="group"
         :to="library?.githubLink"
+        target="_blank"
         external
       >
         <template #trailing>
@@ -190,6 +191,7 @@ onMounted(async () => {
         :label="`${npmDownloadsCount}`"
         class="group"
         :to="library?.npmLink"
+        target="_blank"
         external
       >
         <template #trailing>
