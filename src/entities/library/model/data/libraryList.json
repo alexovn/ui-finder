@@ -2,7 +2,7 @@
   {
     "name": "Nuxt UI",
     "value": "nuxt-ui",
-    "img": null,
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/nuxt.svg",
     "link": "https://ui.nuxt.com/",
     "category": "library",
     "frameworks": ["nuxt"],
@@ -12,7 +12,7 @@
       "styled",
       "free",
       "paid",
-      "figma_assets"
+      "figmaAssets"
     ],
     "components": [
       "datepicker",
@@ -32,7 +32,7 @@
   {
     "name": "PrimeVue",
     "value": "prime-vue",
-    "img": null,
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/primevue.svg",
     "link": "https://primevue.org/",
     "category": "library",
     "frameworks": ["nuxt", "vue"],
@@ -42,7 +42,7 @@
       "styled",
       "unstyled",
       "free",
-      "figma_assets"
+      "figmaAssets"
     ],
     "components": [
       "datepicker",
@@ -74,5 +74,131 @@
     "components": ["datepicker"],
     "githubLink": "https://github.com/Vuepic/vue-datepicker",
     "npmLink": "https://www.npmjs.com/package/@vuepic/vue-datepicker"
+  },
+  {
+    "name": "Tailwind UI",
+    "value": "tailwind-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/tailwindcss.svg",
+    "link": "https://tailwindui.com/",
+    "category": "library",
+    "frameworks": ["nuxt", "vue", "react"],
+    "features": [
+      "tailwind",
+      "styled",
+      "free",
+      "paid"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "tabs",
+      "select",
+      "pagination",
+      "table",
+      "notification"
+    ],
+    "githubLink": null,
+    "npmLink": null
+  },
+  {
+    "name": "TailGrids",
+    "value": "tail-grids",
+    "img": null,
+    "link": "https://tailgrids.com/",
+    "category": "library",
+    "frameworks": ["nuxt", "vue", "react"],
+    "features": [
+      "tailwind",
+      "styled",
+      "unstyled",
+      "free",
+      "paid",
+      "figmaAssets"
+    ],
+    "components": [
+      "datepicker",
+      "accordion",
+      "modal",
+      "dropdown",
+      "tabs",
+      "select",
+      "pagination",
+      "table",
+      "notification"
+    ],
+    "githubLink": "https://github.com/TailGrids/tailwind-ui-components",
+    "npmLink": "https://www.npmjs.com/package/tailgrids"
+  },
+  {
+    "name": "Headless UI (Vue)",
+    "value": "headless-ui-vue",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/headlessui.svg",
+    "link": "https://headlessui.com/",
+    "category": "library",
+    "frameworks": ["nuxt", "vue"],
+    "features": [
+      "tailwind",
+      "unstyled",
+      "free"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "tabs",
+      "select"
+    ],
+    "githubLink": "https://github.com/tailwindlabs/headlessui",
+    "npmLink": "https://www.npmjs.com/package/@headlessui/vue"
+  },
+  {
+    "name": "Headless UI (React)",
+    "value": "headless-ui-react",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/headlessui.svg",
+    "link": "https://headlessui.com/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "tailwind",
+      "unstyled",
+      "free"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "tabs",
+      "select"
+    ],
+    "githubLink": "https://github.com/tailwindlabs/headlessui",
+    "npmLink": "https://www.npmjs.com/package/@headlessui/react"
+  },
+  {
+    "name": "PrimeReact",
+    "value": "prime-react",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/primereact.svg",
+    "link": "https://primereact.org/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "tailwind",
+      "typescript",
+      "styled",
+      "unstyled",
+      "free",
+      "figmaAssets"
+    ],
+    "components": [
+      "datepicker",
+      "select",
+      "dropdown",
+      "accordion",
+      "table",
+      "pagination",
+      "modal",
+      "tabs",
+      "notification",
+      "carousel"
+    ],
+    "githubLink": "https://github.com/primefaces/primereact",
+    "npmLink": "https://www.npmjs.com/package/primereact"
   }
 ]
