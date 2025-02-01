@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Library } from '@/entities/library'
 import { mapFilters } from '@/entities/filter'
-import { apiLibrary } from '@/entities/library'
 import formatCount from '@/shared/lib/utils/formatCount'
 
 interface Filter {
@@ -15,61 +14,19 @@ const props = defineProps<{
   library: Library | null
 }>()
 
-const { getLibraryGithubData, getLibraryNpmData } = apiLibrary()
-
-const libraryGithubData = ref<any>(null)
-const repoName = computed(() => {
-  if (!props.library?.githubLink)
-    return ''
-
-  return props.library.githubLink.replace(/^(https:\/\/github.com\/)/g, '')
-})
 const githubStarsCount = computed(() => {
-  if (!libraryGithubData.value)
+  if (!props.library?.githubStars)
     return null
 
-  return formatCount(libraryGithubData.value.stargazers_count)
+  return formatCount(props.library?.githubStars)
 })
-async function handleGetLibraryGithubData() {
-  if (!repoName.value)
-    return null
 
-  const res = await getLibraryGithubData(repoName.value)
-
-  if ('error' in res)
-    return null
-
-  libraryGithubData.value = res
-
-  return res
-}
-
-const libraryNpmData = ref<any>(null)
-const packageName = computed(() => {
-  if (!props.library?.npmLink)
-    return ''
-
-  return props.library.npmLink.replace(/^(https:\/\/www.npmjs.com\/package\/)/g, '')
-})
 const npmDownloadsCount = computed(() => {
-  if (!libraryNpmData.value)
+  if (!props.library?.npmDownloads)
     return null
 
-  return formatCount(libraryNpmData.value.downloads)
+  return formatCount(props.library?.npmDownloads)
 })
-async function handleGetLibraryNpmData() {
-  if (!packageName.value)
-    return null
-
-  const res = await getLibraryNpmData(packageName.value)
-
-  if ('error' in res)
-    return null
-
-  libraryNpmData.value = res
-
-  return res
-}
 
 const {
   mapCategories,
@@ -99,13 +56,6 @@ const badges = computed(() => {
     ...frameworks,
     ...features,
   ]
-})
-
-onMounted(async () => {
-  Promise.allSettled([
-    await handleGetLibraryGithubData(),
-    await handleGetLibraryNpmData(),
-  ])
 })
 </script>
 
@@ -171,7 +121,7 @@ onMounted(async () => {
         leading-icon="i-octicon:star-24"
         :label="`${githubStarsCount}`"
         class="group"
-        :to="library?.githubLink"
+        :to="library?.githubRepo"
         target="_blank"
         external
       >
@@ -190,7 +140,7 @@ onMounted(async () => {
         leading-icon="i-lucide:download"
         :label="`${npmDownloadsCount}`"
         class="group"
-        :to="library?.npmLink"
+        :to="library?.npmPackage"
         target="_blank"
         external
       >

@@ -26,8 +26,8 @@
       "notification",
       "carousel"
     ],
-    "githubLink": "https://github.com/nuxt/ui",
-    "npmLink": "https://www.npmjs.com/package/@nuxt/ui"
+    "githubRepo": "https://github.com/nuxt/ui",
+    "npmPackage": "https://www.npmjs.com/package/@nuxt/ui"
   },
   {
     "name": "PrimeVue",
@@ -56,8 +56,8 @@
       "notification",
       "carousel"
     ],
-    "githubLink": "https://github.com/primefaces/primevue",
-    "npmLink": "https://www.npmjs.com/package/primevue"
+    "githubRepo": "https://github.com/primefaces/primevue",
+    "npmPackage": "https://www.npmjs.com/package/primevue"
   },
   {
     "name": "Vue Datepicker",
@@ -72,8 +72,8 @@
       "free"
     ],
     "components": ["datepicker"],
-    "githubLink": "https://github.com/Vuepic/vue-datepicker",
-    "npmLink": "https://www.npmjs.com/package/@vuepic/vue-datepicker"
+    "githubRepo": "https://github.com/Vuepic/vue-datepicker",
+    "npmPackage": "https://www.npmjs.com/package/@vuepic/vue-datepicker"
   },
   {
     "name": "Tailwind UI",
@@ -97,8 +97,8 @@
       "table",
       "notification"
     ],
-    "githubLink": null,
-    "npmLink": null
+    "githubRepo": null,
+    "npmPackage": null
   },
   {
     "name": "TailGrids",
@@ -126,8 +126,8 @@
       "table",
       "notification"
     ],
-    "githubLink": "https://github.com/TailGrids/tailwind-ui-components",
-    "npmLink": "https://www.npmjs.com/package/tailgrids"
+    "githubRepo": "https://github.com/TailGrids/tailwind-ui-components",
+    "npmPackage": "https://www.npmjs.com/package/tailgrids"
   },
   {
     "name": "Headless UI (Vue)",
@@ -147,8 +147,8 @@
       "tabs",
       "select"
     ],
-    "githubLink": "https://github.com/tailwindlabs/headlessui",
-    "npmLink": "https://www.npmjs.com/package/@headlessui/vue"
+    "githubRepo": "https://github.com/tailwindlabs/headlessui",
+    "npmPackage": "https://www.npmjs.com/package/@headlessui/vue"
   },
   {
     "name": "Headless UI (React)",
@@ -168,8 +168,8 @@
       "tabs",
       "select"
     ],
-    "githubLink": "https://github.com/tailwindlabs/headlessui",
-    "npmLink": "https://www.npmjs.com/package/@headlessui/react"
+    "githubRepo": "https://github.com/tailwindlabs/headlessui",
+    "npmPackage": "https://www.npmjs.com/package/@headlessui/react"
   },
   {
     "name": "PrimeReact",
@@ -198,7 +198,7 @@
       "notification",
       "carousel"
     ],
-    "githubLink": "https://github.com/primefaces/primereact",
-    "npmLink": "https://www.npmjs.com/package/primereact"
+    "githubRepo": "https://github.com/primefaces/primereact",
+    "npmPackage": "https://www.npmjs.com/package/primereact"
   }
 ]

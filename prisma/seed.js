@@ -85,8 +85,8 @@ async function seed() {
           value: library.value,
           img: library.img,
           link: library.link,
-          githubLink: library.githubLink,
-          npmLink: library.npmLink,
+          githubRepo: library.githubRepo,
+          npmPackage: library.npmPackage,
           category: {
             connect: { id: categoryEntry?.id }
           },
@@ -105,8 +105,8 @@ async function seed() {
           value: library.value,
           img: library.img,
           link: library.link,
-          githubLink: library.githubLink,
-          npmLink: library.npmLink,
+          githubRepo: library.githubRepo,
+          npmPackage: library.npmPackage,
           category: {
             connect: { id: categoryEntry?.id }
           },

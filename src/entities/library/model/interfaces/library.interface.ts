@@ -18,8 +18,10 @@ export interface Library {
   features: Feature[]
   components: Component[]
   category: Category
-  githubLink: string
-  npmLink: string
+  githubRepo?: string
+  npmPackage?: string
+  githubStars: number
+  npmDownloads: number
 };
 
 export interface LibraryListPayload {

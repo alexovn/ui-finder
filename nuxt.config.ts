@@ -44,6 +44,15 @@ export default defineNuxtConfig({
     }
   },
 
+  nitro: {
+    experimental: {
+      tasks: true
+    },
+    scheduledTasks: {
+      '0 0 * * * *': ['library:updateLibraryListStats']
+    }
+  },
+
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
 
