@@ -2,7 +2,11 @@
 /* eslint-disable perfectionist/sort-named-exports */
 
 // INTERFACES
-import type { Library, LibraryListPayload } from './model/interfaces/library.interface'
+import type {
+  Library,
+  LibraryListPayload,
+  LibraryListRes,
+} from './model/interfaces/library.interface'
 
 // UI
 import LibraryItem from './ui/LibraryItem.vue'
@@ -17,4 +21,8 @@ export {
   apiLibrary,
 }
 
-export type { Library, LibraryListPayload }
+export type {
+  Library,
+  LibraryListPayload,
+  LibraryListRes,
+}

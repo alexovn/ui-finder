@@ -1,29 +1,23 @@
 import type { H3Event } from 'h3'
+import type { Query } from '~~/server/utils/extractDataFromQuery'
 import { PrismaClient } from '@prisma/client'
-
-type Query = Record<string, string | string[]>
+import { extractDataFromQuery } from '~~/server/utils/extractDataFromQuery'
 
 const prisma = new PrismaClient()
 
-function extractDataFromQuery(key: string, query: Query) {
-  if (!query)
-    return []
-  if (key in query) {
-    if (Array.isArray(query[key])) {
-      return query[key]
-    }
-    return query[key] ? [query[key]] : []
-  }
-  return []
-}
-
 export default defineEventHandler(async (event: H3Event) => {
-  const query = getQuery(event)
+  const query = getQuery(event) as Query
 
+  const page = Number(query.page as string) || 1
+  const perPage = Number(query.perPage as string) || 10
+  const orderBy = query.orderBy as string || 'createdAt'
+  const orderDir = query.orderDir as string || 'desc'
   const categories = extractDataFromQuery('categories', query as Query)
   const frameworks = extractDataFromQuery('frameworks', query as Query)
   const features = extractDataFromQuery('features', query as Query)
   const components = extractDataFromQuery('components', query as Query)
+
+  const skip = (page - 1) * perPage
 
   const whereClause: any = {
     AND: [],
@@ -72,8 +66,13 @@ export default defineEventHandler(async (event: H3Event) => {
     })
   }
 
-  return await prisma.library.findMany({
+  const libraries = await prisma.library.findMany({
     where: whereClause,
+    skip,
+    take: perPage,
+    orderBy: {
+      [orderBy]: orderDir,
+    },
     include: {
       category: true,
       frameworks: true,
@@ -81,4 +80,18 @@ export default defineEventHandler(async (event: H3Event) => {
       components: true,
     },
   })
+
+  const total = await prisma.library.count()
+  const totalPages = Math.ceil(total / perPage)
+
+  return {
+    data: libraries,
+    meta: {
+      pagination: {
+        page,
+        total,
+        totalPages,
+      },
+    },
+  }
 })

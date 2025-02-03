@@ -58,7 +58,13 @@ export const useFiltersStore = defineStore('filters', () => {
     state.components = []
 
     router.push({
-      query: undefined,
+      query: {
+        ...route.query,
+        [FilterEnum.CATEGORIES]: undefined,
+        [FilterEnum.FRAMEWORKS]: undefined,
+        [FilterEnum.FEATURES]: undefined,
+        [FilterEnum.COMPONENTS]: undefined,
+      },
     })
   }
 

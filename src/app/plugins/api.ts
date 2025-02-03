@@ -24,6 +24,8 @@ export default defineNuxtPlugin(() => {
 
   const apiGet = async <T>(url: string, options?: any): Promise<T | ApiError> => {
     try {
+      // eslint-disable-next-line ts/ban-ts-comment
+      // @ts-ignore
       return await api(url, { method: 'GET', ...options })
     }
     catch (err) {
@@ -33,6 +35,8 @@ export default defineNuxtPlugin(() => {
 
   const apiPost = async <T>(url: string, body: any, options?: any): Promise<T | ApiError> => {
     try {
+      // eslint-disable-next-line ts/ban-ts-comment
+      // @ts-ignore
       return await api(url, { method: 'POST', body, ...options })
     }
     catch (err) {
@@ -42,6 +46,8 @@ export default defineNuxtPlugin(() => {
 
   const apiPatch = async <T>(url: string, body: any, options?: any): Promise<T | ApiError> => {
     try {
+      // eslint-disable-next-line ts/ban-ts-comment
+      // @ts-ignore
       return await api(url, { method: 'PATCH', body, ...options })
     }
     catch (err) {
@@ -51,6 +57,8 @@ export default defineNuxtPlugin(() => {
 
   const apiDelete = async <T>(url: string, options?: any): Promise<T | ApiError> => {
     try {
+      // eslint-disable-next-line ts/ban-ts-comment
+      // @ts-ignore
       return await api(url, { method: 'DELETE', ...options })
     }
     catch (err) {

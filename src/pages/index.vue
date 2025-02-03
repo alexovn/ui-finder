@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import type { LibraryListPayload } from '@/entities/library'
 import { FilterEnum, FilterList } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
+import { OrderDirEnum } from '@/shared/lib/enums/orderDir.enum'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
+import removeEmptyValues from '@/shared/lib/utils/removeEmptyValues'
 
 const { getLibraryList } = apiLibrary()
 const { parseQuery, extractDataFromQuery } = useQuery()
 const route = useRoute()
+const router = useRouter()
 
-const { data: libraries, status } = useAsyncData('libraries', async () => {
+const { data, status } = useAsyncData('libraries', async () => {
   const parsedQuery = parseQuery()
 
   const categories = extractDataFromQuery(FilterEnum.CATEGORIES, parsedQuery)
@@ -17,25 +21,137 @@ const { data: libraries, status } = useAsyncData('libraries', async () => {
   const components = extractDataFromQuery(FilterEnum.COMPONENTS, parsedQuery)
 
   const payload = {
+    [FilterEnum.PAGE]: parsedQuery[FilterEnum.PAGE] || undefined,
+    [FilterEnum.PER_PAGE]: parsedQuery[FilterEnum.PER_PAGE] || undefined,
+    [FilterEnum.ORDER_BY]: parsedQuery[FilterEnum.ORDER_BY] || undefined,
+    [FilterEnum.ORDER_DIR]: parsedQuery[FilterEnum.ORDER_DIR] || undefined,
     [FilterEnum.CATEGORIES]: categories.length ? categories : undefined,
     [FilterEnum.FRAMEWORKS]: frameworks.length ? frameworks : undefined,
     [FilterEnum.FEATURES]: features.length ? features : undefined,
     [FilterEnum.COMPONENTS]: components.length ? components : undefined,
   }
-  const normalizedPayload = Object.fromEntries(Object.entries(payload).filter(filter => filter[1]))
+  const normalizedPayload: LibraryListPayload = removeEmptyValues(payload)
   const res = await getLibraryList(normalizedPayload)
 
   if ('error' in res)
     return null
 
-  return res.map((item: any) => ({
-    ...item,
-    createdAt: new Date(item.createdAt),
-    updatedAt: new Date(item.updatedAt),
-  }))
+  return res
 }, {
   watch: [route],
 })
+
+function scrollPageToTop() {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+}
+
+const orderBy = ref(route.query.orderBy as string || 'createdAt')
+const orderByList = [
+  {
+    label: 'Created at',
+    value: 'createdAt',
+  },
+  {
+    label: 'Github stars',
+    value: 'githubStars',
+  },
+  {
+    label: 'Npm downloads',
+    value: 'npmDownloads',
+  },
+]
+function onUpdateOrderBy(value: string) {
+  router.push({
+    query: {
+      ...route.query,
+      orderBy: value,
+    },
+  })
+}
+
+const orderDir = ref(route.query.orderDir as string | undefined)
+function changeOrderDir() {
+  if (orderDir.value === OrderDirEnum.ASC) {
+    orderDir.value = OrderDirEnum.DESC
+  }
+  else if (orderDir.value === OrderDirEnum.DESC) {
+    orderDir.value = undefined
+  }
+  else {
+    orderDir.value = OrderDirEnum.ASC
+  }
+
+  router.push({
+    query: {
+      ...route.query,
+      orderDir: orderDir.value,
+    },
+  })
+}
+const orderDirIcon = computed(() => {
+  if (orderDir.value === OrderDirEnum.ASC) {
+    return 'i-heroicons-bars-arrow-down'
+  }
+  if (orderDir.value === OrderDirEnum.DESC) {
+    return 'i-heroicons-bars-arrow-up'
+  }
+  return 'i-heroicons-arrows-up-down'
+})
+const orderDirLabel = computed(() => {
+  if (orderDir.value === OrderDirEnum.ASC) {
+    return 'Asc'
+  }
+  if (orderDir.value === OrderDirEnum.DESC) {
+    return 'Desc'
+  }
+  return 'Sort'
+})
+
+const page = ref(route.query.page ? Number(route.query.page) : 1)
+function onPageChange(page: number) {
+  scrollPageToTop()
+  router.push({
+    query: {
+      ...route.query,
+      page,
+    },
+  })
+}
+
+const perPage = ref(route.query.perPage || '10')
+const perPageList = [
+  // {
+  //   label: '3',
+  //   value: '3',
+  // },
+  {
+    label: '10',
+    value: '10',
+  },
+  {
+    label: '50',
+    value: '50',
+  },
+  {
+    label: '150',
+    value: '150',
+  },
+]
+function onPerPageChange(perPage: string) {
+  scrollPageToTop()
+  page.value = 1
+  router.push({
+    query: {
+      ...route.query,
+      page: route.query.page ? 1 : undefined,
+      perPage,
+    },
+  })
+}
 </script>
 
 <template>
@@ -56,9 +172,29 @@ const { data: libraries, status } = useAsyncData('libraries', async () => {
       </div>
 
       <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height)))] lg:px-6">
-        <div>
+        <div
+          v-if="data?.data.length"
+          class="flex items-start justify-between"
+        >
+          <div class="mb-4 justify-between flex items-center gap-2">
+            <div>Order by: </div>
+            <USelect
+              v-model="orderBy"
+              :options="orderByList"
+              @update:model-value="onUpdateOrderBy"
+            />
+          </div>
+          <UButton
+            :label="orderDirLabel"
+            :icon="orderDirIcon"
+            color="gray"
+            @click="changeOrderDir"
+          />
+        </div>
+
+        <div class="flex flex-col h-full">
           <div
-            v-if="!libraries || !libraries.length"
+            v-if="!data || !data.data.length"
             class="flex flex-col items-center justify-center gap-1 h-full"
           >
             <UIcon
@@ -71,30 +207,34 @@ const { data: libraries, status } = useAsyncData('libraries', async () => {
             class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
           >
             <LibraryItem
-              v-for="library in libraries"
+              v-for="library in data.data"
               :key="library.name"
               :library
             />
           </div>
         </div>
-        <div class="mt-4 flex justify-center sticky bottom-4">
-          <UButton
-            :ui="{
-              base: 'transition-colors',
-              rounded: 'rounded-full',
-              icon: {
-                size: {
-                  md: 'h-4 w-4',
-                },
-              },
-            }"
-            size="md"
-            color="gray"
-            icon="i-lucide:arrow-down"
-            trailing
-            label="Load more"
+      </div>
+
+      <div
+        v-if="data?.data.length"
+        class="px-6 py-4 flex items-center justify-between gap-5 sticky bottom-0 backdrop-blur border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800"
+      >
+        <div class="flex items-center gap-2">
+          <div>
+            Items per page:
+          </div>
+          <USelect
+            v-model="perPage"
+            :options="perPageList"
+            @update:model-value="onPerPageChange"
           />
         </div>
+        <UPagination
+          v-model="page"
+          :page-count="Number(perPage)"
+          :total="Number(data?.meta.pagination.total)"
+          @update:model-value="onPageChange"
+        />
       </div>
     </div>
   </div>
