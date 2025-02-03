@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LibraryListPayload } from '@/entities/library'
-import { FilterEnum, FilterList } from '@/entities/filter'
+import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 import { OrderDirEnum } from '@/shared/lib/enums/orderDir.enum'
@@ -9,6 +9,7 @@ import removeEmptyValues from '@/shared/lib/utils/removeEmptyValues'
 
 const { getLibraryList } = apiLibrary()
 const { parseQuery, extractDataFromQuery } = useQuery()
+const filtersStore = useFiltersStore()
 const route = useRoute()
 const router = useRouter()
 
@@ -40,14 +41,6 @@ const { data, status } = useAsyncData('libraries', async () => {
 }, {
   watch: [route],
 })
-
-function scrollPageToTop() {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-}
 
 const orderBy = ref(route.query.orderBy as string || 'createdAt')
 const orderByList = [
@@ -113,7 +106,6 @@ const orderDirLabel = computed(() => {
 
 const page = ref(route.query.page ? Number(route.query.page) : 1)
 function onPageChange(page: number) {
-  scrollPageToTop()
   router.push({
     query: {
       ...route.query,
@@ -124,10 +116,6 @@ function onPageChange(page: number) {
 
 const perPage = ref(route.query.perPage || '10')
 const perPageList = [
-  // {
-  //   label: '3',
-  //   value: '3',
-  // },
   {
     label: '10',
     value: '10',
@@ -142,7 +130,6 @@ const perPageList = [
   },
 ]
 function onPerPageChange(perPage: string) {
-  scrollPageToTop()
   page.value = 1
   router.push({
     query: {
@@ -152,6 +139,19 @@ function onPerPageChange(perPage: string) {
     },
   })
 }
+
+watch(() => route.query, (newVal) => {
+  if (window) {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    })
+  }
+  filtersStore.areFiltersActive = filtersStore.areFiltersExist(FilterEnum, newVal)
+}, {
+  immediate: true,
+})
 </script>
 
 <template>

@@ -45,11 +45,6 @@ export const useFiltersStore = defineStore('filters', () => {
   function areFiltersExist(filterObj: Record<string, string>, query: LocationQuery) {
     return Object.values(filterObj).some(filter => filter in query)
   }
-  watch(() => route.query, (newVal) => {
-    areFiltersActive.value = areFiltersExist(FilterEnum, newVal)
-  }, {
-    immediate: true,
-  })
 
   function clearFilters() {
     state.categories = []
@@ -72,6 +67,7 @@ export const useFiltersStore = defineStore('filters', () => {
     state,
     handleUpdateFilter,
     areFiltersActive,
+    areFiltersExist,
     clearFilters,
   }
 })
