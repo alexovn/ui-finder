@@ -97,7 +97,7 @@ const components = computed(() => {
       :ui="{
         wrapper: 'gap-1',
         default: {
-          class: 'text-lg bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
+          class: 'bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
         },
       }"
     >
