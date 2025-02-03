@@ -1,29 +1,40 @@
 import type { H3Event } from 'h3'
-import type { Query } from '~~/server/utils/extractDataFromQuery'
 import { PrismaClient } from '@prisma/client'
-import { extractDataFromQuery } from '~~/server/utils/extractDataFromQuery'
+import { z } from 'zod'
 
 const prisma = new PrismaClient()
 
-export default defineEventHandler(async (event: H3Event) => {
-  const query = getQuery(event) as Query
+const schema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  perPage: z.coerce.number().int().refine(val => [10, 50, 150].includes(val)).default(10),
+  orderBy: z.string()
+    .refine(val => ['createdAt', 'githubStars', 'npmDownloads'].includes(val))
+    .default('createdAt'),
+  orderDir: z.string().refine(val => ['asc', 'desc'].includes(val)).default('desc'),
+  categories: z.string().optional().transform(val => val?.split(',')),
+  frameworks: z.string().optional().transform(val => val?.split(',')),
+  features: z.string().optional().transform(val => val?.split(',')),
+  components: z.string().optional().transform(val => val?.split(',')),
+})
 
-  const page = Number(query.page as string) || 1
-  const perPage = Number(query.perPage as string) || 10
-  const orderBy = query.orderBy as string || 'createdAt'
-  const orderDir = query.orderDir as string || 'desc'
-  const categories = extractDataFromQuery('categories', query as Query)
-  const frameworks = extractDataFromQuery('frameworks', query as Query)
-  const features = extractDataFromQuery('features', query as Query)
-  const components = extractDataFromQuery('components', query as Query)
+export default defineEventHandler(async (event: H3Event) => {
+  const {
+    page,
+    perPage,
+    orderBy,
+    orderDir,
+    categories,
+    frameworks,
+    features,
+    components,
+  } = await getValidatedQuery(event, schema.parse)
 
   const skip = (page - 1) * perPage
-
   const whereClause: any = {
     AND: [],
   }
 
-  if (categories.length) {
+  if (categories?.length) {
     whereClause.AND.push({
       category: {
         value: {
@@ -32,7 +43,7 @@ export default defineEventHandler(async (event: H3Event) => {
       },
     })
   }
-  if (frameworks.length) {
+  if (frameworks?.length) {
     whereClause.AND.push({
       frameworks: {
         some: {
@@ -43,7 +54,7 @@ export default defineEventHandler(async (event: H3Event) => {
       },
     })
   }
-  if (features.length) {
+  if (features?.length) {
     whereClause.AND.push({
       features: {
         some: {
@@ -54,7 +65,7 @@ export default defineEventHandler(async (event: H3Event) => {
       },
     })
   }
-  if (components.length) {
+  if (components?.length) {
     whereClause.AND.push({
       components: {
         some: {
