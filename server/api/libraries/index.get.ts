@@ -11,10 +11,18 @@ const schema = z.object({
     .refine(val => ['createdAt', 'githubStars', 'npmDownloads'].includes(val))
     .default('createdAt'),
   orderDir: z.string().refine(val => ['asc', 'desc'].includes(val)).default('desc'),
-  categories: z.string().optional().transform(val => val?.split(',')),
-  frameworks: z.string().optional().transform(val => val?.split(',')),
-  features: z.string().optional().transform(val => val?.split(',')),
-  components: z.string().optional().transform(val => val?.split(',')),
+  categories: z.union([z.string(), z.array(z.string())])
+    .optional()
+    .transform(val => (Array.isArray(val) ? val : val ? val.split(',') : [])),
+  frameworks: z.union([z.string(), z.array(z.string())])
+    .optional()
+    .transform(val => (Array.isArray(val) ? val : val ? val.split(',') : [])),
+  features: z.union([z.string(), z.array(z.string())])
+    .optional()
+    .transform(val => (Array.isArray(val) ? val : val ? val.split(',') : [])),
+  components: z.union([z.string(), z.array(z.string())])
+    .optional()
+    .transform(val => (Array.isArray(val) ? val : val ? val.split(',') : [])),
 })
 
 export default defineEventHandler(async (event: H3Event) => {
