@@ -1,4 +1,5 @@
 export enum FilterEnum {
+  SEARCH = 'search',
   PAGE = 'page',
   PER_PAGE = 'perPage',
   ORDER_BY = 'orderBy',

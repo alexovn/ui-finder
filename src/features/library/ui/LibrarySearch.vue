@@ -1,17 +1,21 @@
 <script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core'
+
 const route = useRoute()
 const router = useRouter()
 
 const searchEl = useTemplateRef('searchEl')
 const search = ref(route.query.search || '')
-function handleSearch() {
+
+const handleSearch = useDebounceFn(() => {
   router.push({
     query: {
       ...route.query,
       search: search.value || undefined,
     },
   })
-}
+}, 300)
+
 function clearSearch() {
   search.value = ''
 
@@ -46,7 +50,7 @@ defineShortcuts({
       v-model="search"
       type="text"
       class="p-3 px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-none focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
-      placeholder="Search library by name, framework or feature..."
+      placeholder="Search library by name or filters..."
       @update:model-value="handleSearch"
     >
     <div class="pr-3 absolute inset-y-0 right-0 flex items-center">

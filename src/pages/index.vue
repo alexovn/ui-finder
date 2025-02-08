@@ -22,6 +22,7 @@ const { data, status } = useAsyncData('libraries', async () => {
   const components = extractDataFromQuery(FilterEnum.COMPONENTS, parsedQuery)
 
   const payload = {
+    [FilterEnum.SEARCH]: parsedQuery[FilterEnum.SEARCH] || undefined,
     [FilterEnum.PAGE]: parsedQuery[FilterEnum.PAGE] || undefined,
     [FilterEnum.PER_PAGE]: parsedQuery[FilterEnum.PER_PAGE] || undefined,
     [FilterEnum.ORDER_BY]: parsedQuery[FilterEnum.ORDER_BY] || undefined,
@@ -152,6 +153,9 @@ watch(() => route.query, (newVal) => {
 }, {
   immediate: true,
 })
+
+// Search
+// Ex.:
 </script>
 
 <template>
