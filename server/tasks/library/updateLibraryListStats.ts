@@ -6,7 +6,7 @@ const BATCH_SIZE = 100
 
 export default defineTask({
   meta: {
-    name: 'library:updateLibrayStats',
+    name: 'library:updateLibraryListStats',
     description: 'Run library stats updating',
   },
   async run() {
