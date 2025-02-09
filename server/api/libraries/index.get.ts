@@ -1,4 +1,5 @@
 import type { H3Event } from 'h3'
+import type { Library } from '~~/server/interfaces/library/library.interface'
 import { PrismaClient } from '@prisma/client'
 import { z } from 'zod'
 
@@ -57,7 +58,7 @@ export default defineEventHandler(async (event: H3Event) => {
     ${components?.length ? `AND EXISTS (SELECT 1 FROM "_ComponentToLibrary" JOIN "Component" ON "_ComponentToLibrary"."A" = "Component"."id" WHERE "_ComponentToLibrary"."B" = "Library"."id" AND "Component"."value" IN (${components.map(c => `'${c}'`).join(',')}))` : ''}
   `
 
-  const libraries = await prisma.$queryRawUnsafe(
+  const libraries: Library[] = await prisma.$queryRawUnsafe(
     `
       SELECT "Library".*,
             similarity("Library"."name", COALESCE($1, '')) AS name_similarity,

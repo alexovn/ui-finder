@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-import { cachedGithubStars, cachedNpmDownloads } from './fetchLibraryStats'
+import { cachedGithubStars, cachedNpmDownloads } from './getCachedLibraryStats'
 
 const prisma = new PrismaClient()
 
-export async function updateLibararyStats(libraryId: string, githubRepo: string | null, npmPackage: string | null) {
+export async function updateLibraryStats(libraryId: string, githubRepo: string | null, npmPackage: string | null) {
   const repo = githubRepo ? githubRepo.replace('https://github.com/', '') : null
   const packageName = npmPackage ? npmPackage.replace('https://www.npmjs.com/package/', '') : null
 

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { updateLibararyStats } from '~~/server/utils/updateLibraryStats'
+import { updateLibraryStats } from '~~/server/utils/updateLibraryStats'
 
 const prisma = new PrismaClient()
 const BATCH_SIZE = 100
@@ -27,7 +27,7 @@ export default defineTask({
         break
 
       const requests = libraries.map(async (library) => {
-        await updateLibararyStats(library.id, library.githubRepo, library.npmPackage)
+        return await updateLibraryStats(library.id, library.githubRepo, library.npmPackage)
       })
 
       await Promise.all(requests)
