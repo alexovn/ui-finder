@@ -1,0 +1,20 @@
+model Library {
+  id           String      @id @default(uuid()) @db.Uuid
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  name         String
+  value        String      @unique
+  img          String?
+  link         String?
+  frameworks   Framework[]
+  features     Feature[]
+  components   Component[]
+  githubRepo   String?
+  npmPackage   String?
+  githubStars  Int         @default(0)
+  npmDownloads Int         @default(0)
+  category     Category    @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+
+  @@index([name], map: "library_name_trgm")
+}
