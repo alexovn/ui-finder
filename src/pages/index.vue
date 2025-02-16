@@ -153,9 +153,6 @@ watch(() => route.query, (newVal) => {
 }, {
   immediate: true,
 })
-
-// Search
-// Ex.:
 </script>
 
 <template>
@@ -178,10 +175,12 @@ watch(() => route.query, (newVal) => {
       <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height)))] lg:px-6">
         <div
           v-if="data?.data.length"
-          class="flex items-start justify-between"
+          class="flex items-end justify-between gap-2 md:items-start"
         >
-          <div class="mb-4 justify-between flex items-center gap-2">
-            <div>Order by: </div>
+          <div class="flex items-center justify-between gap-2">
+            <div class="hidden md:block">
+              Order by:
+            </div>
             <USelect
               v-model="orderBy"
               :options="orderByList"
@@ -196,7 +195,7 @@ watch(() => route.query, (newVal) => {
           />
         </div>
 
-        <div class="flex flex-col h-full">
+        <div class="mt-4 flex flex-col h-full">
           <div
             v-if="!data || !data.data.length"
             class="flex flex-col items-center justify-center gap-1 h-full"
@@ -221,10 +220,10 @@ watch(() => route.query, (newVal) => {
 
       <div
         v-if="data?.data.length"
-        class="px-6 py-4 flex items-center justify-between gap-5 sticky bottom-0 backdrop-blur border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800"
+        class="px-4 py-3 flex items-start justify-between gap-3 sticky bottom-0 backdrop-blur border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
       >
         <div class="flex items-center gap-2">
-          <div>
+          <div class="hidden md:block">
             Items per page:
           </div>
           <USelect
