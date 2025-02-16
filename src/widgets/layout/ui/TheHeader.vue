@@ -18,6 +18,9 @@ const isFilterPanelOpened = ref(false)
 function openFilterPanel() {
   isFilterPanelOpened.value = true
 }
+function closeFilterPanel() {
+  isFilterPanelOpened.value = false
+}
 </script>
 
 <template>
@@ -37,14 +40,25 @@ function openFilterPanel() {
         v-model="isFilterPanelOpened"
         side="left"
         :ui="{
-          padding: 'p-4 overflow-y-auto',
+          padding: 'overflow-y-auto',
           overlay: {
             background: 'bg-neutral-200/75 dark:bg-neutral-800/75',
           },
           background: 'dark:bg-neutral-900',
         }"
       >
-        <FilterList />
+        <div class="flex flex-col gap-2">
+          <div class="px-4 py-2 flex justify-end sticky top-0 z-10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur border-b border-neutral-200 dark:border-neutral-800">
+            <UButton
+              variant="ghost"
+              color="white"
+              icon="i-heroicons-x-mark"
+              aria-label="Close panel"
+              @click="closeFilterPanel"
+            />
+          </div>
+          <FilterList class="p-4" />
+        </div>
       </USlideover>
 
       <NuxtLink
