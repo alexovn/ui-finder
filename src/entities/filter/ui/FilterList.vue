@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import {
-  apiFilter,
-  FilterItem,
-  mapFilters,
-  useFiltersStore,
-} from '@/entities/filter'
+import { apiFilter } from '../api/apiFilter'
+import { useFiltersStore } from '../lib/model/stores/filters'
+import mapFilters from '../lib/utils/mapFilters'
+import FilterItem from './FilterItem.vue'
 
 const filtersStore = useFiltersStore()
 const {

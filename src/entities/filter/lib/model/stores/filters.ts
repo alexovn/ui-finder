@@ -1,8 +1,8 @@
 import type { LocationQuery } from 'vue-router'
-import { FilterEnum } from '@/entities/filter'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
 import { defineStore } from 'pinia'
 import queryString from 'query-string'
+import { FilterEnum } from '../../enums/filter.enum'
 
 type FilterType = 'categories' | 'frameworks' | 'features' | 'components'
 

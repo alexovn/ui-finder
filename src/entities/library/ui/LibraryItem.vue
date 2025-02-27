@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Library } from '@/entities/library'
+import type { Library } from '../model/interfaces/library.interface'
 import { mapFilters } from '@/entities/filter'
 import formatCount from '@/shared/lib/utils/formatCount'
 
