@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "ui-finder",
   "type": "module",
   "private": true,
   "packageManager": "pnpm@10.5.2",
