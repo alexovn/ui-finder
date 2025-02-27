@@ -65,14 +65,11 @@ function closeFilterPanel() {
         class="flex items-center gap-2"
         to="/"
       >
-        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg bg-black dark:bg-white">
-          <UIcon
-            class="w-6 h-6 bg-white dark:bg-black"
-            name="i-bxs:component"
-          />
+        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
+          UI
         </div>
         <div class="font-medium md:text-lg lg:text-xl">
-          UI Collection
+          Finder
         </div>
       </NuxtLink>
     </div>
