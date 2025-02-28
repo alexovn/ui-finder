@@ -1,9 +1,9 @@
 <script setup lang="ts">
 useSeoMeta({
-  title: 'UI Library Finder | UI Finder',
-  ogTitle: 'UI Library Finder | UI Finder',
-  description: 'Find ui library for your needs. Apply filters, sort and order results, do search and more.',
-  ogDescription: 'Find ui library for your needs. Apply filters, sort and order results, do search and more.',
+  title: 'UI Finder | Find ui libraries for your needs',
+  ogTitle: 'UI Finder | Find ui libraries for your needs',
+  description: 'Find ui libraries for your needs. Filter, sort, order and more.',
+  ogDescription: 'Find ui libraries for your needs. Filter, sort, order and more.',
 })
 </script>
 

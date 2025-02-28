@@ -66,10 +66,13 @@ function closeFilterPanel() {
         to="/"
       >
         <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
-          UI
+          <UIcon
+            class="w-6 h-6 bg-white dark:bg-black"
+            name="i-bxs:component"
+          />
         </div>
         <div class="font-medium md:text-lg lg:text-xl">
-          Finder
+          UI Finder
         </div>
       </NuxtLink>
     </div>

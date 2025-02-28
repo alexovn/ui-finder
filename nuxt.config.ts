@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'node:url'
 
-
 function getModulePath(moduleName: string) {
   try {
     const moduleUrl = import.meta.resolve(moduleName);
@@ -29,6 +28,7 @@ export default defineNuxtConfig({
       },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover',
+      title: 'UI Finder | Find ui libraries for your needs',
       link: [
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
       ],
