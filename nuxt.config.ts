@@ -1,4 +1,26 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { fileURLToPath } from 'node:url'
+
+
+function getModulePath(moduleName: string) {
+  try {
+    const moduleUrl = import.meta.resolve(moduleName);
+    const modulePath = fileURLToPath(moduleUrl);
+    return (
+      modulePath
+        .substring(0, modulePath.lastIndexOf("node_modules"))
+        .replace(/\/+$/, "") || ""
+    );
+  } catch (error) {
+    console.error(
+      `Module ${moduleName} resolution failed:`,
+      (error as Error).message,
+    );
+    return "";
+  }
+}
+
+const prismaNodeModulesPath = `${getModulePath("@prisma/client")}/node_modules`;
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -55,6 +77,14 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-02-27',
   devtools: { enabled: true },
+
+  vite: {
+    resolve: {
+      alias: {
+        ".prisma/client/index-browser": `${prismaNodeModulesPath}/.prisma/client/index-browser.js`,
+      },
+    },
+  },
 
   future: {
     compatibilityVersion: 4,
