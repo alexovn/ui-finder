@@ -1,6 +1,16 @@
 # UI Finder: The One-Stop Solution for Finding UI Libraries
 UI Finder is an app that helps you find the right UI libraries in seconds. No more hours of web surfing in search of libraries that match your framework, are popular enough, and actively maintained. You can filter libraries by different settings, sort and order them as you like. Enjoy and have fun!
 
+## Features
+UI Finder is a feature-rich app designed to help developers be more productive and save hours searching for the right libraries. Here are some of its main features:
+
+- Filter libraries by categories, frameworks, components, and more.
+- Search libraries using the built-in search (currently in Beta, so it may not be very accurate).
+- Sort and order libraries by creation date, GitHub stars, or npm downloads.
+- Share filtered results with your team and friends using a powerful URL string.
+- Switch between light and dark theme modes.
+- Mobile-friendly: The app is fully responsive, allowing you to search for libraries directly on your mobile device or tablet.
+
 ## What It's Made Of
 UI Finder is built using several technologies that make it awesome:
 
@@ -35,6 +45,13 @@ Good question! Basic components like buttons, inputs, and labels can often be cr
 Component filters will be updated over time. Keep an eye out for changes. You're welcome to open a discussion about a component you'd like to see included. If it makes sense, it will be added.
 
 ### I want more filtering options!
-Me too!
-
 Filtering features will be added over time, so keep an eye out for updates. You're welcome to open a discussion about a feature you would like to see. If it makes sense, it will be added.
+
+## What's Next
+There are plans to add enhancements and new features. Here are some of them:
+
+- Update the library search. Currently, it's in the Beta stage and may not be very accurate.
+- Add "Show Previous" and "Show More" buttons to the library list instead of (or alongside) pagination.
+- Add more filters.
+- Add more libraries.
+- Add something special — so keep an eye out for updates!
