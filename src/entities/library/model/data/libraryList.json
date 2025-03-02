@@ -62,7 +62,6 @@
   {
     "name": "Vue Datepicker",
     "value": "vue-datepicker",
-    "img": null,
     "link": "https://vue3datepicker.com/",
     "category": "component",
     "frameworks": ["nuxt", "vue"],
@@ -96,14 +95,11 @@
       "pagination",
       "table",
       "notification"
-    ],
-    "githubRepo": null,
-    "npmPackage": null
+    ]
   },
   {
     "name": "TailGrids",
     "value": "tail-grids",
-    "img": null,
     "link": "https://tailgrids.com/",
     "category": "library",
     "frameworks": ["nuxt", "vue", "react"],
@@ -200,5 +196,465 @@
     ],
     "githubRepo": "https://github.com/primefaces/primereact",
     "npmPackage": "https://www.npmjs.com/package/primereact"
+  },
+  {
+    "name": "Vue Final Modal",
+    "value": "vue-final-modal",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/vue-final-modal.svg",
+    "link": "https://vue-final-modal.org/",
+    "category": "component",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "free",
+      "unstyled",
+      "typescript"
+    ],
+    "components": ["modal"],
+    "githubRepo": "https://github.com/vue-final/vue-final-modal",
+    "npmPackage": "https://www.npmjs.com/package/vue-final-modal"
+  },
+  {
+    "name": "Reka UI",
+    "value": "reka-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/reka-ui.svg",
+    "link": "https://reka-ui.com/",
+    "category": "library",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "free",
+      "unstyled",
+      "tailwind"
+    ],
+    "components": [
+      "datepicker",
+      "dropdown",
+      "accordion",
+      "select",
+      "pagination",
+      "tabs",
+      "modal",
+      "notification"
+    ],
+    "githubRepo": "https://github.com/unovue/reka-ui",
+    "npmPackage": "https://www.npmjs.com/package/reka-ui"
+  },
+  {
+    "name": "Radix Vue",
+    "value": "radix-vue",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/reka-ui.svg",
+    "link": "https://www.radix-vue.com/",
+    "category": "library",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "free",
+      "unstyled",
+      "tailwind"
+    ],
+    "components": [
+      "datepicker",
+      "dropdown",
+      "accordion",
+      "select",
+      "pagination",
+      "tabs",
+      "modal",
+      "notification"
+    ],
+    "githubRepo": "https://github.com/unovue/reka-ui",
+    "npmPackage": "https://www.npmjs.com/package/reka-ui"
+  },
+  {
+    "name": "Inspira UI",
+    "value": "inspira-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/inspira-ui.svg",
+    "link": "https://inspira-ui.com/",
+    "category": "library",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "free",
+      "tailwind",
+      "styled"
+    ],
+    "components": [],
+    "githubRepo": "https://github.com/unovue/inspira-ui"
+  },
+  {
+    "name": "shadcn-vue",
+    "value": "shadcn-vue",
+    "link": "https://www.shadcn-vue.com/",
+    "category": "library",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "free",
+      "tailwind",
+      "unstyled"
+    ],
+    "components": [
+      "datepicker",
+      "dropdown",
+      "accordion",
+      "select",
+      "pagination",
+      "tabs",
+      "modal",
+      "notification",
+      "carousel"
+    ],
+    "githubRepo": "https://github.com/unovue/shadcn-vue"
+  },
+  {
+    "name": "shadcn/ui",
+    "value": "shadcn-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/shadcn-ui.svg",
+    "link": "https://ui.shadcn.com/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "unstyled",
+      "tailwind",
+      "typescript"
+    ],
+    "components": [
+      "datepicker",
+      "dropdown",
+      "accordion",
+      "select",
+      "pagination",
+      "tabs",
+      "modal",
+      "notification",
+      "carousel"
+    ],
+    "githubRepo": "https://github.com/shadcn-ui/ui"
+  },
+  {
+    "name": "Aceternity UI",
+    "value": "aceternity-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/aceternity-ui.png",
+    "link": "https://ui.aceternity.com/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "paid",
+      "styled",
+      "tailwind",
+      "typescript"
+    ],
+    "components": [
+      "carousel",
+      "tabs"
+    ]
+  },
+  {
+    "name": "Origin UI",
+    "value": "origin-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/origin-ui.svg",
+    "link": "https://originui.com/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "unstyled",
+      "tailwind"
+    ],
+    "components": [
+      "datepicker",
+      "dropdown",
+      "accordion",
+      "select",
+      "pagination",
+      "tabs",
+      "modal",
+      "notification"
+    ],
+    "githubRepo": "https://github.com/origin-space/originui"
+  },
+  {
+    "name": "HeroUI",
+    "value": "hero-ui",
+    "link": "https://www.heroui.com/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "styled",
+      "tailwind",
+      "typescript",
+      "figmaAssets"
+    ],
+    "components": [
+      "accordion",
+      "dropdown",
+      "select",
+      "datepicker",
+      "modal",
+      "tabs",
+      "select",
+      "pagination"
+    ],
+    "githubRepo": "https://github.com/heroui-inc/heroui"
+  },
+  {
+    "name": "DevUI",
+    "value": "dev-ui",
+    "link": "https://www.devui.in/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "unstyled",
+      "tailwind"
+    ],
+    "components": [
+      "tabs",
+      "modal"
+    ],
+    "githubRepo": "https://github.com/kumard3/dev.ui"
+  },
+  {
+    "name": "Magic UI",
+    "value": "magic-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/magic-ui.svg",
+    "link": "https://magicui.design/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "styled",
+      "tailwind",
+      "typescript"
+    ],
+    "githubRepo": "https://github.com/magicuidesign/magicui"
+  },
+  {
+    "name": "CuiCui",
+    "value": "cui-cui",
+    "link": "https://cuicui.day/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "styled",
+      "tailwind",
+      "typescript"
+    ],
+    "components": [
+      "dropdown",
+      "notification"
+    ],
+    "githubRepo": "https://github.com/damien-schneider/cuicui"
+  },
+  {
+    "name": "Ant Design",
+    "value": "ant-design",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/ant-design-dark.svg",
+    "link": "https://ant.design/",
+    "category": "library",
+    "frameworks": [
+      "react"
+    ],
+    "features": [
+      "free",
+      "styled",
+      "typescript"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "select",
+      "carousel",
+      "datepicker",
+      "notification",
+      "tabs",
+      "table",
+      "accordion"
+    ],
+    "githubRepo": "https://github.com/ant-design/ant-design",
+    "npmPackage": "https://www.npmjs.com/package/antd"
+  },
+  {
+    "name": "Mantine",
+    "value": "mantine",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/mantine.svg",
+    "link": "https://mantine.dev/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "styled",
+      "unstyled",
+      "typescript"
+    ],
+    "components": [
+      "select",
+      "datepicker",
+      "modal",
+      "tabs",
+      "carousel",
+      "table",
+      "accordion",
+      "notification",
+      "pagination"
+    ],
+    "githubRepo": "https://github.com/mantinedev/mantine"
+  },
+  {
+    "name": "Tailus UI React",
+    "value": "tailus-ui-react",
+    "link": "https://ui.tailus.io/",
+    "category": "library",
+    "frameworks": ["react"],
+    "features": [
+      "free",
+      "styled",
+      "unstyled",
+      "tailwind",
+      "typescript"
+    ],
+    "components": [
+      "accordion",
+      "tabs",
+      "select",
+      "dropdown",
+      "datepicker",
+      "notification"
+    ],
+    "githubRepo": "https://github.com/Tailus-UI/ui.tailus.io"
+  },
+  {
+    "name": "Mamba UI",
+    "value": "mamba-ui",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/mamba-ui.svg",
+    "link": "https://mambaui.com/",
+    "category": "library",
+    "frameworks": [
+      "angular",
+      "nuxt",
+      "vue",
+      "react",
+      "svelte"
+    ],
+    "features": [
+      "free",
+      "tailwind",
+      "unstyled"
+    ],
+    "components": [
+      "pagination",
+      "table",
+      "tabs",
+      "carousel"
+    ],
+    "githubRepo": "https://github.com/Microwawe/mamba-ui"
+  },
+  {
+    "name": "Reactbits",
+    "value": "reactbits",
+    "img": "https://xwwojfwzfoukkjnkzqkw.supabase.co/storage/v1/object/public/images/libraries/reactbits.svg",
+    "link": "https://www.reactbits.dev/",
+    "category": "library",
+    "frameworks": [
+      "react"
+    ],
+    "features": [
+      "free",
+      "tailwind",
+      "styled",
+      "unstyled"
+    ],
+    "components": [
+      "carousel"
+    ],
+    "githubRepo": "https://github.com/DavidHDev/react-bits"
+  },
+  {
+    "name": "Eldora UI",
+    "value": "eldora-ui",
+    "link": "https://www.eldoraui.site/",
+    "category": "library",
+    "frameworks": [
+      "react"
+    ],
+    "features": [
+      "free",
+      "styled",
+      "unstyled",
+      "tailwind",
+      "typescript"
+    ],
+    "components": [],
+    "githubRepo": "https://github.com/karthikmudunuri/eldoraui"
+  },
+  {
+    "name": "NG-ZORRO",
+    "value": "ng-zorro",
+    "link": "https://ng.ant.design/",
+    "category": "library",
+    "frameworks": ["angular"],
+    "features": [
+      "typescript",
+      "styled",
+      "unstyled",
+      "free"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "select",
+      "carousel",
+      "datepicker",
+      "notification",
+      "tabs",
+      "table",
+      "accordion"
+    ],
+    "githubRepo": "https://github.com/NG-ZORRO/ng-zorro-antd",
+    "npmPackage": "https://www.npmjs.com/package/ng-zorro-antd"
+  },
+  {
+    "name": "Ant Design Vue",
+    "value": "ant-design-vue",
+    "link": "https://antdv.com/",
+    "category": "library",
+    "frameworks": [
+      "vue",
+      "nuxt"
+    ],
+    "features": [
+      "typescript",
+      "styled",
+      "unstyled",
+      "free"
+    ],
+    "components": [
+      "modal",
+      "dropdown",
+      "select",
+      "carousel",
+      "datepicker",
+      "notification",
+      "tabs",
+      "table",
+      "accordion"
+    ],
+    "githubRepo": "https://github.com/vueComponent/ant-design-vue",
+    "npmPackage": "https://www.npmjs.com/package/ant-design-vue"
   }
 ]
