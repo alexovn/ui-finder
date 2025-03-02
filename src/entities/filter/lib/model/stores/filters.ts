@@ -42,8 +42,8 @@ export const useFiltersStore = defineStore('filters', () => {
   }
 
   const areFiltersActive = ref(false)
-  function areFiltersExist(filterObj: Record<string, string>, query: LocationQuery) {
-    return Object.values(filterObj).some(filter => filter in query)
+  function areFiltersExist(filters: string[], query: LocationQuery) {
+    return filters.some(filter => filter in query)
   }
 
   function clearFilters() {

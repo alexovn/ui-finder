@@ -162,7 +162,7 @@ const components = computed(() => {
         v-if="filtersStore.areFiltersActive"
         :ui="{
           base: 'w-full justify-center',
-          rounded: 'rounded-full',
+          rounded: 'rounded-md',
         }"
         icon="i-heroicons-trash"
         trailing

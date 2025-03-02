@@ -146,14 +146,20 @@ function handleSearch() {
 }
 
 watch(() => route.query, (newVal) => {
-  if (window) {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    })
-  }
-  filtersStore.areFiltersActive = filtersStore.areFiltersExist(FilterEnum, newVal)
+  window && window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
+
+  const filteredFilters = Object.values(FilterEnum).filter(filter =>
+    filter !== FilterEnum.SEARCH
+    && filter !== FilterEnum.PER_PAGE
+    && filter !== FilterEnum.PAGE
+    && filter !== FilterEnum.ORDER_BY
+    && filter !== FilterEnum.ORDER_DIR,
+  )
+  filtersStore.areFiltersActive = filtersStore.areFiltersExist(filteredFilters, newVal)
 }, {
   immediate: true,
 })
@@ -161,7 +167,7 @@ watch(() => route.query, (newVal) => {
 
 <template>
   <div class="flex grow">
-    <aside class="hidden fixed z-50 w-[--aside-left-width] h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto overflow-x-hidden lg:px-6 lg:py-5 lg:block lg:top-[--header-height] shrink-0">
+    <aside class="hidden fixed z-50 w-[--aside-left-width] h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto overflow-x-hidden lg:px-3.5 lg:py-5 lg:block lg:top-[--header-height] shrink-0">
       <FilterList />
     </aside>
     <div class="lg:ml-[--aside-left-width] grow">
