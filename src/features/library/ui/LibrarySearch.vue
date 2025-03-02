@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
 
+const emit = defineEmits<{
+  onSearch: []
+}>()
+
 const route = useRoute()
 const router = useRouter()
 
@@ -8,9 +12,11 @@ const searchEl = useTemplateRef('searchEl')
 const search = ref(route.query.search || '')
 
 const handleSearch = useDebounceFn(() => {
+  emit('onSearch')
   router.push({
     query: {
       ...route.query,
+      page: undefined,
       search: search.value || undefined,
     },
   })

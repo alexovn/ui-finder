@@ -141,6 +141,10 @@ function onPerPageChange(perPage: string) {
   })
 }
 
+function handleSearch() {
+  page.value = 1
+}
+
 watch(() => route.query, (newVal) => {
   if (window) {
     window.scrollTo({
@@ -162,7 +166,7 @@ watch(() => route.query, (newVal) => {
     </aside>
     <div class="lg:ml-[--aside-left-width] grow">
       <div class="sticky top-[--header-height] min-h-px z-50">
-        <LibrarySearch />
+        <LibrarySearch @on-search="handleSearch" />
         <div class="w-full h-px absolute bottom-0 z-[100]">
           <UProgress
             v-if="status === 'pending'"
