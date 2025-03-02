@@ -19,9 +19,11 @@ UI Finder is built using several technologies that make it awesome:
 - [TailwindCSS](https://tailwindcss.com/) – A utility-first CSS framework that significantly speeds up the development process.
 - [Pinia](https://pinia.vuejs.org/) – A Vue.js store that helps avoid prop-drilling issues.
 - [Zod](https://zod.dev/) – A TypeScript-first schema validation library with static type inference, used for validating server data.
+- [Iconify](https://iconify.design/) - An open-source library with thousands of icons and some of them are used in the app.
 - [PostgreSQL](https://www.postgresql.org/) – An open-source relational database that structures and stores library data efficiently.
 - [Prisma ORM](https://www.prisma.io/) – An ORM that helps manage the PostgreSQL database directly from the app.
 - [TypeScript](https://www.typescriptlang.org/) – A strongly typed programming language that prevents common JavaScript pitfalls and enhances maintainability.
+
 You can find additional tools used in this app in the package.json file located at the root of the project.
 
 ## Contributions
@@ -55,3 +57,9 @@ There are plans to add enhancements and new features. Here are some of them:
 - Add more filters.
 - Add more libraries.
 - Add something special — so keep an eye out for updates!
+
+## Inspiration
+UI Finder is inspired by some awesome projects. Check them out:
+
+- [UI Lib Picker](https://ui-libs.vercel.app/) - An app for searching ui libraries for Vue 3 and Nuxt 3 frameworks.
+- [svgl](https://svgl.app/) - An app for searching svg logos.
