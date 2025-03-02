@@ -79,11 +79,12 @@ function closeFilterPanel() {
 
     <div class="flex items-center gap-2">
       <UButton
-        to="https://github.com/alexovn"
+        to="https://github.com/alexovn/ui-finder"
         target="_blank"
         icon="i-mdi:github"
         variant="ghost"
         color="white"
+        external
       />
 
       <ClientOnly>
