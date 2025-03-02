@@ -76,7 +76,11 @@ async function seed() {
       const categoryEntry = categoryEntries.find(category => category.value === library.category);
       const frameworkEntriesToConnect = frameworkEntries.filter(framework => library.frameworks.includes(framework.value));
       const featureEntriesToConnect = featureEntries.filter(feature => library.features.includes(feature.value));
-      const componentEntriesToConnect = componentEntries.filter(component => library.components.includes(component.value));
+      const componentEntriesToConnect = (
+        library.components
+        && library.components.length
+        && componentEntries.filter(component => library.components.includes(component.value))
+      ) || [];
 
       await prisma.library.upsert({
         where: { value: library.value },
