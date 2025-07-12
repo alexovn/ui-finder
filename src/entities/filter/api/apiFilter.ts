@@ -5,19 +5,19 @@ export function apiFilter() {
   const { $apiGet } = useNuxtApp()
 
   async function getCategories(): Promise<Category[] | ApiError> {
-    return await $apiGet('/api/categories')
+    return await $apiGet('/categories')
   }
 
   async function getFrameworks(): Promise<Framework[] | ApiError> {
-    return await $apiGet('/api/frameworks')
+    return await $apiGet('/frameworks')
   }
 
   async function getFeatures(): Promise<Feature[] | ApiError> {
-    return await $apiGet('/api/features')
+    return await $apiGet('/features')
   }
 
   async function getComponents(): Promise<Component[] | ApiError> {
-    return await $apiGet('/api/components')
+    return await $apiGet('/components')
   }
 
   return {

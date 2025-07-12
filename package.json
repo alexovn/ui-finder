@@ -2,7 +2,7 @@
   "name": "ui-finder",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,17 +10,12 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "seed": "node prisma/seed.js"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@nuxt/fonts": "0.10.3",
     "@nuxt/ui": "2.21.0",
     "@pinia/nuxt": "0.10.1",
-    "@prisma/client": "^6.4.1",
-    "@prisma/nuxt": "0.3.0",
-    "bcrypt": "^5.1.1",
-    "fast-jwt": "^5.0.5",
     "lodash-es": "^4.17.21",
     "nuxt": "^3.15.4",
     "pinia": "^3.0.1",
@@ -41,7 +36,6 @@
     "@iconify-json/tabler": "^1.2.16",
     "@iconify-json/uil": "^1.2.3",
     "@nuxt/eslint": "1.1.0",
-    "@types/bcrypt": "^5.0.2",
     "@types/lodash-es": "^4.17.12",
     "eslint": "^9.21.0",
     "eslint-plugin-format": "^1.0.1",
@@ -49,6 +43,8 @@
     "vue-tsc": "^2.2.4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@prisma/client", "esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

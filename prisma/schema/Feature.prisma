@@ -1,6 +1,0 @@
-model Feature {
-  id        Int       @id @default(autoincrement())
-  name      String
-  value     String    @unique
-  libraries Library[]
-}

@@ -2,8 +2,10 @@ import type { ApiError } from '@/shared/model/interfaces/error.interface'
 import { FetchError } from 'ofetch'
 
 export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
+
   const api = $fetch.create({
-    baseURL: '',
+    baseURL: config.public.apiBase,
   })
 
   function setResponseError(err: any) {

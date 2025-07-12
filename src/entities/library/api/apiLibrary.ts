@@ -6,7 +6,7 @@ export default function apiLibrary() {
   const runtimeConfig = useRuntimeConfig()
 
   async function getLibraryList(payload: LibraryListPayload) {
-    return await $apiGet<LibraryListRes>('/api/libraries', {
+    return await $apiGet<LibraryListRes>('/libraries', {
       params: payload,
     })
   }
