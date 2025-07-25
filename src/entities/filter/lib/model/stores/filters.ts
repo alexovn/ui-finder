@@ -1,10 +1,9 @@
 import type { LocationQuery } from 'vue-router'
-import { useQuery } from '@/shared/lib/hooks/useQuery'
+import type { FilterType } from '../interfaces/filter.interface'
 import { defineStore } from 'pinia'
 import queryString from 'query-string'
+import { useQuery } from '@/shared/lib/hooks/useQuery'
 import { FilterEnum } from '../../enums/filter.enum'
-
-type FilterType = 'categories' | 'frameworks' | 'features' | 'components'
 
 export const useFiltersStore = defineStore('filters', () => {
   const route = useRoute()
@@ -28,17 +27,16 @@ export const useFiltersStore = defineStore('filters', () => {
   })
 
   function handleUpdateFilter(filterType: FilterType, filters: string | string[]) {
-    if (filters) {
-      const filterQuery = queryString.stringify({ [filterType]: filters }, { arrayFormat: 'comma' })
-      const parsedFilterQuery = queryString.parse(filterQuery)
+    const filterQuery = queryString.stringify({ [filterType]: filters }, { arrayFormat: 'comma' })
+    const parsedFilterQuery = queryString.parse(filterQuery)
 
-      router.push({
-        query: {
-          ...route.query,
-          [filterType]: parsedFilterQuery[filterType],
-        },
-      })
-    }
+    router.push({
+      query: {
+        ...route.query,
+        page: undefined,
+        [filterType]: parsedFilterQuery[filterType],
+      },
+    })
   }
 
   const areFiltersActive = ref(false)

@@ -2,7 +2,7 @@
 /* eslint-disable perfectionist/sort-named-exports */
 
 // INTERFACES
-import type { Category, Component, Feature, Framework } from './lib/model/interfaces/filter.interface'
+import type { Category, Component, Feature, FilterType, Framework } from './lib/model/interfaces/filter.interface'
 
 // ENUMS
 import { FilterEnum } from './lib/enums/filter.enum'
@@ -39,4 +39,5 @@ export type {
   Feature,
   Component,
   Category,
+  FilterType,
 }

@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import type { FilterType } from '../lib/model/interfaces/filter.interface'
 import { apiFilter } from '../api/apiFilter'
 import { useFiltersStore } from '../lib/model/stores/filters'
 import mapFilters from '../lib/utils/mapFilters'
 import FilterItem from './FilterItem.vue'
+
+const emit = defineEmits<{
+  onUpdateFilter: []
+}>()
 
 const filtersStore = useFiltersStore()
 const {
@@ -85,6 +90,11 @@ const components = computed(() => {
     return []
   return mapComponents(filters.value.components)
 })
+
+function handleUpdateFilter(filterType: FilterType, filters: string | string[]) {
+  emit('onUpdateFilter')
+  filtersStore.handleUpdateFilter(filterType, filters)
+}
 </script>
 
 <template>
@@ -108,7 +118,7 @@ const components = computed(() => {
             <FilterItem
               v-model="filtersStore.state.categories"
               :item
-              @update:model-value="filtersStore.handleUpdateFilter('categories', $event)"
+              @update:model-value="handleUpdateFilter('categories', $event)"
             />
           </li>
         </ul>
@@ -122,7 +132,7 @@ const components = computed(() => {
             <FilterItem
               v-model="filtersStore.state.frameworks"
               :item
-              @update:model-value="filtersStore.handleUpdateFilter('frameworks', $event)"
+              @update:model-value="handleUpdateFilter('frameworks', $event)"
             />
           </li>
         </ul>
@@ -136,7 +146,7 @@ const components = computed(() => {
             <FilterItem
               v-model="filtersStore.state.features"
               :item
-              @update:model-value="filtersStore.handleUpdateFilter('features', $event)"
+              @update:model-value="handleUpdateFilter('features', $event)"
             />
           </li>
         </ul>
@@ -150,7 +160,7 @@ const components = computed(() => {
             <FilterItem
               v-model="filtersStore.state.components"
               :item
-              @update:model-value="filtersStore.handleUpdateFilter('components', $event)"
+              @update:model-value="handleUpdateFilter('components', $event)"
             />
           </li>
         </ul>

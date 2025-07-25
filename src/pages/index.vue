@@ -43,6 +43,44 @@ const { data, status } = useAsyncData('libraries', async () => {
   watch: [route],
 })
 
+const page = ref(route.query.page ? Number(route.query.page) : 1)
+function onPageChange(page: number) {
+  router.push({
+    query: {
+      ...route.query,
+      page,
+    },
+  })
+}
+const perPage = ref(route.query.perPage || '10')
+const perPageList = [
+  {
+    label: '10',
+    value: '10',
+  },
+  {
+    label: '50',
+    value: '50',
+  },
+  {
+    label: '150',
+    value: '150',
+  },
+]
+function onPerPageChange(perPage: string) {
+  setDefaultPage()
+  router.push({
+    query: {
+      ...route.query,
+      page: route.query.page ? 1 : undefined,
+      perPage,
+    },
+  })
+}
+function setDefaultPage() {
+  page.value = 1
+}
+
 const orderBy = ref(route.query.orderBy as string || 'createdAt')
 const orderByList = [
   {
@@ -59,9 +97,11 @@ const orderByList = [
   },
 ]
 function onUpdateOrderBy(value: string) {
+  setDefaultPage()
   router.push({
     query: {
       ...route.query,
+      page: undefined,
       orderBy: value,
     },
   })
@@ -79,9 +119,11 @@ function changeOrderDir() {
     orderDir.value = OrderDirEnum.ASC
   }
 
+  setDefaultPage()
   router.push({
     query: {
       ...route.query,
+      page: undefined,
       orderDir: orderDir.value,
     },
   })
@@ -105,44 +147,12 @@ const orderDirLabel = computed(() => {
   return 'Sort'
 })
 
-const page = ref(route.query.page ? Number(route.query.page) : 1)
-function onPageChange(page: number) {
-  router.push({
-    query: {
-      ...route.query,
-      page,
-    },
-  })
-}
-
-const perPage = ref(route.query.perPage || '10')
-const perPageList = [
-  {
-    label: '10',
-    value: '10',
-  },
-  {
-    label: '50',
-    value: '50',
-  },
-  {
-    label: '150',
-    value: '150',
-  },
-]
-function onPerPageChange(perPage: string) {
-  page.value = 1
-  router.push({
-    query: {
-      ...route.query,
-      page: route.query.page ? 1 : undefined,
-      perPage,
-    },
-  })
-}
-
 function handleSearch() {
-  page.value = 1
+  setDefaultPage()
+}
+
+function handleUpdateFilter() {
+  setDefaultPage()
 }
 
 watch(() => route.query, (newVal) => {
@@ -168,7 +178,7 @@ watch(() => route.query, (newVal) => {
 <template>
   <div class="flex grow">
     <aside class="hidden fixed z-50 w-[--aside-left-width] h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto overflow-x-hidden lg:px-3.5 lg:py-5 lg:block lg:top-[--header-height] shrink-0">
-      <FilterList />
+      <FilterList @on-update-filter="handleUpdateFilter" />
     </aside>
     <div class="lg:ml-[--aside-left-width] grow">
       <div class="sticky top-[--header-height] min-h-px z-50">

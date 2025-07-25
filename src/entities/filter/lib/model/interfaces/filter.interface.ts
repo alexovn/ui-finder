@@ -33,3 +33,5 @@ export interface Component {
     libraries: number
   }
 }
+
+export type FilterType = 'categories' | 'frameworks' | 'features' | 'components'
