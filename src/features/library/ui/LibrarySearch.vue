@@ -44,20 +44,22 @@ defineShortcuts({
 
 <template>
   <div class="relative w-full text-base h-(--search-height)">
-    <div class="pl-3 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
+    <div class="pl-4 lg:pl-3 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
       <UIcon
         name="i-heroicons-magnifying-glass"
         class="size-5"
       />
     </div>
+
     <input
       ref="searchEl"
       v-model="search"
       type="text"
-      class="p-3 px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
+      class="p-3 px-12 lg:px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
       placeholder="Search library by name or filters..."
       @update:model-value="handleSearch"
     >
+
     <div class="pr-3 absolute inset-y-0 right-0 flex items-center">
       <UButton
         v-if="search.length"
@@ -68,7 +70,7 @@ defineShortcuts({
       />
       <div
         v-else
-        class="flex items-center gap-0.5"
+        class="hidden lg:flex items-center gap-0.5"
       >
         <UKbd value="meta" />
         <UKbd value="K" />
