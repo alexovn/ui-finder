@@ -52,15 +52,15 @@ function onPageChange(page: number) {
     },
   })
 }
-const perPage = ref(route.query.perPage as string || '10')
+const perPage = ref(route.query.perPage as string || '50')
 const perPageList = [
-  {
-    label: '10',
-    value: '10',
-  },
   {
     label: '50',
     value: '50',
+  },
+  {
+    label: '100',
+    value: '100',
   },
   {
     label: '150',
@@ -241,6 +241,10 @@ watch(() => route.query, (newVal) => {
               name="i-bxs:component"
               class="size-32 text-neutral-300 dark:text-neutral-800"
             />
+
+            <div class="text-dimmed">
+              No results found. Try again
+            </div>
           </div>
           <div
             v-else
