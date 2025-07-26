@@ -32,15 +32,21 @@ function clearFilters() {
 
 <template>
   <header class="z-50 px-4 lg:px-6 min-h-(--header-height) sticky top-0 flex justify-between items-center gap-5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-    <div class="flex items-center gap-4">
-      <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-2 after:translate-x-1/2">
-        <UButton
-          icon="i-heroicons:adjustments-horizontal"
-          color="neutral"
-          variant="outline"
-          aria-label="Open filter panel"
-          @click="openFilterPanel"
-        />
+    <div class="flex items-center gap-6">
+      <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-3 after:translate-x-1/2">
+        <UChip
+          color="error"
+          size="lg"
+          :show="filtersStore.areFiltersActive"
+        >
+          <UButton
+            icon="i-heroicons:adjustments-horizontal"
+            color="neutral"
+            variant="outline"
+            aria-label="Open filter panel"
+            @click="openFilterPanel"
+          />
+        </UChip>
       </div>
 
       <USlideover
@@ -63,7 +69,6 @@ function clearFilters() {
                   v-if="filtersStore.areFiltersActive"
                   icon="i-heroicons-trash"
                   trailing
-                  size="xs"
                   color="neutral"
                   variant="solid"
                   label="Clear"
