@@ -257,7 +257,7 @@ watch(() => route.query, (newVal) => {
 
       <div
         v-if="data?.data.length"
-        class="px-4 py-3 flex items-start justify-between gap-3 sticky bottom-0 backdrop-blur-sm border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
+        class="px-4 py-3 flex items-start justify-between gap-3 static lg:sticky lg:bottom-0 backdrop-blur-sm border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
       >
         <div class="flex items-center gap-2">
           <div class="hidden md:block">
@@ -270,8 +270,8 @@ watch(() => route.query, (newVal) => {
           />
         </div>
         <UPagination
-          v-model="page"
-          :page-count="Number(perPage)"
+          v-model:page="page"
+          :items-per-page="Number(perPage)"
           :total="Number(data?.meta.pagination.total)"
           show-edges
           active-color="neutral"
