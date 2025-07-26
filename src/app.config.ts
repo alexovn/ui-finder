@@ -1,16 +1,13 @@
 export default defineAppConfig({
   ui: {
-    primary: 'neutral',
-    gray: 'neutral',
+    colors: {
+      primary: 'neutral',
+      neutral: 'neutral',
+    },
     button: {
-      color: {
-        white: {
-          ghost: 'text-dark hover:text-dark hover:bg-neutral-200/75 dark:hover:text-white dark:hover:bg-neutral-700/40',
-        },
+      slots: {
+        base: 'cursor-pointer',
       },
     },
-  },
-  icon: {
-    class: 'icon',
   },
 })

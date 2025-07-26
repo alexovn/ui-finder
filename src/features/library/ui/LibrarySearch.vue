@@ -33,7 +33,6 @@ function clearSearch() {
   })
 }
 
-const { metaSymbol } = useShortcuts()
 defineShortcuts({
   meta_k: {
     handler: () => {
@@ -44,7 +43,7 @@ defineShortcuts({
 </script>
 
 <template>
-  <div class="relative w-full text-base h-[--search-height]">
+  <div class="relative w-full text-base h-(--search-height)">
     <div class="pl-3 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
       <UIcon
         name="i-heroicons-magnifying-glass"
@@ -55,7 +54,7 @@ defineShortcuts({
       ref="searchEl"
       v-model="search"
       type="text"
-      class="p-3 px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-none focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
+      class="p-3 px-16 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
       placeholder="Search library by name or filters..."
       @update:model-value="handleSearch"
     >
@@ -63,7 +62,7 @@ defineShortcuts({
       <UButton
         v-if="search.length"
         variant="ghost"
-        color="white"
+        color="neutral"
         icon="i-heroicons-x-mark"
         @click="clearSearch"
       />
@@ -71,8 +70,8 @@ defineShortcuts({
         v-else
         class="flex items-center gap-0.5"
       >
-        <UKbd>{{ metaSymbol }}</UKbd>
-        <UKbd>K</UKbd>
+        <UKbd value="meta" />
+        <UKbd value="K" />
       </div>
     </div>
   </div>

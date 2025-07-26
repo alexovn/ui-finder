@@ -10,8 +10,10 @@ useSeoMeta({
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <UApp>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </UApp>
   </div>
 </template>

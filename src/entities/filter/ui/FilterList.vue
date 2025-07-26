@@ -48,24 +48,24 @@ const filterSections = [
   {
     label: 'Categories',
     slot: 'categories',
-    defaultOpen: true,
   },
   {
     label: 'Frameworks',
     slot: 'frameworks',
-    defaultOpen: true,
   },
   {
     label: 'Features',
     slot: 'features',
-    defaultOpen: true,
   },
   {
     label: 'Components',
     slot: 'components',
-    defaultOpen: true,
   },
 ]
+
+const openedFilters = computed(() => {
+  return filterSections.map((_, index) => index.toString())
+})
 
 const categories = computed(() => {
   if (!filters.value || 'error' in filters.value.categories)
@@ -98,89 +98,72 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
 </script>
 
 <template>
-  <div>
-    <UAccordion
-      :items="filterSections"
-      multiple
-      :ui="{
-        wrapper: 'gap-1',
-        default: {
-          class: 'bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
-        },
-      }"
-    >
-      <template #categories>
-        <ul class="flex flex-col gap-1">
-          <li
-            v-for="item in categories"
-            :key="item.label"
-          >
-            <FilterItem
-              v-model="filtersStore.state.categories"
-              :item
-              @update:model-value="handleUpdateFilter('categories', $event)"
-            />
-          </li>
-        </ul>
-      </template>
-      <template #frameworks>
-        <ul class="flex flex-col gap-1">
-          <li
-            v-for="item in frameworks"
-            :key="item.label"
-          >
-            <FilterItem
-              v-model="filtersStore.state.frameworks"
-              :item
-              @update:model-value="handleUpdateFilter('frameworks', $event)"
-            />
-          </li>
-        </ul>
-      </template>
-      <template #features>
-        <ul class="flex flex-col gap-1">
-          <li
-            v-for="item in features"
-            :key="item.label"
-          >
-            <FilterItem
-              v-model="filtersStore.state.features"
-              :item
-              @update:model-value="handleUpdateFilter('features', $event)"
-            />
-          </li>
-        </ul>
-      </template>
-      <template #components>
-        <ul class="flex flex-col gap-1">
-          <li
-            v-for="item in components"
-            :key="item.label"
-          >
-            <FilterItem
-              v-model="filtersStore.state.components"
-              :item
-              @update:model-value="handleUpdateFilter('components', $event)"
-            />
-          </li>
-        </ul>
-      </template>
-    </UAccordion>
-
-    <div class="mt-5">
-      <UButton
-        v-if="filtersStore.areFiltersActive"
-        :ui="{
-          base: 'w-full justify-center',
-          rounded: 'rounded-md',
-        }"
-        icon="i-heroicons-trash"
-        trailing
-        color="gray"
-        variant="solid"
-        label="Clear filters"
-        @click="filtersStore.clearFilters"
-      />
-    </div>
-  </div>
+  <UAccordion
+    type="multiple"
+    :items="filterSections"
+    :default-value="openedFilters"
+    :unmount-on-hide="false"
+    :ui="{
+      item: 'border-0',
+      trigger: 'px-2.5 py-1.5 rounded-md text-md cursor-pointer bg-transparent hover:bg-neutral-200/75 text-dark hover:text-dark dark:bg-transparent dark:hover:bg-neutral-700/40 dark:text-white dark:hover:text-white',
+      content: 'text-sm & [&>ul]:py-2.5',
+    }"
+  >
+    <template #categories>
+      <ul class="flex flex-col gap-1">
+        <li
+          v-for="item in categories"
+          :key="item.label"
+        >
+          <FilterItem
+            v-model="filtersStore.state.categories"
+            :item
+            @update:model-value="handleUpdateFilter('categories', $event)"
+          />
+        </li>
+      </ul>
+    </template>
+    <template #frameworks>
+      <ul class="flex flex-col gap-1">
+        <li
+          v-for="item in frameworks"
+          :key="item.label"
+        >
+          <FilterItem
+            v-model="filtersStore.state.frameworks"
+            :item
+            @update:model-value="handleUpdateFilter('frameworks', $event)"
+          />
+        </li>
+      </ul>
+    </template>
+    <template #features>
+      <ul class="flex flex-col gap-1">
+        <li
+          v-for="item in features"
+          :key="item.label"
+        >
+          <FilterItem
+            v-model="filtersStore.state.features"
+            :item
+            @update:model-value="handleUpdateFilter('features', $event)"
+          />
+        </li>
+      </ul>
+    </template>
+    <template #components>
+      <ul class="flex flex-col gap-1">
+        <li
+          v-for="item in components"
+          :key="item.label"
+        >
+          <FilterItem
+            v-model="filtersStore.state.components"
+            :item
+            @update:model-value="handleUpdateFilter('components', $event)"
+          />
+        </li>
+      </ul>
+    </template>
+  </UAccordion>
 </template>

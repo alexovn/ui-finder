@@ -52,7 +52,7 @@ function onPageChange(page: number) {
     },
   })
 }
-const perPage = ref(route.query.perPage || '10')
+const perPage = ref(route.query.perPage as string || '10')
 const perPageList = [
   {
     label: '10',
@@ -177,13 +177,30 @@ watch(() => route.query, (newVal) => {
 
 <template>
   <div class="flex grow">
-    <aside class="hidden fixed z-50 w-[--aside-left-width] h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto overflow-x-hidden lg:px-3.5 lg:py-5 lg:block lg:top-[--header-height] shrink-0">
-      <FilterList @on-update-filter="handleUpdateFilter" />
+    <aside class="hidden fixed z-50 w-(--aside-left-width) h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 lg:block lg:top-(--header-height) shrink-0">
+      <div class="px-3.5 py-3 z-50 sticky top-0 flex items-center justify-between bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+        Filters
+
+        <UButton
+          v-if="filtersStore.areFiltersActive"
+          icon="i-heroicons-trash"
+          trailing
+          size="xs"
+          color="neutral"
+          variant="solid"
+          label="Clear"
+          @click="filtersStore.clearFilters"
+        />
+      </div>
+
+      <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden">
+        <FilterList @on-update-filter="handleUpdateFilter" />
+      </div>
     </aside>
-    <div class="lg:ml-[--aside-left-width] grow">
-      <div class="sticky top-[--header-height] min-h-px z-50">
+    <div class="lg:ml-(--aside-left-width) grow">
+      <div class="sticky top-(--header-height) min-h-px z-50">
         <LibrarySearch @on-search="handleSearch" />
-        <div class="w-full h-px absolute bottom-0 z-[100]">
+        <div class="w-full h-px absolute bottom-0 z-100">
           <UProgress
             v-if="status === 'pending'"
             size="2xs"
@@ -192,7 +209,7 @@ watch(() => route.query, (newVal) => {
         </div>
       </div>
 
-      <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height)))] lg:px-6">
+      <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height))-1px)] lg:px-6">
         <div
           v-if="data?.data.length"
           class="flex items-end justify-between gap-2 md:items-start"
@@ -203,14 +220,14 @@ watch(() => route.query, (newVal) => {
             </div>
             <USelect
               v-model="orderBy"
-              :options="orderByList"
+              :items="orderByList"
               @update:model-value="onUpdateOrderBy"
             />
           </div>
           <UButton
             :label="orderDirLabel"
             :icon="orderDirIcon"
-            color="gray"
+            color="neutral"
             @click="changeOrderDir"
           />
         </div>
@@ -240,7 +257,7 @@ watch(() => route.query, (newVal) => {
 
       <div
         v-if="data?.data.length"
-        class="px-4 py-3 flex items-start justify-between gap-3 sticky bottom-0 backdrop-blur border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
+        class="px-4 py-3 flex items-start justify-between gap-3 sticky bottom-0 backdrop-blur-sm border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
       >
         <div class="flex items-center gap-2">
           <div class="hidden md:block">
@@ -248,7 +265,7 @@ watch(() => route.query, (newVal) => {
           </div>
           <USelect
             v-model="perPage"
-            :options="perPageList"
+            :items="perPageList"
             @update:model-value="onPerPageChange"
           />
         </div>
@@ -256,7 +273,9 @@ watch(() => route.query, (newVal) => {
           v-model="page"
           :page-count="Number(perPage)"
           :total="Number(data?.meta.pagination.total)"
-          @update:model-value="onPageChange"
+          show-edges
+          active-color="neutral"
+          @update:page="onPageChange"
         />
       </div>
     </div>

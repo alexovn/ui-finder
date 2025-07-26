@@ -104,7 +104,7 @@ const badges = computed(() => {
           :icon="item.icon || undefined"
           variant="outline"
           :ui="{
-            rounded: 'rounded-full',
+            base: 'rounded-full',
           }"
         />
       </div>
@@ -117,7 +117,7 @@ const badges = computed(() => {
       <UButton
         v-if="githubStarsCount"
         variant="ghost"
-        color="white"
+        color="neutral"
         leading-icon="i-octicon:star-24"
         :label="`${githubStarsCount}`"
         class="group"
@@ -136,7 +136,7 @@ const badges = computed(() => {
       <UButton
         v-if="npmDownloadsCount"
         variant="ghost"
-        color="white"
+        color="neutral"
         leading-icon="i-lucide:download"
         :label="`${npmDownloadsCount}`"
         class="group"

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { FilterList } from '@/entities/filter'
+import { FilterList, useFiltersStore } from '@/entities/filter'
+
+const filtersStore = useFiltersStore()
 
 const colorMode = useColorMode()
 const isDark = computed({
@@ -21,15 +23,20 @@ function openFilterPanel() {
 function closeFilterPanel() {
   isFilterPanelOpened.value = false
 }
+
+function clearFilters() {
+  filtersStore.clearFilters()
+  closeFilterPanel()
+}
 </script>
 
 <template>
-  <header class="z-50 px-4 lg:px-6 min-h-[--header-height] sticky top-0 flex justify-between items-center gap-5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur border-b border-neutral-200 dark:border-neutral-800">
+  <header class="z-50 px-4 lg:px-6 min-h-(--header-height) sticky top-0 flex justify-between items-center gap-5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
     <div class="flex items-center gap-4">
       <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-2 after:translate-x-1/2">
         <UButton
           icon="i-heroicons:adjustments-horizontal"
-          color="white"
+          color="neutral"
           variant="outline"
           aria-label="Open filter panel"
           @click="openFilterPanel"
@@ -37,28 +44,47 @@ function closeFilterPanel() {
       </div>
 
       <USlideover
-        v-model="isFilterPanelOpened"
+        v-model:open="isFilterPanelOpened"
         side="left"
         :ui="{
-          padding: 'overflow-y-auto',
-          overlay: {
-            background: 'bg-neutral-200/75 dark:bg-neutral-800/75',
-          },
-          background: 'dark:bg-neutral-900',
+          overlay: 'bg-neutral-200/75 dark:bg-neutral-800/75',
+          content: 'dark:bg-neutral-900',
         }"
       >
-        <div class="flex flex-col gap-2">
-          <div class="px-4 py-2 flex justify-end sticky top-0 z-10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur border-b border-neutral-200 dark:border-neutral-800">
-            <UButton
-              variant="ghost"
-              color="white"
-              icon="i-heroicons-x-mark"
-              aria-label="Close panel"
-              @click="closeFilterPanel"
-            />
+        <template #content>
+          <div class="flex flex-col h-full">
+            <div class="px-4 py-2 min-h-(--header-height) flex justify-between items-center sticky top-0 z-10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3">
+                <div>
+                  Filters
+                </div>
+
+                <UButton
+                  v-if="filtersStore.areFiltersActive"
+                  icon="i-heroicons-trash"
+                  trailing
+                  size="xs"
+                  color="neutral"
+                  variant="solid"
+                  label="Clear"
+                  @click="clearFilters"
+                />
+              </div>
+
+              <UButton
+                variant="ghost"
+                color="neutral"
+                icon="i-heroicons-x-mark"
+                aria-label="Close panel"
+                @click="closeFilterPanel"
+              />
+            </div>
+
+            <div class="p-4 h-full overflow-y-auto overflow-x-hidden">
+              <FilterList />
+            </div>
           </div>
-          <FilterList class="p-4" />
-        </div>
+        </template>
       </USlideover>
 
       <NuxtLink
@@ -83,7 +109,7 @@ function closeFilterPanel() {
         target="_blank"
         icon="i-mdi:github"
         variant="ghost"
-        color="white"
+        color="neutral"
         external
       />
 
@@ -93,7 +119,7 @@ function closeFilterPanel() {
           :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
           variant="ghost"
           aria-label="Toggle color mode"
-          color="white"
+          color="neutral"
           @click="toggleColorMode"
         />
         <template #fallback>
