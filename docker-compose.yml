@@ -39,6 +39,7 @@ services:
     env_file:
       - .env
     environment:
+      - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE}
       - VIRTUAL_HOST=${HOST}
       - LETSENCRYPT_HOST=${HOST}
       - LETSENCRYPT_EMAIL=${EMAIL}
