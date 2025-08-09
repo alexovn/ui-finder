@@ -35,13 +35,13 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - "${PORT}"
+      - "80"
     env_file:
       - .env
     environment:
       - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE}
-      - VIRTUAL_HOST=${HOST}
-      - LETSENCRYPT_HOST=${HOST}
+      - VIRTUAL_HOST=${HOST_NAME}
+      - LETSENCRYPT_HOST=${HOST_NAME}
       - LETSENCRYPT_EMAIL=${EMAIL}
     pre_stop:
       - command: touch /tmp/drain && sleep 10
