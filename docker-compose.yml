@@ -54,3 +54,8 @@ services:
 
 networks:
   net:
+
+volumes:
+  certs:
+  html:
+  acme:
