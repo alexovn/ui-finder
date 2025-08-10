@@ -11,4 +11,4 @@ stop-infra:
 	@docker compose stop nginx-proxy nginx-proxy-acme
 
 docker-rollout:
-	@docker-rollout app
+	@docker rollout app
