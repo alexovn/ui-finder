@@ -7,9 +7,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - certs:/etc/nginx/certs:ro
       - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - net
 
@@ -20,11 +20,12 @@ services:
       - .env
     environment:
       - DEFAULT_EMAIL=${EMAIL}
+    volumes_from:
+      - nginx-proxy
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       - nginx-proxy
     networks:
@@ -56,6 +57,6 @@ networks:
   net:
 
 volumes:
-  certs:
   html:
+  certs:
   acme:
