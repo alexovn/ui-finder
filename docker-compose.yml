@@ -44,8 +44,8 @@ services:
       - HOST=0.0.0.0
       - PORT=80
       - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE}
-      - VIRTUAL_HOST=${HOST_NAME}
-      - LETSENCRYPT_HOST=${HOST_NAME}
+      - VIRTUAL_HOST=${HOST_NAMES}
+      - LETSENCRYPT_HOST=${HOST_NAMES}
       - LETSENCRYPT_EMAIL=${EMAIL}
     pre_stop:
       - command: touch /tmp/drain && sleep 10
@@ -55,6 +55,7 @@ services:
       retries: 1
     depends_on:
       - nginx-proxy
+      - nginx-proxy-acme
     networks:
       - net
 
