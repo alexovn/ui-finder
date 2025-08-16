@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FilterList, useFiltersStore } from '@/entities/filter'
+import { FilterListMobile, useFiltersStore } from '@/entities/filter'
 
 const filtersStore = useFiltersStore()
 
@@ -24,8 +24,11 @@ function closeFilterPanel() {
   isFilterPanelOpened.value = false
 }
 
-function clearFilters() {
-  filtersStore.clearFilters()
+function handleUpdateFilters() {
+  closeFilterPanel()
+}
+
+function handleRemoveFilters() {
   closeFilterPanel()
 }
 </script>
@@ -60,21 +63,9 @@ function clearFilters() {
         <template #content>
           <div class="flex flex-col h-full">
             <div class="px-4 py-2 min-h-(--header-height) flex justify-between items-center sticky top-0 z-10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-              <div class="flex items-center gap-3">
-                <div>
-                  Filters
-                </div>
-
-                <UButton
-                  v-if="filtersStore.areFiltersActive"
-                  icon="i-heroicons-trash"
-                  trailing
-                  color="neutral"
-                  variant="solid"
-                  label="Clear"
-                  @click="clearFilters"
-                />
-              </div>
+              <span>
+                Filters
+              </span>
 
               <UButton
                 variant="ghost"
@@ -85,8 +76,11 @@ function clearFilters() {
               />
             </div>
 
-            <div class="p-4 h-full overflow-y-auto overflow-x-hidden">
-              <FilterList />
+            <div class="p-4 pb-5 h-full overflow-y-auto overflow-x-hidden">
+              <FilterListMobile
+                @on-update-filters="handleUpdateFilters"
+                @on-remove-filters="handleRemoveFilters"
+              />
             </div>
           </div>
         </template>

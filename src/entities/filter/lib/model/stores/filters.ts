@@ -20,13 +20,13 @@ export const useFiltersStore = defineStore('filters', () => {
   onMounted(() => {
     const query = parseQuery()
 
-    state.categories = extractDataFromQuery('categories', query)
-    state.frameworks = extractDataFromQuery('frameworks', query)
-    state.features = extractDataFromQuery('features', query)
-    state.components = extractDataFromQuery('components', query)
+    state.categories = extractDataFromQuery(FilterEnum.CATEGORIES, query)
+    state.frameworks = extractDataFromQuery(FilterEnum.FRAMEWORKS, query)
+    state.features = extractDataFromQuery(FilterEnum.FEATURES, query)
+    state.components = extractDataFromQuery(FilterEnum.COMPONENTS, query)
   })
 
-  function handleUpdateFilter(filterType: FilterType, filters: string | string[]) {
+  function updateFilter(filterType: FilterType, filters: string | string[]) {
     const filterQuery = queryString.stringify({ [filterType]: filters }, { arrayFormat: 'comma' })
     const parsedFilterQuery = queryString.parse(filterQuery)
 
@@ -37,6 +37,44 @@ export const useFiltersStore = defineStore('filters', () => {
         [filterType]: parsedFilterQuery[filterType],
       },
     })
+  }
+
+  function updateFilters() {
+    const query: Record<FilterEnum, string[]> = {} as Record<FilterEnum, string[]>
+
+    (Object.keys(state) as Array<keyof typeof state>).forEach((filter) => {
+      const filterQuery = queryString.stringify({ [filter]: state[filter] }, { arrayFormat: 'comma' })
+      const parsedFilterQuery = queryString.parse(filterQuery)
+
+      // @ts-expect-error Type 'undefined' is not assignable to type 'string'
+      query[filter] = parsedFilterQuery[filter]
+    })
+
+    router.push({
+      query: {
+        ...route.query,
+        // @ts-expect-error 'page' is specified more than once, so this usage will be overwritten.
+        page: undefined,
+        ...query,
+      },
+    })
+  }
+
+  function updateFilterState(filterType: FilterEnum, filters: string[]) {
+    switch (filterType) {
+      case FilterEnum.CATEGORIES:
+        state.categories = filters
+        break
+      case FilterEnum.FRAMEWORKS:
+        state.frameworks = filters
+        break
+      case FilterEnum.FEATURES:
+        state.features = filters
+        break
+      case FilterEnum.COMPONENTS:
+        state.components = filters
+        break
+    }
   }
 
   const areFiltersActive = ref(false)
@@ -63,7 +101,9 @@ export const useFiltersStore = defineStore('filters', () => {
 
   return {
     state,
-    handleUpdateFilter,
+    updateFilterState,
+    updateFilter,
+    updateFilters,
     areFiltersActive,
     areFiltersExist,
     clearFilters,

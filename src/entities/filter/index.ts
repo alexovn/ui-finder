@@ -13,6 +13,7 @@ import { useFiltersStore } from './lib/model/stores/filters'
 // UI
 import FilterItem from './ui/FilterItem.vue'
 import FilterList from './ui/FilterList.vue'
+import FilterListMobile from './ui/FilterListMobile.vue'
 
 // UTILS
 import mapFilters from './lib/utils/mapFilters'
@@ -28,6 +29,7 @@ export {
   // UI
   FilterItem,
   FilterList,
+  FilterListMobile,
   // UTILS
   mapFilters,
   // API

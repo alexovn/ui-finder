@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FilterType } from '../lib/model/interfaces/filter.interface'
 import { apiFilter } from '../api/apiFilter'
+import { FilterEnum } from '../lib/enums/filter.enum'
+import { filterSections } from '../lib/model/constants/filterSections'
 import { useFiltersStore } from '../lib/model/stores/filters'
 import mapFilters from '../lib/utils/mapFilters'
 import FilterItem from './FilterItem.vue'
@@ -44,25 +46,6 @@ const { data: filters } = useAsyncData('filters', async () => {
   }
 })
 
-const filterSections = [
-  {
-    label: 'Categories',
-    slot: 'categories',
-  },
-  {
-    label: 'Frameworks',
-    slot: 'frameworks',
-  },
-  {
-    label: 'Features',
-    slot: 'features',
-  },
-  {
-    label: 'Components',
-    slot: 'components',
-  },
-]
-
 const openedFilters = computed(() => {
   return filterSections.map((_, index) => index.toString())
 })
@@ -93,7 +76,7 @@ const components = computed(() => {
 
 function handleUpdateFilter(filterType: FilterType, filters: string | string[]) {
   emit('onUpdateFilter')
-  filtersStore.handleUpdateFilter(filterType, filters)
+  filtersStore.updateFilter(filterType, filters)
 }
 </script>
 
@@ -118,7 +101,7 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
           <FilterItem
             v-model="filtersStore.state.categories"
             :item
-            @update:model-value="handleUpdateFilter('categories', $event)"
+            @update:model-value="handleUpdateFilter(FilterEnum.CATEGORIES, $event)"
           />
         </li>
       </ul>
@@ -132,7 +115,7 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
           <FilterItem
             v-model="filtersStore.state.frameworks"
             :item
-            @update:model-value="handleUpdateFilter('frameworks', $event)"
+            @update:model-value="handleUpdateFilter(FilterEnum.FRAMEWORKS, $event)"
           />
         </li>
       </ul>
@@ -146,7 +129,7 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
           <FilterItem
             v-model="filtersStore.state.features"
             :item
-            @update:model-value="handleUpdateFilter('features', $event)"
+            @update:model-value="handleUpdateFilter(FilterEnum.FEATURES, $event)"
           />
         </li>
       </ul>
@@ -160,7 +143,7 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
           <FilterItem
             v-model="filtersStore.state.components"
             :item
-            @update:model-value="handleUpdateFilter('components', $event)"
+            @update:model-value="handleUpdateFilter(FilterEnum.COMPONENTS, $event)"
           />
         </li>
       </ul>
