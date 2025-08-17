@@ -180,17 +180,6 @@ watch(() => route.query, (newVal) => {
     <aside class="hidden fixed z-50 w-(--aside-left-width) h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 lg:block lg:top-(--header-height) shrink-0">
       <div class="px-3.5 py-3 z-50 sticky top-0 flex items-center justify-between bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
         Filters
-
-        <UButton
-          v-if="filtersStore.areFiltersActive"
-          icon="i-heroicons-trash"
-          trailing
-          size="xs"
-          color="neutral"
-          variant="solid"
-          label="Clear"
-          @click="filtersStore.clearFilters"
-        />
       </div>
 
       <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden">
