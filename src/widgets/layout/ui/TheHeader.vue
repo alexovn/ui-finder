@@ -61,9 +61,13 @@ function handleRemoveFilters() {
         <template #content>
           <div class="flex flex-col h-full">
             <div class="px-4 py-2 min-h-(--header-height) flex justify-between items-center sticky top-0 z-10 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-              <span>
-                Filters
-              </span>
+              <div class="flex items-center gap-2.5">
+                <div class="text-lg">
+                  Filters
+                </div>
+
+                <UIcon name="i-heroicons:adjustments-horizontal" />
+              </div>
 
               <UButton
                 variant="ghost"
