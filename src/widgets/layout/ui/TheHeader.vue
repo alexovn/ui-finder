@@ -35,22 +35,20 @@ function handleRemoveFilters() {
 
 <template>
   <header class="z-50 px-4 lg:px-6 min-h-(--header-height) sticky top-0 flex justify-between items-center gap-5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-    <div class="flex items-center gap-6">
-      <div class="lg:hidden relative after:w-0.5 after:h-6 after:rounded-lg after:bg-neutral-500 after:absolute after:block after:top-1 after:-right-3 after:translate-x-1/2">
-        <UChip
-          color="error"
-          size="lg"
-          :show="filtersStore.areFiltersActive"
-        >
-          <UButton
-            icon="i-heroicons:adjustments-horizontal"
-            color="neutral"
-            variant="outline"
-            aria-label="Open filter panel"
-            @click="openFilterPanel"
-          />
-        </UChip>
-      </div>
+    <div class="lg:hidden flex items-center gap-6">
+      <UChip
+        color="error"
+        size="lg"
+        :show="filtersStore.areFiltersActive"
+      >
+        <UButton
+          icon="i-heroicons:adjustments-horizontal"
+          color="neutral"
+          variant="outline"
+          aria-label="Open filter panel"
+          @click="openFilterPanel"
+        />
+      </UChip>
 
       <USlideover
         v-model:open="isFilterPanelOpened"
@@ -85,22 +83,22 @@ function handleRemoveFilters() {
           </div>
         </template>
       </USlideover>
-
-      <NuxtLink
-        class="flex items-center gap-2"
-        to="/"
-      >
-        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
-          <UIcon
-            class="w-6 h-6 bg-white dark:bg-black"
-            name="i-bxs:component"
-          />
-        </div>
-        <div class="font-medium md:text-lg lg:text-xl">
-          UI Finder
-        </div>
-      </NuxtLink>
     </div>
+
+    <NuxtLink
+      class="mr-8 ml-[4.5rem] lg:mx-0 flex items-center gap-2"
+      to="/"
+    >
+      <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
+        <UIcon
+          class="w-6 h-6 bg-white dark:bg-black"
+          name="i-bxs:component"
+        />
+      </div>
+      <div class="hidden lg:block font-medium lg:text-xl">
+        UI Finder
+      </div>
+    </NuxtLink>
 
     <div class="flex items-center gap-2">
       <UButton
