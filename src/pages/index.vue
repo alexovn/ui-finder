@@ -43,7 +43,11 @@ const { data, status } = useAsyncData('libraries', async () => {
   watch: [route],
 })
 
-const page = ref(route.query.page ? Number(route.query.page) : 1)
+const DEFAULT_PAGE = 1
+const page = ref(route.query.page ? Number(route.query.page) : DEFAULT_PAGE)
+function setDefaultPage() {
+  page.value = DEFAULT_PAGE
+}
 function onPageChange(page: number) {
   router.push({
     query: {
@@ -52,7 +56,9 @@ function onPageChange(page: number) {
     },
   })
 }
-const perPage = ref(route.query.perPage as string || '50')
+
+const DEFAULT_PER_PAGE = '50'
+const perPage = ref(route.query.perPage as string || DEFAULT_PER_PAGE)
 const perPageList = [
   {
     label: '50',
@@ -72,16 +78,17 @@ function onPerPageChange(perPage: string) {
   router.push({
     query: {
       ...route.query,
-      page: route.query.page ? 1 : undefined,
+      page: route.query.page ? DEFAULT_PAGE : undefined,
       perPage,
     },
   })
 }
-function setDefaultPage() {
-  page.value = 1
+function setDefaultPerPage() {
+  perPage.value = DEFAULT_PER_PAGE
 }
 
-const orderBy = ref(route.query.orderBy as string || 'createdAt')
+const DEFAULT_ORDER_BY = 'createdAt'
+const orderBy = ref(route.query.orderBy as string || DEFAULT_ORDER_BY)
 const orderByList = [
   {
     label: 'Created at',
@@ -106,14 +113,18 @@ function onUpdateOrderBy(value: string) {
     },
   })
 }
+function setDefaultOrderBy() {
+  orderBy.value = DEFAULT_ORDER_BY
+}
 
-const orderDir = ref(route.query.orderDir as string | undefined)
+const DEFAULT_ORDER_DIR = undefined
+const orderDir = ref(route.query.orderDir as string | undefined || DEFAULT_ORDER_DIR)
 function changeOrderDir() {
   if (orderDir.value === OrderDirEnum.ASC) {
     orderDir.value = OrderDirEnum.DESC
   }
   else if (orderDir.value === OrderDirEnum.DESC) {
-    orderDir.value = undefined
+    orderDir.value = DEFAULT_ORDER_DIR
   }
   else {
     orderDir.value = OrderDirEnum.ASC
@@ -146,7 +157,11 @@ const orderDirLabel = computed(() => {
   }
   return 'Sort'
 })
+function setDefaultOrderDir() {
+  orderDir.value = DEFAULT_ORDER_DIR
+}
 
+const searchComponent = useTemplateRef('searchComponent')
 function handleSearch() {
   setDefaultPage()
 }
@@ -154,6 +169,17 @@ function handleSearch() {
 function handleUpdateFilter() {
   setDefaultPage()
 }
+
+watch(() => route.query, (newVal) => {
+  if (!Object.keys(newVal).length) {
+    filtersStore.clearFilterState()
+    searchComponent.value?.clearSearchValue()
+    setDefaultPage()
+    setDefaultPerPage()
+    setDefaultOrderBy()
+    setDefaultOrderDir()
+  }
+})
 
 watch(() => route.query, (newVal) => {
   window && window.scrollTo({
@@ -188,7 +214,10 @@ watch(() => route.query, (newVal) => {
     </aside>
     <div class="lg:ml-(--aside-left-width) grow">
       <div class="sticky top-(--header-height) min-h-px z-50">
-        <LibrarySearch @on-search="handleSearch" />
+        <LibrarySearch
+          ref="searchComponent"
+          @on-search="handleSearch"
+        />
         <div class="w-full h-px absolute bottom-0 z-100">
           <UProgress
             v-if="status === 'pending'"

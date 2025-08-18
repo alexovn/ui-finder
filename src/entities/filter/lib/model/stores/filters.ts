@@ -82,11 +82,15 @@ export const useFiltersStore = defineStore('filters', () => {
     return filters.some(filter => filter in query)
   }
 
-  function clearFilters() {
+  function clearFilterState() {
     state.categories = []
     state.frameworks = []
     state.features = []
     state.components = []
+  }
+
+  function clearFilters() {
+    clearFilterState()
 
     router.push({
       query: {
@@ -106,6 +110,7 @@ export const useFiltersStore = defineStore('filters', () => {
     updateFilters,
     areFiltersActive,
     areFiltersExist,
+    clearFilterState,
     clearFilters,
   }
 })

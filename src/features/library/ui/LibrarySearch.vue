@@ -22,8 +22,12 @@ const handleSearch = useDebounceFn(() => {
   })
 }, 300)
 
-function clearSearch() {
+function clearSearchValue() {
   search.value = ''
+}
+
+function clearSearch() {
+  clearSearchValue()
 
   router.push({
     query: {
@@ -39,6 +43,10 @@ defineShortcuts({
       searchEl.value?.focus()
     },
   },
+})
+
+defineExpose({
+  clearSearchValue,
 })
 </script>
 
