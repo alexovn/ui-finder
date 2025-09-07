@@ -25,6 +25,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd apps/ui-finder
           git pull origin main
-          docker compose build app
-          docker rollout app
+          docker compose --env-file .env.prod build app
+          docker rollout --env-file .env.prod app
         EOF
