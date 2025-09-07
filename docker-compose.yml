@@ -41,7 +41,7 @@ services:
     env_file:
       - .env.prod
     environment:
-      - HOST=${HOST}
+      - HOST=${APP_HOST}
       - PORT=${APP_PORT}
       - NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE}
       - VIRTUAL_HOST=${HOST_NAMES}
