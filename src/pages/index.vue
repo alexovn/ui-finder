@@ -212,7 +212,7 @@ watch(() => route.query, (newVal) => {
         <UIcon name="i-heroicons:adjustments-horizontal" />
       </div>
 
-      <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden">
+      <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden overscroll-none">
         <FilterList @on-update-filter="handleUpdateFilter" />
       </div>
     </aside>
