@@ -49,12 +49,12 @@ services:
       - LETSENCRYPT_HOST=${HOST_NAMES}
       - LETSENCRYPT_EMAIL=${EMAIL}
     pre_stop:
-      - command: touch /tmp/drain && sleep 30
+      - command: touch /tmp/drain && sleep 60
     healthcheck:
-      test: ["CMD-SHELL", "test ! -f /tmp/drain && wget -q -O - http://localhost:3000/healthcheck || exit 1"]
+      test: ["CMD-SHELL", "test ! -f /tmp/drain && curl -fs - http://localhost:3000/healthcheck || exit 1"]
       interval: 5s
       retries: 3
-      start_period: 5s
+      start_period: 30s
     networks:
       - net
 
