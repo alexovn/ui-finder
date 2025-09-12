@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, useEventListener } from '@vueuse/core'
 
 const emit = defineEmits<{
   onSearch: []
@@ -10,6 +10,7 @@ const router = useRouter()
 
 const searchEl = useTemplateRef('searchEl')
 const search = ref(route.query.search || '')
+const isSearchFocused = ref(false)
 
 const handleSearch = useDebounceFn(() => {
   emit('onSearch')
@@ -45,6 +46,14 @@ defineShortcuts({
   },
 })
 
+onMounted(() => {
+  useEventListener(document, 'keydown', (e) => {
+    if (isSearchFocused.value && e.key === 'Escape') {
+      searchEl.value?.blur()
+    }
+  })
+})
+
 defineExpose({
   clearSearchValue,
 })
@@ -63,8 +72,10 @@ defineExpose({
       ref="searchEl"
       v-model="search"
       type="text"
-      class="px-12 lg:px-14 lg:pr-20 py-3 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:ring-1 focus:ring-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:ring-neutral-700"
+      class="px-12 lg:px-14 lg:pr-20 py-3 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:inset-ring-1 focus:inset-ring-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:inset-ring-neutral-700"
       placeholder="Search library by name or filters..."
+      @focus="isSearchFocused = true"
+      @blur="isSearchFocused = false"
       @update:model-value="handleSearch"
     >
 
