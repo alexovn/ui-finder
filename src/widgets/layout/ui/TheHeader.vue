@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { FilterListMobile, useFiltersStore } from '@/entities/filter'
+import { apiLibrary } from '@/entities/library'
+
+const { getLibraryListTotalCounter } = apiLibrary()
+
+const { data } = await useAsyncData('libraries-total', async () => {
+  const res = await getLibraryListTotalCounter()
+
+  if ('error' in res)
+    return null
+
+  return res
+})
 
 const filtersStore = useFiltersStore()
 
@@ -91,20 +103,32 @@ function handleRemoveFilters() {
       </USlideover>
     </div>
 
-    <NuxtLink
-      class="mr-8 ml-[4.5rem] lg:mx-0 flex items-center gap-2"
-      to="/"
-    >
-      <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
-        <UIcon
-          class="w-6 h-6 bg-white dark:bg-black"
-          name="i-bxs:component"
-        />
-      </div>
-      <div class="hidden lg:block font-medium lg:text-xl">
-        UI Finder
-      </div>
-    </NuxtLink>
+    <div class="flex items-center gap-4">
+      <NuxtLink
+        class="mr-8 ml-[4.5rem] lg:mx-0 flex items-center gap-2"
+        to="/"
+      >
+        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
+          <UIcon
+            class="w-6 h-6 bg-white dark:bg-black"
+            name="i-bxs:component"
+          />
+        </div>
+        <div class="hidden lg:block font-medium lg:text-xl">
+          UI Finder
+        </div>
+      </NuxtLink>
+
+      <UBadge
+        v-if="data?.data"
+        class="hidden lg:block font-bold rounded-full"
+        color="neutral"
+        variant="subtle"
+        size="lg"
+      >
+        Total libraries: {{ data.data.total }}
+      </UBadge>
+    </div>
 
     <div class="flex items-center gap-2">
       <UButton

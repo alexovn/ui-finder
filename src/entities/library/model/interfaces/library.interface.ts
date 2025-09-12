@@ -45,3 +45,9 @@ export interface LibraryListRes {
     }
   }
 }
+
+export interface LibraryListTotalCounterRes {
+  data: {
+    total: number
+  }
+}

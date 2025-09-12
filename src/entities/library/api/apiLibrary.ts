@@ -1,4 +1,4 @@
-import type { LibraryListPayload, LibraryListRes } from '../model/interfaces/library.interface'
+import type { LibraryListPayload, LibraryListRes, LibraryListTotalCounterRes } from '../model/interfaces/library.interface'
 import type { ApiError } from '@/shared/model/interfaces/error.interface'
 
 export default function apiLibrary() {
@@ -10,7 +10,12 @@ export default function apiLibrary() {
     })
   }
 
+  async function getLibraryListTotalCounter(): Promise<LibraryListTotalCounterRes | ApiError> {
+    return await $apiGet<LibraryListTotalCounterRes>('/libraries/total')
+  }
+
   return {
     getLibraryList,
+    getLibraryListTotalCounter,
   }
 }
