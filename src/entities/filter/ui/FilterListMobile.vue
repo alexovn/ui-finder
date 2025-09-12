@@ -156,13 +156,14 @@ function removeFilters() {
       </template>
     </UAccordion>
 
-    <div class="sticky bottom-0 w-full flex flex-col gap-1 z-10">
+    <div class="sticky bottom-0 w-full flex flex-col gap-2 z-10">
       <UButton
         class="w-full"
         color="neutral"
         :ui="{
           base: 'justify-center',
         }"
+        size="xl"
         icon="i-heroicons-plus-circle-20-solid"
         trailing
         label="Apply filters"
@@ -172,11 +173,11 @@ function removeFilters() {
       <UButton
         v-if="filtersStore.areFiltersActive"
         class="w-full"
-        color="error"
         :ui="{
           base: 'justify-center',
         }"
         icon="i-heroicons-trash"
+        size="xl"
         trailing
         variant="solid"
         label="Clear filters"

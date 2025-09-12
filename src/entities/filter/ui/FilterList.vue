@@ -78,10 +78,6 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
   emit('onUpdateFilter')
   filtersStore.updateFilter(filterType, filters)
 }
-
-function removeFilters() {
-  filtersStore.clearFilters()
-}
 </script>
 
 <template>
@@ -154,21 +150,5 @@ function removeFilters() {
         </ul>
       </template>
     </UAccordion>
-
-    <div class="sticky bottom-0 w-full flex flex-col gap-1 z-10">
-      <UButton
-        v-if="filtersStore.areFiltersActive"
-        class="w-full"
-        color="error"
-        :ui="{
-          base: 'justify-center',
-        }"
-        icon="i-heroicons-trash"
-        trailing
-        variant="solid"
-        label="Clear filters"
-        @click="removeFilters"
-      />
-    </div>
   </div>
 </template>
