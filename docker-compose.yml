@@ -51,7 +51,7 @@ services:
     pre_stop:
       - command: touch /tmp/drain && sleep 60
     healthcheck:
-      test: ["CMD-SHELL", "test ! -f /tmp/drain && curl -fs - http://localhost:3000/healthcheck || exit 1"]
+      test: ["CMD-SHELL", "test ! -f /tmp/drain && curl -fs http://localhost:3000/healthcheck || exit 1"]
       interval: 10s
       timeout: 10s
       retries: 3
