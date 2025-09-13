@@ -8,6 +8,7 @@ RUN pnpm install --frozen-lockfile
 RUN pnpm build
 
 FROM node:22-alpine AS production
+RUN apk add --no-cache curl
 WORKDIR /app
 COPY --from=builder /app/.output /app/.output
 CMD ["node", "./.output/server/index.mjs"]
