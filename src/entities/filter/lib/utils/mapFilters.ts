@@ -1,4 +1,5 @@
-import type { Category, Component, Feature, Framework } from '../model/interfaces/filter.interface'
+import type { Category, Component, Feature, FilterType, Framework } from '../model/interfaces/filter.interface'
+import { FilterEnum } from '../enums/filter.enum'
 
 export default function mapFilters() {
   function mapFrameworks(frameworks: Framework[]) {
@@ -27,6 +28,7 @@ export default function mapFilters() {
         ...framework,
         label: framework.name,
         value: framework.value,
+        type: FilterEnum.FRAMEWORKS as FilterType,
         icon,
       }
     })
@@ -64,6 +66,7 @@ export default function mapFilters() {
         ...feature,
         label: feature.name,
         value: feature.value,
+        type: FilterEnum.FEATURES as FilterType,
         icon,
       }
     })
@@ -74,6 +77,7 @@ export default function mapFilters() {
       ...component,
       label: component.name,
       value: component.value,
+      type: FilterEnum.COMPONENTS as FilterType,
       icon: null,
     }))
   }
@@ -95,6 +99,7 @@ export default function mapFilters() {
         ...category,
         label: category.name,
         value: category.value,
+        type: FilterEnum.CATEGORIES as FilterType,
         icon,
       }
     })

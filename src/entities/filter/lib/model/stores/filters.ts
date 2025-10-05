@@ -60,7 +60,7 @@ export const useFiltersStore = defineStore('filters', () => {
     })
   }
 
-  function updateFilterState(filterType: FilterEnum, filters: string[]) {
+  function updateFilterState(filterType: FilterType, filters: string[]) {
     switch (filterType) {
       case FilterEnum.CATEGORIES:
         state.categories = filters

@@ -298,6 +298,7 @@ watch(() => route.query, (newVal) => {
               v-for="library in data.data"
               :key="library.name"
               :library
+              @on-update-filter="handleUpdateFilter"
             />
           </div>
         </div>

@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import type { Library } from '../model/interfaces/library.interface'
-import { mapFilters } from '@/entities/filter'
+import type { FilterType } from '@/entities/filter'
+import { mapFilters, useFiltersStore } from '@/entities/filter'
 import formatCount from '@/shared/lib/utils/formatCount'
 
 interface Filter {
   id: number
   name: string
   value: string
+  type: FilterType
   icon: string | null
 }
 
 const props = defineProps<{
   library: Library | null
 }>()
+
+const emit = defineEmits<{
+  onUpdateFilter: []
+}>()
+
+const filtersStore = useFiltersStore()
 
 const githubStarsCount = computed(() => {
   if (!props.library?.githubStars)
@@ -57,10 +65,15 @@ const badges = computed(() => {
     ...features,
   ]
 })
+
+function handleUpdateFilter(filterType: FilterType, filters: string | string[]) {
+  emit('onUpdateFilter')
+  filtersStore.updateFilter(filterType, filters)
+}
 </script>
 
 <template>
-  <div class="p-2.5 flex flex-col gap-3 min-h-56 border border-neutral-200 transition-colors hover:bg-neutral-200/25 dark:border-neutral-800 rounded-md dark:hover:bg-neutral-700/40 md:p-4">
+  <div class="p-2.5 flex flex-col gap-3 min-h-56 border border-neutral-200 transition-colors hover:bg-neutral-200/25 dark:border-neutral-800 rounded-md dark:hover:bg-neutral-700/20 md:p-4">
     <div class="px-2.5 flex items-start justify-between gap-2 flex-1 md:gap-8">
       <NuxtLink
         v-if="library?.link"
@@ -97,16 +110,27 @@ const badges = computed(() => {
       </NuxtLink>
 
       <div class="flex justify-end items-end content-start flex-wrap gap-1">
-        <UBadge
+        <label
           v-for="item in badges"
           :key="item.value"
-          :label="item.name"
-          :icon="item.icon || undefined"
-          variant="outline"
-          :ui="{
-            base: 'rounded-full',
-          }"
-        />
+          class="cursor-pointer"
+        >
+          <input
+            v-model="filtersStore.state[item.type]"
+            :value="item.value"
+            type="checkbox"
+            class="sr-only peer"
+            @update:model-value="handleUpdateFilter(item.type, $event)"
+          >
+          <UBadge
+            :label="item.name"
+            :icon="item.icon || undefined"
+            variant="outline"
+            :ui="{
+              base: 'rounded-full hover:bg-neutral-200/75 peer-checked:hover:bg-neutral-300 dark:hover:bg-neutral-700/40 dark:peer-checked:hover:bg-neutral-700/75 peer-checked:bg-neutral-200 peer-checked:text-dark dark:peer-checked:bg-neutral-700 dark:peer-checked:text-white peer-focus:bg-neutral-300 dark:peer-focus:bg-neutral-700/40',
+            }"
+          />
+        </label>
       </div>
     </div>
 
