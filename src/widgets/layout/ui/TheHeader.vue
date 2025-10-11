@@ -1,8 +1,19 @@
 <script setup lang="ts">
-import { FilterListMobile, useFiltersStore } from '@/entities/filter'
+import { isEqual } from 'lodash-es'
+import { FilterEnum, FilterListMobile, useFiltersStore } from '@/entities/filter'
 import { apiLibrary } from '@/entities/library'
+import { useQuery } from '@/shared/lib/hooks/useQuery'
 
+interface QueryState {
+  categories: string[]
+  frameworks: string[]
+  features: string[]
+  components: string[]
+}
+
+const { parseQuery, extractDataFromQuery } = useQuery()
 const { getLibraryListTotalCounter } = apiLibrary()
+const filtersStore = useFiltersStore()
 
 const { data } = await useAsyncData('libraries-total', async () => {
   const res = await getLibraryListTotalCounter()
@@ -12,8 +23,6 @@ const { data } = await useAsyncData('libraries-total', async () => {
 
   return res
 })
-
-const filtersStore = useFiltersStore()
 
 const colorMode = useColorMode()
 const isDark = computed({
@@ -34,6 +43,39 @@ function openFilterPanel() {
 }
 function closeFilterPanel() {
   isFilterPanelOpened.value = false
+}
+async function handleCloseFilterPanel() {
+  const queryState = getQueryState()
+
+  const isChanged = !isEqual(filtersStore.state, queryState)
+  if (isChanged) {
+    await openFilterChangedModal(queryState)
+    return
+  }
+
+  closeFilterPanel()
+}
+
+function getQueryState() {
+  const query = parseQuery()
+  return {
+    categories: extractDataFromQuery(FilterEnum.CATEGORIES, query),
+    frameworks: extractDataFromQuery(FilterEnum.FRAMEWORKS, query),
+    features: extractDataFromQuery(FilterEnum.FEATURES, query),
+    components: extractDataFromQuery(FilterEnum.COMPONENTS, query),
+  }
+}
+
+async function openFilterChangedModal(queryState: QueryState) {
+  // eslint-disable-next-line no-alert
+  const isNext = window.confirm('Filters have been changed. Do you want to continue?')
+  if (isNext) {
+    filtersStore.state.categories = queryState.categories
+    filtersStore.state.frameworks = queryState.frameworks
+    filtersStore.state.features = queryState.features
+    filtersStore.state.components = queryState.components
+    closeFilterPanel()
+  }
 }
 
 function handleUpdateFilters() {
@@ -64,6 +106,7 @@ function handleRemoveFilters() {
 
       <USlideover
         v-model:open="isFilterPanelOpened"
+        :dismissible="false"
         side="left"
         :ui="{
           overlay: 'bg-neutral-200/75 dark:bg-neutral-800/75',
@@ -88,7 +131,7 @@ function handleRemoveFilters() {
                 color="neutral"
                 icon="i-heroicons-x-mark"
                 aria-label="Close panel"
-                @click="closeFilterPanel"
+                @click="handleCloseFilterPanel"
               />
             </div>
 

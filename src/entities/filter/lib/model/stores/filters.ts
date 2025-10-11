@@ -19,7 +19,6 @@ export const useFiltersStore = defineStore('filters', () => {
 
   onMounted(() => {
     const query = parseQuery()
-
     state.categories = extractDataFromQuery(FilterEnum.CATEGORIES, query)
     state.frameworks = extractDataFromQuery(FilterEnum.FRAMEWORKS, query)
     state.features = extractDataFromQuery(FilterEnum.FEATURES, query)
@@ -33,8 +32,8 @@ export const useFiltersStore = defineStore('filters', () => {
     router.push({
       query: {
         ...route.query,
-        page: undefined,
         [filterType]: parsedFilterQuery[filterType],
+        page: undefined,
       },
     })
   }
@@ -53,9 +52,8 @@ export const useFiltersStore = defineStore('filters', () => {
     router.push({
       query: {
         ...route.query,
-        // @ts-expect-error 'page' is specified more than once, so this usage will be overwritten.
-        page: undefined,
         ...query,
+        page: undefined,
       },
     })
   }
