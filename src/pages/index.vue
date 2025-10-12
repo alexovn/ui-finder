@@ -7,6 +7,18 @@ import { OrderDirEnum } from '@/shared/lib/enums/orderDir.enum'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
 import removeEmptyValues from '@/shared/lib/utils/removeEmptyValues'
 
+if (import.meta.server) {
+  useSeoMeta({
+    // Basic SEO
+    title: 'UI Finder: The One-Stop Solution for Finding UI Libraries',
+    description: 'A powerful tool that helps developers quickly discover the best UI libraries for their framework. Save time by filtering, sorting, and finding up-to-date, high-quality UI solutions in seconds. No more endless web searches—just the right libraries at your fingertips!',
+
+    // Open Graph
+    ogTitle: 'UI Finder: The One-Stop Solution for Finding UI Libraries',
+    ogDescription: 'A powerful tool that helps developers quickly discover the best UI libraries for their framework. Save time by filtering, sorting, and finding up-to-date, high-quality UI solutions in seconds. No more endless web searches—just the right libraries at your fingertips!',
+  })
+}
+
 const { getLibraryList } = apiLibrary()
 const { parseQuery, extractDataFromQuery } = useQuery()
 const filtersStore = useFiltersStore()
@@ -60,6 +72,10 @@ function onPageChange(page: number) {
 const DEFAULT_PER_PAGE = '50'
 const perPage = ref(route.query.perPage as string || DEFAULT_PER_PAGE)
 const perPageList = [
+  {
+    label: '10',
+    value: '10',
+  },
   {
     label: '50',
     value: '50',

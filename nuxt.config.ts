@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover',
-      title: 'UI Finder | Library search',
+      title: 'UI Finder',
       link: [
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
       ],
@@ -46,8 +46,4 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2025-09-07',
   devtools: { enabled: true },
-
-  future: {
-    compatibilityVersion: 4,
-  },
 })
