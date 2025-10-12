@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { LibraryListPayload } from '@/entities/library'
+import { useScroll } from '@vueuse/core'
 import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
@@ -24,6 +25,10 @@ const { parseQuery, extractDataFromQuery } = useQuery()
 const filtersStore = useFiltersStore()
 const route = useRoute()
 const router = useRouter()
+
+const filterListEl = useTemplateRef('filterListEl')
+const { arrivedState } = useScroll(filterListEl)
+const { top, bottom } = toRefs(arrivedState)
 
 const { data, status } = useAsyncData('libraries', async () => {
   const parsedQuery = parseQuery()
@@ -224,35 +229,52 @@ watch(() => route.query, (newVal) => {
 <template>
   <div class="flex grow">
     <aside class="hidden fixed z-50 w-(--aside-left-width) h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 lg:block lg:top-(--header-height) shrink-0">
-      <div class="px-6 pr-4 py-2.5 z-50 h-(--filters-header-height) sticky top-0 flex justify-between items-center gap-2.5 text-lg bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
-        <div class="flex items-center gap-3">
-          <UIcon name="i-heroicons:adjustments-horizontal" />
+      <div class="z-50 sticky top-0 h-(--filters-header-height)">
+        <div class="px-6 pr-4 py-2.5 flex justify-between items-center gap-2.5 text-lg bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+          <div class="flex items-center gap-3">
+            <UIcon name="i-heroicons:adjustments-horizontal" />
+            <div>
+              Filters
+            </div>
+          </div>
+
           <div>
-            Filters
+            <UButton
+              v-if="filtersStore.areFiltersActive"
+              class="w-full"
+              color="neutral"
+              :ui="{
+                base: 'justify-center',
+              }"
+              size="sm"
+              icon="i-heroicons-trash"
+              trailing
+              variant="solid"
+              label="Clear filters"
+              @click="removeFilters"
+            />
           </div>
         </div>
 
-        <div>
-          <UButton
-            v-if="filtersStore.areFiltersActive"
-            class="w-full"
-            color="neutral"
-            :ui="{
-              base: 'justify-center',
-            }"
-            size="sm"
-            icon="i-heroicons-trash"
-            trailing
-            variant="solid"
-            label="Clear filters"
-            @click="removeFilters"
-          />
-        </div>
+        <Transition name="fade">
+          <div v-show="!top">
+            <div class="-z-10 absolute top-0 left-0 w-full h-30 pointer-events-none bg-linear-to-b from-white from-10% dark:from-black/40" />
+          </div>
+        </Transition>
       </div>
 
-      <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden overscroll-none">
+      <div
+        ref="filterListEl"
+        class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden overscroll-none"
+      >
         <FilterList @on-update-filter="handleUpdateFilter" />
       </div>
+
+      <Transition name="fade">
+        <div v-show="!bottom">
+          <div class="z-10 absolute bottom-0 w-full h-14 pointer-events-none bg-linear-to-t from-white from-10% dark:from-black/40" />
+        </div>
+      </Transition>
     </aside>
     <div class="lg:ml-(--aside-left-width) grow">
       <div class="sticky top-(--header-height) min-h-px z-50">
@@ -346,3 +368,19 @@ watch(() => route.query, (newVal) => {
     </div>
   </div>
 </template>
+
+<style>
+.fade-enter-active,
+.fade-enter-leave {
+  @apply
+  transition-opacity
+  ;
+}
+
+.fade-enter-from,
+.fade-enter-to {
+  @apply
+  opacity-0
+  ;
+}
+</style>
