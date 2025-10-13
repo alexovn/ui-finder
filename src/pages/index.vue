@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { LibraryListPayload } from '@/entities/library'
-import { useScroll } from '@vueuse/core'
 import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
@@ -25,10 +24,6 @@ const { parseQuery, extractDataFromQuery } = useQuery()
 const filtersStore = useFiltersStore()
 const route = useRoute()
 const router = useRouter()
-
-const filterListEl = useTemplateRef('filterListEl')
-const { arrivedState } = useScroll(filterListEl)
-const { top, bottom } = toRefs(arrivedState)
 
 const { data, status } = useAsyncData('libraries', async () => {
   const parsedQuery = parseQuery()
@@ -255,26 +250,11 @@ watch(() => route.query, (newVal) => {
             />
           </div>
         </div>
-
-        <Transition name="fade">
-          <div v-show="!top">
-            <div class="-z-10 absolute top-0 left-0 w-full h-30 pointer-events-none bg-linear-to-b from-white from-10% dark:from-black/40" />
-          </div>
-        </Transition>
       </div>
 
-      <div
-        ref="filterListEl"
-        class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden overscroll-none"
-      >
+      <div class="lg:px-3.5 lg:py-3.5 h-[calc(100vh-(var(--header-height)+var(--filters-header-height)))] overflow-y-auto overflow-x-hidden overscroll-none">
         <FilterList @on-update-filter="handleUpdateFilter" />
       </div>
-
-      <Transition name="fade">
-        <div v-show="!bottom">
-          <div class="z-10 absolute bottom-0 w-full h-14 pointer-events-none bg-linear-to-t from-white from-10% dark:from-black/40" />
-        </div>
-      </Transition>
     </aside>
     <div class="lg:ml-(--aside-left-width) grow">
       <div class="sticky top-(--header-height) min-h-px z-50">
@@ -368,19 +348,3 @@ watch(() => route.query, (newVal) => {
     </div>
   </div>
 </template>
-
-<style>
-.fade-enter-active,
-.fade-enter-leave {
-  @apply
-  transition-opacity
-  ;
-}
-
-.fade-enter-from,
-.fade-enter-to {
-  @apply
-  opacity-0
-  ;
-}
-</style>
