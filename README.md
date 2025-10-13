@@ -1,30 +1,34 @@
+[![UI Finder Banner](./.github/assets/banner.jpg)](https://ui-finder.dev/)
+
 # UI Finder: The One-Stop Solution for Finding UI Libraries
 UI Finder is an app that helps you find the right UI libraries in seconds. No more hours of web surfing in search of libraries that match your framework, are popular enough, and actively maintained. You can filter libraries by different settings, sort and order them as you like. Enjoy and have fun!
 
 ## Features
 UI Finder is a feature-rich app designed to help developers be more productive and save hours searching for the right libraries. Here are some of its main features:
 
-- Filter libraries by categories, frameworks, components, and more.
-- Search libraries using the built-in search (currently in Beta, so it may not be very accurate).
+- Filter libraries by categories, frameworks, components, and more. Use filters section or choose filters right on a library card.
+- Search libraries using the built-in search.
 - Sort and order libraries by creation date, GitHub stars, or npm downloads.
 - Share filtered results with your team and friends using a powerful URL string.
 - Switch between light and dark theme modes.
 - Mobile-friendly: The app is fully responsive, allowing you to search for libraries directly on your mobile device or tablet.
 
 ## What It's Made Of
-UI Finder is built using several technologies that make it awesome:
+UI Finder is built using several technologies that make it awesome.
 
+### Front-End stack:
 - [Nuxt](https://nuxt.com/) – A core Vue.js framework powered by Nitro and H3, bringing this app to life.
 - [Nuxt UI](https://ui.nuxt.com/) – A UI library that enabled rapid development and enhanced the app with built-in components.
-- [TailwindCSS](https://tailwindcss.com/) – A utility-first CSS framework that significantly speeds up the development process.
+- [Tailwind CSS](https://tailwindcss.com/) – A utility-first CSS framework that significantly speeds up the development process.
 - [Pinia](https://pinia.vuejs.org/) – A Vue.js store that helps avoid prop-drilling issues.
-- [Zod](https://zod.dev/) – A TypeScript-first schema validation library with static type inference, used for validating server data.
 - [Iconify](https://iconify.design/) - An open-source library with thousands of icons and some of them are used in the app.
+- [TypeScript](https://www.typescriptlang.org/) – A strongly typed programming language that prevents common JavaScript pitfalls and enhances maintainability.
+
+### Back-End stack:
+- [NestJS](https://nestjs.com/) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
 - [PostgreSQL](https://www.postgresql.org/) – An open-source relational database that structures and stores library data efficiently.
 - [Prisma ORM](https://www.prisma.io/) – An ORM that helps manage the PostgreSQL database directly from the app.
 - [TypeScript](https://www.typescriptlang.org/) – A strongly typed programming language that prevents common JavaScript pitfalls and enhances maintainability.
-
-You can find additional tools used in this app in the package.json file located at the root of the project.
 
 ## Contributions
 ### How to Contribute
@@ -48,15 +52,6 @@ Component filters will be updated over time. Keep an eye out for changes. You're
 
 ### I want more filtering options!
 Filtering features will be added over time, so keep an eye out for updates. You're welcome to open a discussion about a feature you would like to see. If it makes sense, it will be added.
-
-## What's Next
-There are plans to add enhancements and new features. Here are some of them:
-
-- Update the library search. Currently, it's in the Beta stage and may not be very accurate.
-- Add "Show Previous" and "Show More" buttons to the library list instead of (or alongside) pagination.
-- Add more filters.
-- Add more libraries.
-- Add something special — so keep an eye out for updates!
 
 ## Inspiration
 UI Finder is inspired by some awesome projects. Check them out:
