@@ -3,6 +3,7 @@ import { isEqual } from 'lodash-es'
 import { FilterEnum, FilterListMobile, useFiltersStore } from '@/entities/filter'
 import { apiLibrary } from '@/entities/library'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
+import MainLogo from '@/shared/ui/MainLogo.vue'
 
 interface QueryState {
   categories: string[]
@@ -151,11 +152,8 @@ function handleRemoveFilters() {
         class="mr-8 ml-[4.5rem] lg:mx-0 flex items-center gap-2"
         to="/"
       >
-        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white bg-black dark:text-black dark:bg-white">
-          <UIcon
-            class="w-6 h-6 bg-white dark:bg-black"
-            name="i-bxs:component"
-          />
+        <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white dark:text-black">
+          <MainLogo class="main-logo" />
         </div>
         <div class="hidden lg:block font-medium lg:text-xl">
           UI Finder

@@ -8,6 +8,9 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover',
       title: 'UI Finder',
       link: [
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+        { rel: 'icon', href: '/favicon-32x32.png', sizes: '32x32' },
+        { rel: 'icon', href: '/favicon-16x16.png', sizes: '16x16' },
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
       ],
     },

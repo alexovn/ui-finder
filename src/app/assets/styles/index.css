@@ -44,3 +44,13 @@
         overscroll-none;
     }
 }
+
+.main-logo {
+  #icon {
+    @apply fill-white dark:fill-black;
+
+  }
+  #background {
+    @apply fill-black dark:fill-white;
+  }
+}
