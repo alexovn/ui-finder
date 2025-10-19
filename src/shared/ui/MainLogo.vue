@@ -2,7 +2,8 @@
   <svg
     id="layers"
     xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
+    width="452.33"
+    height="452.33"
     viewBox="0 0 452.33 452.33"
   >
     <g id="logo">
