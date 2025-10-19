@@ -9,13 +9,22 @@ import removeEmptyValues from '@/shared/lib/utils/removeEmptyValues'
 
 if (import.meta.server) {
   useSeoMeta({
-    // Basic SEO
+    // Basic
     title: 'UI Finder: The One-Stop Solution for Finding UI Libraries',
     description: 'A powerful tool that helps developers quickly discover the best UI libraries for their framework. Save time by filtering, sorting, and finding up-to-date, high-quality UI solutions in seconds. No more endless web searches—just the right libraries at your fingertips!',
 
     // Open Graph
     ogTitle: 'UI Finder: The One-Stop Solution for Finding UI Libraries',
     ogDescription: 'A powerful tool that helps developers quickly discover the best UI libraries for their framework. Save time by filtering, sorting, and finding up-to-date, high-quality UI solutions in seconds. No more endless web searches—just the right libraries at your fingertips!',
+    ogSiteName: 'UI Finder',
+    ogType: 'website',
+    ogUrl: 'https://ui-finder.dev/',
+    ogImage: 'https://res.cloudinary.com/drh75w8s9/image/upload/v1760890339/ui-finder-cover_lip7wi.jpg',
+
+    // Twitter
+    twitterCard: 'summary_large_image',
+    twitterSite: 'ui_finder',
+    twitterImage: 'https://res.cloudinary.com/drh75w8s9/image/upload/v1760890339/ui-finder-cover_lip7wi.jpg',
   })
 }
 
