@@ -102,8 +102,8 @@ async function loadData() {
 useInfiniteScroll(window, () => {
   loadData()
 }, {
-  distance: 30,
-  interval: 300,
+  distance: 100,
+  interval: 200,
   canLoadMore: () => {
     return isLoadingDataActive.value && page.value !== data.value?.meta.pagination.totalPages
   },
