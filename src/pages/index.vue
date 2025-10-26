@@ -273,7 +273,7 @@ watch(() => route.query, (newVal) => {
   <div class="flex grow">
     <aside class="hidden fixed z-50 w-(--aside-left-width) h-[calc(100vh-var(--header-height))] border-r border-neutral-200 dark:border-neutral-800 lg:block lg:top-(--header-height) shrink-0">
       <div class="z-50 sticky top-0 h-(--filters-header-height)">
-        <div class="px-6 pr-4 py-2.5 flex justify-between items-center gap-2.5 text-lg bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+        <div class="px-6 pr-4 py-2 h-full flex justify-between items-center gap-2.5 text-lg bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
           <div class="flex items-center gap-3">
             <UIcon name="i-heroicons:adjustments-horizontal" />
             <div>
@@ -289,7 +289,7 @@ watch(() => route.query, (newVal) => {
               :ui="{
                 base: 'justify-center',
               }"
-              size="sm"
+              size="md"
               icon="i-heroicons-trash"
               trailing
               variant="solid"

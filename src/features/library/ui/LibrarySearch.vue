@@ -61,7 +61,7 @@ defineExpose({
 
 <template>
   <div class="relative w-full text-base h-(--search-height)">
-    <div class="pl-4 lg:pl-6 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
+    <div class="pl-4 lg:pl-6 z-10 absolute inset-y-0 left-0 flex items-center text-neutral-500 pointer-events-none">
       <UIcon
         name="i-heroicons-magnifying-glass"
         class="size-5"
@@ -72,7 +72,7 @@ defineExpose({
       ref="searchEl"
       v-model="search"
       type="text"
-      class="px-12 lg:px-14 lg:pr-20 py-3 w-full border-b border-neutral-200 bg-white placeholder-neutral-500 truncate focus:outline-hidden focus:inset-ring-1 focus:inset-ring-neutral-400 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:inset-ring-neutral-700"
+      class="px-12 lg:px-14 lg:pr-20 py-3 h-full w-full border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm placeholder-neutral-500 truncate focus:outline-hidden focus:inset-ring-1 focus:inset-ring-neutral-400 dark:focus:inset-ring-neutral-700"
       placeholder="Search library by name or filters..."
       @focus="isSearchFocused = true"
       @blur="isSearchFocused = false"
