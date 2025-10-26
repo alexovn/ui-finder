@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { LibraryListPayload } from '@/entities/library'
+import type { Library, LibraryListPayload } from '@/entities/library'
+import { useInfiniteScroll } from '@vueuse/core'
 import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
@@ -34,7 +35,30 @@ const filtersStore = useFiltersStore()
 const route = useRoute()
 const router = useRouter()
 
+const list = useState<Library[]>('library-list', () => [])
+
+const isLoadingDataActive = ref(false)
+
+const DEFAULT_PAGE = 1
+const page = ref(DEFAULT_PAGE)
+function setDefaultValues() {
+  page.value = DEFAULT_PAGE
+  isLoadingDataActive.value = false
+}
+
 const { data, status } = useAsyncData('libraries', async () => {
+  const res = await getData()
+
+  if ('error' in res)
+    return null
+
+  list.value = res.data
+  return res
+}, {
+  watch: [route],
+})
+
+async function getData() {
   const parsedQuery = parseQuery()
 
   const categories = extractDataFromQuery(FilterEnum.CATEGORIES, parsedQuery)
@@ -44,7 +68,7 @@ const { data, status } = useAsyncData('libraries', async () => {
 
   const payload = {
     [FilterEnum.SEARCH]: parsedQuery[FilterEnum.SEARCH] || undefined,
-    [FilterEnum.PAGE]: parsedQuery[FilterEnum.PAGE] || undefined,
+    [FilterEnum.PAGE]: page.value,
     [FilterEnum.PER_PAGE]: parsedQuery[FilterEnum.PER_PAGE] || undefined,
     [FilterEnum.ORDER_BY]: parsedQuery[FilterEnum.ORDER_BY] || undefined,
     [FilterEnum.ORDER_DIR]: parsedQuery[FilterEnum.ORDER_DIR] || undefined,
@@ -56,27 +80,34 @@ const { data, status } = useAsyncData('libraries', async () => {
   const normalizedPayload: LibraryListPayload = removeEmptyValues(payload)
   const res = await getLibraryList(normalizedPayload)
 
-  if ('error' in res)
-    return null
-
   return res
-}, {
-  watch: [route],
-})
+}
 
-const DEFAULT_PAGE = 1
-const page = ref(route.query.page ? Number(route.query.page) : DEFAULT_PAGE)
-function setDefaultPage() {
-  page.value = DEFAULT_PAGE
+async function activateLoadingData() {
+  isLoadingDataActive.value = true
+  await loadData()
 }
-function onPageChange(page: number) {
-  router.push({
-    query: {
-      ...route.query,
-      page,
-    },
-  })
+
+async function loadData() {
+  page.value++
+
+  const data = await getData()
+
+  if ('error' in data)
+    return
+
+  list.value.push(...(data?.data || []))
 }
+
+useInfiniteScroll(window, () => {
+  loadData()
+}, {
+  distance: 30,
+  interval: 300,
+  canLoadMore: () => {
+    return isLoadingDataActive.value && page.value !== data.value?.meta.pagination.totalPages
+  },
+})
 
 const DEFAULT_PER_PAGE = '50'
 const perPage = ref(route.query.perPage as string || DEFAULT_PER_PAGE)
@@ -99,7 +130,7 @@ const perPageList = [
   },
 ]
 function onPerPageChange(perPage: string) {
-  setDefaultPage()
+  setDefaultValues()
   router.push({
     query: {
       ...route.query,
@@ -107,6 +138,7 @@ function onPerPageChange(perPage: string) {
       perPage,
     },
   })
+  scrollPageToTop()
 }
 function setDefaultPerPage() {
   perPage.value = DEFAULT_PER_PAGE
@@ -128,15 +160,16 @@ const orderByList = [
     value: 'npmDownloads',
   },
 ]
-function onUpdateOrderBy(value: string) {
-  setDefaultPage()
-  router.push({
+async function onUpdateOrderBy(value: string) {
+  setDefaultValues()
+  await router.push({
     query: {
       ...route.query,
       page: undefined,
       orderBy: value,
     },
   })
+  scrollPageToTop()
 }
 function setDefaultOrderBy() {
   orderBy.value = DEFAULT_ORDER_BY
@@ -144,7 +177,7 @@ function setDefaultOrderBy() {
 
 const DEFAULT_ORDER_DIR = undefined
 const orderDir = ref(route.query.orderDir as string | undefined || DEFAULT_ORDER_DIR)
-function changeOrderDir() {
+async function changeOrderDir() {
   if (orderDir.value === OrderDirEnum.ASC) {
     orderDir.value = OrderDirEnum.DESC
   }
@@ -155,14 +188,15 @@ function changeOrderDir() {
     orderDir.value = OrderDirEnum.ASC
   }
 
-  setDefaultPage()
-  router.push({
+  setDefaultValues()
+  await router.push({
     query: {
       ...route.query,
       page: undefined,
       orderDir: orderDir.value,
     },
   })
+  scrollPageToTop()
 }
 const orderDirIcon = computed(() => {
   if (orderDir.value === OrderDirEnum.ASC) {
@@ -188,22 +222,33 @@ function setDefaultOrderDir() {
 
 const searchComponent = useTemplateRef('searchComponent')
 function handleSearch() {
-  setDefaultPage()
+  setDefaultValues()
+  scrollPageToTop()
 }
 
 function handleUpdateFilter() {
-  setDefaultPage()
+  setDefaultValues()
+  scrollPageToTop()
 }
 
 function removeFilters() {
   filtersStore.clearFilters()
+  scrollPageToTop()
+}
+
+function scrollPageToTop() {
+  window && window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth',
+  })
 }
 
 watch(() => route.query, (newVal) => {
   if (!Object.keys(newVal).length) {
     filtersStore.clearFilterState()
     searchComponent.value?.clearSearchValue()
-    setDefaultPage()
+    setDefaultValues()
     setDefaultPerPage()
     setDefaultOrderBy()
     setDefaultOrderDir()
@@ -211,12 +256,6 @@ watch(() => route.query, (newVal) => {
 })
 
 watch(() => route.query, (newVal) => {
-  window && window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
-
   const filteredFilters = Object.values(FilterEnum).filter(filter =>
     filter !== FilterEnum.SEARCH
     && filter !== FilterEnum.PER_PAGE
@@ -265,7 +304,8 @@ watch(() => route.query, (newVal) => {
         <FilterList @on-update-filter="handleUpdateFilter" />
       </div>
     </aside>
-    <div class="lg:ml-(--aside-left-width) grow">
+
+    <div class="relative lg:ml-(--aside-left-width) grow">
       <div class="sticky top-(--header-height) min-h-px z-50">
         <LibrarySearch
           ref="searchComponent"
@@ -280,21 +320,34 @@ watch(() => route.query, (newVal) => {
         </div>
       </div>
 
-      <div class="px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height))-1px)] lg:px-6">
+      <div class="relative px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height))+0.5rem)] lg:px-6">
         <div
-          v-if="data?.data.length"
+          v-if="list?.length"
           class="flex items-end justify-between gap-2 md:items-start"
         >
-          <div class="flex items-center justify-between gap-2">
-            <div class="hidden md:block">
-              Order by:
+          <div class="flex items-center justify-between gap-5">
+            <div class="flex items-center gap-2">
+              <div class="hidden md:block">
+                Order by:
+              </div>
+              <USelect
+                v-model="orderBy"
+                :items="orderByList"
+                @update:model-value="onUpdateOrderBy"
+              />
             </div>
-            <USelect
-              v-model="orderBy"
-              :items="orderByList"
-              @update:model-value="onUpdateOrderBy"
-            />
+            <div class="flex items-center gap-2">
+              <div class="hidden md:block">
+                Items per page:
+              </div>
+              <USelect
+                v-model="perPage"
+                :items="perPageList"
+                @update:model-value="onPerPageChange"
+              />
+            </div>
           </div>
+
           <UButton
             :label="orderDirLabel"
             :icon="orderDirIcon"
@@ -303,9 +356,9 @@ watch(() => route.query, (newVal) => {
           />
         </div>
 
-        <div class="mt-4 flex flex-col h-full">
+        <div class="relative mt-4 flex flex-col h-full">
           <div
-            v-if="!data || !data.data.length"
+            v-if="!list?.length"
             class="flex flex-col items-center justify-center gap-1 h-full"
           >
             <UIcon
@@ -321,39 +374,68 @@ watch(() => route.query, (newVal) => {
             v-else
             class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
           >
-            <LibraryItem
-              v-for="library in data.data"
-              :key="library.name"
-              :library
-              @on-update-filter="handleUpdateFilter"
-            />
+            <TransitionGroup name="list">
+              <LibraryItem
+                v-for="library in list"
+                :key="library.name"
+                :library
+                @on-update-filter="handleUpdateFilter"
+              />
+            </TransitionGroup>
           </div>
         </div>
-      </div>
 
-      <div
-        v-if="data?.data.length"
-        class="px-4 py-3 flex items-start justify-between gap-3 static lg:sticky lg:bottom-0 backdrop-blur-sm border-t border-neutral-200 bg-white/90 dark:bg-neutral-900/90 dark:border-neutral-800 md:px-6 md:flex-row md:gap-5 md:items-center"
-      >
-        <div class="flex items-center gap-2">
-          <div class="hidden md:block">
-            Items per page:
-          </div>
-          <USelect
-            v-model="perPage"
-            :items="perPageList"
-            @update:model-value="onPerPageChange"
-          />
+        <div class="sticky bottom-5 h-9 flex items-center justify-center">
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
+            <div v-if="!isLoadingDataActive && list.length && (page !== data?.meta.pagination.totalPages)">
+              <UButton
+                :ui="{
+                  base: 'min-w-35 justify-center',
+                }"
+                color="neutral"
+                size="lg"
+                loading-icon="i-lucide-loader"
+                label="Show more"
+                @click="activateLoadingData"
+              />
+            </div>
+          </Transition>
         </div>
-        <UPagination
-          v-model:page="page"
-          :items-per-page="Number(perPage)"
-          :total="Number(data?.meta.pagination.total)"
-          show-edges
-          active-color="neutral"
-          @update:page="onPageChange"
-        />
       </div>
     </div>
   </div>
 </template>
+
+<style>
+  /* FADE */
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.35s ease-in-out;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  /* LIST */
+  .list-move,
+  .list-enter-active,
+  .list-leave-active {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .list-enter-from,
+  .list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .list-leave-active {
+    opacity: 0;
+    position: absolute;
+  }
+</style>

@@ -41,6 +41,7 @@
         @apply
         bg-white
         dark:bg-neutral-900
+        overflow-x-hidden
         overscroll-none;
     }
 }
