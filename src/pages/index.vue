@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { ComponentPublicInstance } from 'vue'
 import type { Library, LibraryListPayload } from '@/entities/library'
-import { useInfiniteScroll } from '@vueuse/core'
+import { useWindowVirtualizer } from '@tanstack/vue-virtual'
+import { breakpointsTailwind, useBreakpoints, useElementSize, useInfiniteScroll } from '@vueuse/core'
 import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
@@ -107,6 +109,93 @@ useInfiniteScroll(window, () => {
   canLoadMore: () => {
     return isLoadingDataActive.value && page.value !== data.value?.meta.pagination.totalPages
   },
+})
+
+const breakpoints = useBreakpoints(breakpointsTailwind, {
+  ssrWidth: 768,
+})
+
+const listContainer = useTemplateRef('listContainer')
+const { width: listContainerWidth } = useElementSize(listContainer)
+
+const gap = {
+  x: 16,
+  y: 16,
+}
+
+const isSmallerOrEqualMd = breakpoints.smallerOrEqual('md') // <= 768px
+const isSmallerXl = breakpoints.smaller('xl') // < 1280px
+
+const columnsCount = computed(() => {
+  if (isSmallerOrEqualMd.value) {
+    return 1
+  }
+  if (isSmallerXl.value) {
+    return 2
+  }
+  return 3
+})
+
+// (1120 - 48 - 16 * (3 - 1)) / 3 = 346,6666
+// ((1488 - 48 - 16 * (3 - 1)) / 3) + 16 = 485,3333
+
+// xl: (width >= 1280px) - 3 cols
+// md: (width >= 768px) - 2 cols
+
+const itemAdditionalPadding = computed(() => {
+  if (isSmallerOrEqualMd.value) {
+    return 32
+  }
+  return 16
+})
+
+const itemWidth = computed(() => {
+  if (isSmallerOrEqualMd.value || isSmallerXl.value) {
+    return (((listContainerWidth.value - 32 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + itemAdditionalPadding.value).toFixed(3)
+  }
+  return (((listContainerWidth.value - 48 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + 16).toFixed(3)
+})
+
+const rowVirtualizerOptions = computed(() => {
+  return {
+    count: Math.ceil(list.value.length / columnsCount.value),
+    gap: gap.y,
+    estimateSize: () => 230,
+    overscan: 2,
+  }
+})
+
+const columnVirtualizerOptions = computed(() => {
+  return {
+    horizontal: true,
+    count: columnsCount.value,
+    estimateSize: () => Number(itemWidth.value) + gap.x,
+    overscan: 2,
+  }
+})
+
+const rowVirtualizer = useWindowVirtualizer(rowVirtualizerOptions)
+const columnVirtualizer = useWindowVirtualizer(columnVirtualizerOptions)
+
+function measureElement(el: any) {
+  if (!el) {
+    return
+  }
+
+  rowVirtualizer.value.measureElement(el)
+
+  return undefined
+}
+
+const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems())
+
+const virtualColumns = computed(() => columnVirtualizer.value.getVirtualItems())
+
+const rowTotalSize = computed(() => rowVirtualizer.value.getTotalSize())
+
+watch(() => [itemWidth.value, columnsCount.value], () => {
+  rowVirtualizer.value.measure()
+  columnVirtualizer.value.measure()
 })
 
 const DEFAULT_PER_PAGE = '50'
@@ -320,7 +409,10 @@ watch(() => route.query, (newVal) => {
         </div>
       </div>
 
-      <div class="relative px-4 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height))+0.5rem)] lg:px-6">
+      <div
+        ref="listContainer"
+        class="relative px-4 lg:px-6 py-4 container mx-auto h-[calc(100%-(var(--header-height)+var(--search-height))+0.5rem)]"
+      >
         <div
           v-if="list?.length"
           class="flex items-end justify-between gap-2 md:items-start"
@@ -370,18 +462,44 @@ watch(() => route.query, (newVal) => {
               No results found. Try again
             </div>
           </div>
+
           <div
-            v-else
-            class="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+            class="wrapper"
+            :style="{
+              position: 'relative',
+              height: `${rowTotalSize - gap.y}px`,
+            }"
           >
-            <TransitionGroup name="list">
-              <LibraryItem
-                v-for="library in list"
-                :key="library.name"
-                :library
-                @on-update-filter="handleUpdateFilter"
-              />
-            </TransitionGroup>
+            <div
+              v-for="virtualRow in virtualRows"
+              :key="virtualRow.key.toString()"
+              :ref="measureElement"
+              :data-index="virtualRow.index"
+              class="row flex"
+              :style="{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                gap: `${gap.x}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+              }"
+            >
+              <div
+                v-for="virtualColumn in virtualColumns.filter(virtualColumn => (virtualRow.index * columnsCount + virtualColumn.index) < list.length)"
+                :key="virtualColumn.key.toString()"
+                class="column"
+                :style="{
+                  width: `${itemWidth}px`,
+                  minHeight: `${virtualRow.size}px`,
+                }"
+              >
+                <LibraryItem
+                  class="w-full h-full"
+                  :library="list[virtualRow.index * columnsCount + virtualColumn.index]"
+                  @on-update-filter="handleUpdateFilter"
+                />
+              </div>
+            </div>
           </div>
         </div>
 

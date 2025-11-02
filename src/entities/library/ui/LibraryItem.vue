@@ -13,7 +13,7 @@ interface Filter {
 }
 
 const props = defineProps<{
-  library: Library | null
+  library: Library | null | undefined
 }>()
 
 const emit = defineEmits<{
