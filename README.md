@@ -6,10 +6,11 @@ UI Finder is an app that helps you find the right UI libraries in seconds. No mo
 ## Features
 UI Finder is a feature-rich app designed to help developers be more productive and save hours searching for the right libraries. Here are some of its main features:
 
-- Filter libraries by categories, frameworks, components, and more. Use filters section or choose filters right on a library card.
+- Filter libraries by categories, frameworks, components, and more. Use filters section or choose filters right on library cards.
 - Search libraries using the built-in search.
 - Sort and order libraries by creation date, GitHub stars, or npm downloads.
 - Share filtered results with your team and friends using a powerful URL string.
+- Lazy-load libraries using virtual-scroll (powered by [TanStack Virtual](https://tanstack.com/virtual/)).
 - Switch between light and dark theme modes.
 - Mobile-friendly: The app is fully responsive, allowing you to search for libraries directly on your mobile device or tablet.
 
@@ -22,6 +23,8 @@ UI Finder is built using several technologies that make it awesome.
 - [Tailwind CSS](https://tailwindcss.com/) – A utility-first CSS framework that significantly speeds up the development process.
 - [Pinia](https://pinia.vuejs.org/) – A Vue.js store that helps avoid prop-drilling issues.
 - [Iconify](https://iconify.design/) - An open-source library with thousands of icons and some of them are used in the app.
+- [TanStack Virtual](https://tanstack.com/virtual/) - Headless UI for Virtualizing Large Element Lists
+- [VueUse](https://vueuse.org/) - Collection of Essential Vue Composition Utilities
 - [TypeScript](https://www.typescriptlang.org/) – A strongly typed programming language that prevents common JavaScript pitfalls and enhances maintainability.
 
 ### Back-End stack:
