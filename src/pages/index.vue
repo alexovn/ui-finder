@@ -176,7 +176,7 @@ const columnVirtualizerOptions = computed(() => {
   return {
     horizontal: true,
     count: columnsCount.value,
-    estimateSize: () => Number(itemWidth.value) + gap.x,
+    estimateSize: () => Number(itemWidth.value),
     overscan: 2,
   }
 })
@@ -460,58 +460,74 @@ watch(() => route.query, (newVal) => {
         <div class="relative mt-4 flex flex-col h-full">
           <div
             v-if="!list?.length"
-            class="flex flex-col items-center justify-center gap-1 h-full"
+            class="flex flex-col items-center justify-center gap-1 h-full text-lg text-center text-dimmed"
           >
             <UIcon
               name="i-bxs:component"
               class="size-32 text-neutral-300 dark:text-neutral-800"
             />
 
-            <div class="text-dimmed">
-              No results found. Try again
+            <div class="max-w-72">
+              No results found. <br> Try to change filters or search
             </div>
           </div>
 
-          <div
-            data-id="virtual-wrapper"
-            :style="{
-              position: 'relative',
-              height: `${rowTotalSize - gap.y}px`,
-            }"
-          >
+          <ClientOnly v-else>
             <div
-              v-for="virtualRow in virtualRows"
-              :key="virtualRow.key.toString()"
-              :ref="measureElement"
-              :data-index="virtualRow.index"
-              data-id="virtual-row"
+              data-id="virtual-wrapper"
               :style="{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                gap: `${gap.x}px`,
-                transform: `translateY(${virtualRow.start}px)`,
-                display: 'flex',
+                position: 'relative',
+                height: `${rowTotalSize - gap.y}px`,
               }"
             >
               <div
-                v-for="virtualColumn in getFilteredVirtualColumns(virtualRow)"
-                :key="virtualColumn.key.toString()"
-                data-id="virtual-column"
+                v-for="virtualRow in virtualRows"
+                :key="virtualRow.key.toString()"
+                :ref="measureElement"
+                :data-index="virtualRow.index"
+                data-id="virtual-row"
                 :style="{
-                  width: `${itemWidth}px`,
-                  minHeight: `${virtualRow.size}px`,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  gap: `${gap.x}px`,
+                  width: '100%',
+                  transform: `translateY(${virtualRow.start}px)`,
+                  display: 'flex',
                 }"
               >
-                <LibraryItem
-                  class="w-full h-full"
-                  data-id="virtual-item"
-                  :library="list[virtualRow.index * columnsCount + virtualColumn.index]"
-                  @on-update-filter="handleUpdateFilter"
-                />
+                <div
+                  v-for="virtualColumn in getFilteredVirtualColumns(virtualRow)"
+                  :key="virtualColumn.key.toString()"
+                  data-id="virtual-column"
+                  :style="{
+                    width: `${virtualColumn.size}px`,
+                  }"
+                >
+                  <LibraryItem
+                    class="w-full h-full"
+                    data-id="virtual-item"
+                    :library="list[virtualRow.index * columnsCount + virtualColumn.index]"
+                    @on-update-filter="handleUpdateFilter"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+
+            <template #fallback>
+              <div class="flex items-center justify-center h-full">
+                <div class="flex flex-col items-center gap-1 animate-pulse text-lg text-center text-dimmed">
+                  <UIcon
+                    name="i-bxs:component"
+                    class="size-32 text-neutral-300 dark:text-neutral-800"
+                  />
+                  <div class="max-w-72">
+                    Loading libraries...
+                  </div>
+                </div>
+              </div>
+            </template>
+          </ClientOnly>
         </div>
 
         <div class="sticky bottom-5 h-9 flex items-center justify-center">
@@ -548,23 +564,5 @@ watch(() => route.query, (newVal) => {
   .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
-  }
-
-  /* LIST */
-  .list-move,
-  .list-enter-active,
-  .list-leave-active {
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .list-enter-from,
-  .list-leave-to {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  .list-leave-active {
-    opacity: 0;
-    position: absolute;
   }
 </style>
