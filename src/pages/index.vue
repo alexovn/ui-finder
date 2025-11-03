@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance } from 'vue'
+import type { VirtualItem } from '@tanstack/vue-virtual'
 import type { Library, LibraryListPayload } from '@/entities/library'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
 import { breakpointsTailwind, useBreakpoints, useElementSize, useInfiniteScroll } from '@vueuse/core'
@@ -136,22 +136,29 @@ const columnsCount = computed(() => {
   return 3
 })
 
-// (1120 - 48 - 16 * (3 - 1)) / 3 = 346,6666
-// ((1488 - 48 - 16 * (3 - 1)) / 3) + 16 = 485,3333
-
-// xl: (width >= 1280px) - 3 cols
-// md: (width >= 768px) - 2 cols
-
-const itemAdditionalPadding = computed(() => {
-  if (isSmallerOrEqualMd.value) {
-    return 32
-  }
-  return 16
-})
-
+/**
+ * Computed item width
+ *
+ * Legend:
+ *
+ * contW - container width
+ *
+ * contPX - container paddings on X axis
+ *
+ * gapX - gap on X axis
+ *
+ * cols - columns count
+ *
+ * itemP - item additional padding
+ *
+ * Formula: ((contW - contPX - gapX * (cols - 1)) / cols) + itemP
+ *
+ * @example
+ * ((1488 - 48 - 16 * (3 - 1)) / 3) + 16 = 485,333
+ */
 const itemWidth = computed(() => {
   if (isSmallerOrEqualMd.value || isSmallerXl.value) {
-    return (((listContainerWidth.value - 32 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + itemAdditionalPadding.value).toFixed(3)
+    return (((listContainerWidth.value - 32 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + 32).toFixed(3)
   }
   return (((listContainerWidth.value - 48 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + 16).toFixed(3)
 })
@@ -177,6 +184,14 @@ const columnVirtualizerOptions = computed(() => {
 const rowVirtualizer = useWindowVirtualizer(rowVirtualizerOptions)
 const columnVirtualizer = useWindowVirtualizer(columnVirtualizerOptions)
 
+const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems())
+const virtualColumns = computed(() => columnVirtualizer.value.getVirtualItems())
+const rowTotalSize = computed(() => rowVirtualizer.value.getTotalSize())
+
+function getFilteredVirtualColumns(virtualRow: VirtualItem) {
+  return virtualColumns.value.filter(virtualColumn => (virtualRow.index * columnsCount.value + virtualColumn.index) < list.value.length)
+}
+
 function measureElement(el: any) {
   if (!el) {
     return
@@ -186,12 +201,6 @@ function measureElement(el: any) {
 
   return undefined
 }
-
-const virtualRows = computed(() => rowVirtualizer.value.getVirtualItems())
-
-const virtualColumns = computed(() => columnVirtualizer.value.getVirtualItems())
-
-const rowTotalSize = computed(() => rowVirtualizer.value.getTotalSize())
 
 watch(() => [itemWidth.value, columnsCount.value], () => {
   rowVirtualizer.value.measure()
@@ -464,7 +473,7 @@ watch(() => route.query, (newVal) => {
           </div>
 
           <div
-            class="wrapper"
+            data-id="virtual-wrapper"
             :style="{
               position: 'relative',
               height: `${rowTotalSize - gap.y}px`,
@@ -475,19 +484,20 @@ watch(() => route.query, (newVal) => {
               :key="virtualRow.key.toString()"
               :ref="measureElement"
               :data-index="virtualRow.index"
-              class="row flex"
+              data-id="virtual-row"
               :style="{
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 gap: `${gap.x}px`,
                 transform: `translateY(${virtualRow.start}px)`,
+                display: 'flex',
               }"
             >
               <div
-                v-for="virtualColumn in virtualColumns.filter(virtualColumn => (virtualRow.index * columnsCount + virtualColumn.index) < list.length)"
+                v-for="virtualColumn in getFilteredVirtualColumns(virtualRow)"
                 :key="virtualColumn.key.toString()"
-                class="column"
+                data-id="virtual-column"
                 :style="{
                   width: `${itemWidth}px`,
                   minHeight: `${virtualRow.size}px`,
@@ -495,6 +505,7 @@ watch(() => route.query, (newVal) => {
               >
                 <LibraryItem
                   class="w-full h-full"
+                  data-id="virtual-item"
                   :library="list[virtualRow.index * columnsCount + virtualColumn.index]"
                   @on-update-filter="handleUpdateFilter"
                 />
