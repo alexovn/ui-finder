@@ -2,12 +2,13 @@
 import type { VirtualItem } from '@tanstack/vue-virtual'
 import type { Library, LibraryListPayload } from '@/entities/library'
 import { useWindowVirtualizer } from '@tanstack/vue-virtual'
-import { breakpointsTailwind, useBreakpoints, useElementSize, useInfiniteScroll } from '@vueuse/core'
+import { breakpointsTailwind, useBreakpoints, useElementSize, useEventBus, useInfiniteScroll } from '@vueuse/core'
 import { FilterEnum, FilterList, useFiltersStore } from '@/entities/filter'
 import { apiLibrary, LibraryItem } from '@/entities/library'
 import { LibrarySearch } from '@/features/library'
 import { OrderDirEnum } from '@/shared/lib/enums/orderDir.enum'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
+import { filtersBusKey } from '@/shared/lib/utils/keys'
 import removeEmptyValues from '@/shared/lib/utils/removeEmptyValues'
 
 if (import.meta.server) {
@@ -36,6 +37,9 @@ const { parseQuery, extractDataFromQuery } = useQuery()
 const filtersStore = useFiltersStore()
 const route = useRoute()
 const router = useRouter()
+
+const filtersBus = useEventBus(filtersBusKey)
+filtersBus.on(() => windowScrollTo())
 
 const list = useState<Library[]>('library-list', () => [])
 
@@ -236,7 +240,7 @@ function onPerPageChange(perPage: string) {
       perPage,
     },
   })
-  scrollPageToTop()
+  windowScrollTo()
 }
 function setDefaultPerPage() {
   perPage.value = DEFAULT_PER_PAGE
@@ -267,7 +271,7 @@ async function onUpdateOrderBy(value: string) {
       orderBy: value,
     },
   })
-  scrollPageToTop()
+  windowScrollTo()
 }
 function setDefaultOrderBy() {
   orderBy.value = DEFAULT_ORDER_BY
@@ -294,7 +298,7 @@ async function changeOrderDir() {
       orderDir: orderDir.value,
     },
   })
-  scrollPageToTop()
+  windowScrollTo()
 }
 const orderDirIcon = computed(() => {
   if (orderDir.value === OrderDirEnum.ASC) {
@@ -321,25 +325,21 @@ function setDefaultOrderDir() {
 const searchComponent = useTemplateRef('searchComponent')
 function handleSearch() {
   setDefaultValues()
-  scrollPageToTop()
+  windowScrollTo()
 }
 
 function handleUpdateFilter() {
   setDefaultValues()
-  scrollPageToTop()
+  windowScrollTo()
 }
 
-function removeFilters() {
-  filtersStore.clearFilters()
-  scrollPageToTop()
+async function removeFilters() {
+  await filtersStore.clearFilters()
+  windowScrollTo()
 }
 
-function scrollPageToTop() {
-  window && window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'smooth',
-  })
+function windowScrollTo() {
+  rowVirtualizer.value.scrollToIndex(0)
 }
 
 watch(() => route.query, (newVal) => {

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useEventBus } from '@vueuse/core'
 import { isEqual } from 'lodash-es'
 import { FilterEnum, FilterListMobile, useFiltersStore } from '@/entities/filter'
 import { apiLibrary } from '@/entities/library'
 import { useQuery } from '@/shared/lib/hooks/useQuery'
+import { filtersBusKey } from '@/shared/lib/utils/keys'
 import MainLogo from '@/shared/ui/MainLogo.vue'
 
 interface QueryState {
@@ -15,6 +17,8 @@ interface QueryState {
 const { parseQuery, extractDataFromQuery } = useQuery()
 const { getLibraryListTotalCounter } = apiLibrary()
 const filtersStore = useFiltersStore()
+
+const filtersBus = useEventBus(filtersBusKey)
 
 const { data } = await useAsyncData('libraries-total', async () => {
   const res = await getLibraryListTotalCounter()
@@ -69,7 +73,7 @@ function getQueryState() {
 
 async function openFilterChangedModal(queryState: QueryState) {
   // eslint-disable-next-line no-alert
-  const isNext = window.confirm('Filters have been changed. Do you want to continue?')
+  const isNext = window.confirm('Filters have been changed. Do you want to continue without save?')
   if (isNext) {
     filtersStore.state.categories = queryState.categories
     filtersStore.state.frameworks = queryState.frameworks
@@ -81,10 +85,12 @@ async function openFilterChangedModal(queryState: QueryState) {
 
 function handleUpdateFilters() {
   closeFilterPanel()
+  filtersBus.emit()
 }
 
 function handleRemoveFilters() {
   closeFilterPanel()
+  filtersBus.emit()
 }
 </script>
 
@@ -149,7 +155,7 @@ function handleRemoveFilters() {
 
     <div class="flex items-center gap-4">
       <NuxtLink
-        class="mr-8 ml-[4.5rem] lg:mx-0 flex items-center gap-2"
+        class="mr-8 ml-18 lg:mx-0 flex items-center gap-2"
         to="/"
       >
         <div class="w-8 h-8 flex items-center justify-center shrink-0 rounded-lg text-lg font-semibold text-white dark:text-black">

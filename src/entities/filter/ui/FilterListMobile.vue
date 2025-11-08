@@ -74,14 +74,14 @@ const components = computed(() => {
   return mapComponents(filters.value.components)
 })
 
-function applyFilters() {
+async function applyFilters() {
+  await filtersStore.updateFilters()
   emit('onUpdateFilters')
-  filtersStore.updateFilters()
 }
 
-function removeFilters() {
+async function removeFilters() {
+  await filtersStore.clearFilters()
   emit('onRemoveFilters')
-  filtersStore.clearFilters()
 }
 </script>
 

@@ -38,7 +38,7 @@ export const useFiltersStore = defineStore('filters', () => {
     })
   }
 
-  function updateFilters() {
+  async function updateFilters() {
     const query: Record<FilterEnum, string[]> = {} as Record<FilterEnum, string[]>
 
     (Object.keys(state) as Array<keyof typeof state>).forEach((filter) => {
@@ -49,7 +49,7 @@ export const useFiltersStore = defineStore('filters', () => {
       query[filter] = parsedFilterQuery[filter]
     })
 
-    router.push({
+    await router.push({
       query: {
         ...route.query,
         ...query,
@@ -87,10 +87,10 @@ export const useFiltersStore = defineStore('filters', () => {
     state.components = []
   }
 
-  function clearFilters() {
+  async function clearFilters() {
     clearFilterState()
 
-    router.push({
+    await router.push({
       query: {
         ...route.query,
         [FilterEnum.CATEGORIES]: undefined,
