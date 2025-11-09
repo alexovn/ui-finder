@@ -3,6 +3,7 @@ import type {
   Component,
   Feature,
   FilterEnum,
+  FilterType,
   Framework,
 } from '@/entities/filter'
 
@@ -50,4 +51,12 @@ export interface LibraryListTotalCounterRes {
   data: {
     total: number
   }
+}
+
+export interface LibraryFilter {
+  id: number
+  name: string
+  value: string
+  type: FilterType
+  icon: string | null
 }

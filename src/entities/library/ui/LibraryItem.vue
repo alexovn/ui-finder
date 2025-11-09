@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import type { Library } from '../model/interfaces/library.interface'
+import type { Library, LibraryFilter } from '../model/interfaces/library.interface'
 import type { FilterType } from '@/entities/filter'
 import { mapFilters, useFiltersStore } from '@/entities/filter'
 import formatCount from '@/shared/lib/utils/formatCount'
-
-interface Filter {
-  id: number
-  name: string
-  value: string
-  type: FilterType
-  icon: string | null
-}
+import LibraryItemInfo from './LibraryItemInfo.vue'
 
 const props = defineProps<{
   library: Library | null | undefined
@@ -21,6 +14,14 @@ const emit = defineEmits<{
 }>()
 
 const filtersStore = useFiltersStore()
+
+const isLibraryItemInfoOpened = ref(false)
+function openLibraryItemInfo() {
+  isLibraryItemInfoOpened.value = true
+}
+function closeLibraryItemInfo() {
+  isLibraryItemInfoOpened.value = false
+}
 
 const githubStarsCount = computed(() => {
   if (!props.library?.githubStars)
@@ -42,10 +43,10 @@ const {
   mapFeatures,
 } = mapFilters()
 
-const badges = computed(() => {
-  let frameworks: Filter[] = []
-  let features: Filter[] = []
-  let categories: Filter[] = []
+const tags = computed(() => {
+  let frameworks: LibraryFilter[] = []
+  let features: LibraryFilter[] = []
+  let categories: LibraryFilter[] = []
 
   if (props.library?.frameworks) {
     frameworks = mapFrameworks(props.library.frameworks)
@@ -111,20 +112,20 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
 
       <div class="flex justify-end items-end content-start flex-wrap gap-1">
         <label
-          v-for="item in badges"
-          :key="item.value"
+          v-for="tag in tags"
+          :key="tag.id"
           class="cursor-pointer"
         >
           <input
-            v-model="filtersStore.state[item.type]"
-            :value="item.value"
+            v-model="filtersStore.state[tag.type]"
+            :value="tag.value"
             type="checkbox"
             class="sr-only peer"
-            @update:model-value="handleUpdateFilter(item.type, $event)"
+            @update:model-value="handleUpdateFilter(tag.type, $event)"
           >
           <UBadge
-            :label="item.name"
-            :icon="item.icon || undefined"
+            :label="tag.name"
+            :icon="tag.icon || undefined"
             variant="outline"
             :ui="{
               base: 'rounded-full hover:bg-neutral-200/75 peer-checked:hover:bg-neutral-300 dark:hover:bg-neutral-700/40 dark:peer-checked:hover:bg-neutral-700/75 peer-checked:bg-neutral-200 peer-checked:text-dark dark:peer-checked:bg-neutral-700 dark:peer-checked:text-white peer-focus:bg-neutral-300 dark:peer-focus:bg-neutral-700/40',
@@ -134,47 +135,65 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
       </div>
     </div>
 
-    <div
-      v-if="githubStarsCount || npmDownloadsCount"
-      class="flex items-center gap-1"
-    >
-      <UButton
-        v-if="githubStarsCount"
-        variant="ghost"
-        color="neutral"
-        leading-icon="i-octicon:star-24"
-        :label="`${githubStarsCount}`"
-        class="group"
-        :to="library?.githubRepo"
-        target="_blank"
-        external
+    <div class="flex items-center justify-between gap-8">
+      <div
+        v-if="githubStarsCount || npmDownloadsCount"
+        class="flex items-center gap-1"
       >
-        <template #trailing>
-          <UIcon
-            class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
-            name="i-lucide:arrow-up-right"
-          />
-        </template>
-      </UButton>
+        <UButton
+          v-if="githubStarsCount"
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-octicon:star-24"
+          :label="`${githubStarsCount}`"
+          class="group"
+          :to="library?.githubRepo"
+          target="_blank"
+          external
+        >
+          <template #trailing>
+            <UIcon
+              class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+              name="i-lucide:arrow-up-right"
+            />
+          </template>
+        </UButton>
 
-      <UButton
-        v-if="npmDownloadsCount"
-        variant="ghost"
-        color="neutral"
-        leading-icon="i-lucide:download"
-        :label="`${npmDownloadsCount}`"
-        class="group"
-        :to="library?.npmPackage"
-        target="_blank"
-        external
-      >
-        <template #trailing>
-          <UIcon
-            class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
-            name="i-lucide:arrow-up-right"
-          />
-        </template>
-      </UButton>
+        <UButton
+          v-if="npmDownloadsCount"
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-lucide:download"
+          :label="`${npmDownloadsCount}`"
+          class="group"
+          :to="library?.npmPackage"
+          target="_blank"
+          external
+        >
+          <template #trailing>
+            <UIcon
+              class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+              name="i-lucide:arrow-up-right"
+            />
+          </template>
+        </UButton>
+      </div>
+
+      <div class="flex flex-1 justify-end">
+        <UButton
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-lucide:circle-plus"
+          @click="openLibraryItemInfo"
+        />
+
+        <LibraryItemInfo
+          v-model:open="isLibraryItemInfoOpened"
+          :library
+          :tags
+          @close="closeLibraryItemInfo"
+        />
+      </div>
     </div>
   </div>
 </template>
