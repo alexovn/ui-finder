@@ -14,15 +14,19 @@ export interface Library {
   name: string
   value: string
   img?: string
-  link?: string
+  url?: string
   frameworks: Framework[]
   features: Feature[]
   components: Component[]
   category: Category
-  githubRepo?: string
-  npmPackage?: string
-  githubStars: number
-  npmDownloads: number
+  githubUrl?: string
+  npmUrl?: string
+  starsCount: number
+  downloadsCount: number
+  description: string | null
+  archived: boolean
+  disabled: boolean
+  githubUpdatedAt: string | null
 };
 
 export interface LibraryListPayload {

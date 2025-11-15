@@ -255,11 +255,11 @@ const orderByList = [
   },
   {
     label: 'Github stars',
-    value: 'githubStars',
+    value: 'starsCount',
   },
   {
     label: 'Npm downloads',
-    value: 'npmDownloads',
+    value: 'downloadsCount',
   },
 ]
 async function onUpdateOrderBy(value: string) {

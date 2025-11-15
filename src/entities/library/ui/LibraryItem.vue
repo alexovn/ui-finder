@@ -23,18 +23,18 @@ function closeLibraryItemInfo() {
   isLibraryItemInfoOpened.value = false
 }
 
-const githubStarsCount = computed(() => {
-  if (!props.library?.githubStars)
+const starsCount = computed(() => {
+  if (!props.library?.starsCount)
     return null
 
-  return formatCount(props.library?.githubStars)
+  return formatCount(props.library?.starsCount)
 })
 
-const npmDownloadsCount = computed(() => {
-  if (!props.library?.npmDownloads)
+const downloadsCount = computed(() => {
+  if (!props.library?.downloadsCount)
     return null
 
-  return formatCount(props.library?.npmDownloads)
+  return formatCount(props.library?.downloadsCount)
 })
 
 const {
@@ -43,7 +43,7 @@ const {
   mapFeatures,
 } = mapFilters()
 
-const tags = computed(() => {
+const tagList = computed(() => {
   let frameworks: LibraryFilter[] = []
   let features: LibraryFilter[] = []
   let categories: LibraryFilter[] = []
@@ -77,9 +77,9 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
   <div class="p-2.5 flex flex-col gap-3 min-h-56 will-change-auto border border-neutral-200 transition-colors hover:bg-neutral-200/25 dark:border-neutral-800 rounded-md dark:hover:bg-neutral-700/20 md:p-4">
     <div class="px-2.5 flex items-start justify-between gap-2 flex-1 md:gap-8">
       <NuxtLink
-        v-if="library?.link"
+        v-if="library?.url"
         class="group flex flex-col gap-2 min-w-[120px]"
-        :to="library.link"
+        :to="library.url"
         target="_blank"
         external
       >
@@ -112,8 +112,8 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
 
       <div class="flex justify-end items-end content-start flex-wrap gap-1">
         <label
-          v-for="tag in tags"
-          :key="tag.id"
+          v-for="tag in tagList"
+          :key="tag.value"
           class="cursor-pointer"
         >
           <input
@@ -137,17 +137,17 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
 
     <div class="flex items-center justify-between gap-8">
       <div
-        v-if="githubStarsCount || npmDownloadsCount"
+        v-if="starsCount || downloadsCount"
         class="flex items-center gap-1"
       >
         <UButton
-          v-if="githubStarsCount"
+          v-if="starsCount"
           variant="ghost"
           color="neutral"
           leading-icon="i-octicon:star-24"
-          :label="`${githubStarsCount}`"
+          :label="`${starsCount}`"
           class="group"
-          :to="library?.githubRepo"
+          :to="library?.githubUrl"
           target="_blank"
           external
         >
@@ -160,13 +160,13 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
         </UButton>
 
         <UButton
-          v-if="npmDownloadsCount"
+          v-if="downloadsCount"
           variant="ghost"
           color="neutral"
           leading-icon="i-lucide:download"
-          :label="`${npmDownloadsCount}`"
+          :label="`${downloadsCount}`"
           class="group"
-          :to="library?.npmPackage"
+          :to="library?.npmUrl"
           target="_blank"
           external
         >
@@ -190,7 +190,7 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
         <LibraryItemInfo
           v-model:open="isLibraryItemInfoOpened"
           :library
-          :tags
+          :tag-list
           @close="closeLibraryItemInfo"
         />
       </div>
