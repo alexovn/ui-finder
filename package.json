@@ -1,7 +1,11 @@
 {
   "name": "ui-finder",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "Front-End part for UI Finder app",
+  "author": "alexovn",
   "private": true,
+  "license": "MIT",
+  "type": "module",
   "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "nuxt build",

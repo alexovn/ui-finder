@@ -3,6 +3,9 @@
 # UI Finder
 UI Finder is an app that helps you find the right UI libraries in seconds. No more hours of web surfing in search of libraries that match your framework, are popular enough, and actively maintained. You can filter libraries by different settings, sort and order them as you like. Enjoy and have fun!
 
+[Front-End repo](https://github.com/alexovn/ui-finder) |
+[Back-End repo](https://github.com/alexovn/ui-finder-backend)
+
 ## Features
 UI Finder is a feature-rich app designed to help developers be more productive and save hours searching for the right libraries. Here are some of its main features:
 
