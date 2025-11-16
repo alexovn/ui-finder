@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import type { Library } from '../model/interfaces/library.interface'
+import type { Library, LibraryFilter } from '../model/interfaces/library.interface'
 import type { FilterType } from '@/entities/filter'
 import { mapFilters, useFiltersStore } from '@/entities/filter'
 import formatCount from '@/shared/lib/utils/formatCount'
-
-interface Filter {
-  id: number
-  name: string
-  value: string
-  type: FilterType
-  icon: string | null
-}
+import LibraryItemInfo from './LibraryItemInfo.vue'
 
 const props = defineProps<{
   library: Library | null | undefined
@@ -22,18 +15,26 @@ const emit = defineEmits<{
 
 const filtersStore = useFiltersStore()
 
-const githubStarsCount = computed(() => {
-  if (!props.library?.githubStars)
+const isLibraryItemInfoOpened = ref(false)
+function openLibraryItemInfo() {
+  isLibraryItemInfoOpened.value = true
+}
+function closeLibraryItemInfo() {
+  isLibraryItemInfoOpened.value = false
+}
+
+const starsCount = computed(() => {
+  if (!props.library?.starsCount)
     return null
 
-  return formatCount(props.library?.githubStars)
+  return formatCount(props.library?.starsCount)
 })
 
-const npmDownloadsCount = computed(() => {
-  if (!props.library?.npmDownloads)
+const downloadsCount = computed(() => {
+  if (!props.library?.downloadsCount)
     return null
 
-  return formatCount(props.library?.npmDownloads)
+  return formatCount(props.library?.downloadsCount)
 })
 
 const {
@@ -42,10 +43,10 @@ const {
   mapFeatures,
 } = mapFilters()
 
-const badges = computed(() => {
-  let frameworks: Filter[] = []
-  let features: Filter[] = []
-  let categories: Filter[] = []
+const tagList = computed(() => {
+  let frameworks: LibraryFilter[] = []
+  let features: LibraryFilter[] = []
+  let categories: LibraryFilter[] = []
 
   if (props.library?.frameworks) {
     frameworks = mapFrameworks(props.library.frameworks)
@@ -76,9 +77,9 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
   <div class="p-2.5 flex flex-col gap-3 min-h-56 will-change-auto border border-neutral-200 transition-colors hover:bg-neutral-200/25 dark:border-neutral-800 rounded-md dark:hover:bg-neutral-700/20 md:p-4">
     <div class="px-2.5 flex items-start justify-between gap-2 flex-1 md:gap-8">
       <NuxtLink
-        v-if="library?.link"
+        v-if="library?.url"
         class="group flex flex-col gap-2 min-w-[120px]"
-        :to="library.link"
+        :to="library.url"
         target="_blank"
         external
       >
@@ -111,20 +112,20 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
 
       <div class="flex justify-end items-end content-start flex-wrap gap-1">
         <label
-          v-for="item in badges"
-          :key="item.value"
+          v-for="tag in tagList"
+          :key="tag.value"
           class="cursor-pointer"
         >
           <input
-            v-model="filtersStore.state[item.type]"
-            :value="item.value"
+            v-model="filtersStore.state[tag.type]"
+            :value="tag.value"
             type="checkbox"
             class="sr-only peer"
-            @update:model-value="handleUpdateFilter(item.type, $event)"
+            @update:model-value="handleUpdateFilter(tag.type, $event)"
           >
           <UBadge
-            :label="item.name"
-            :icon="item.icon || undefined"
+            :label="tag.name"
+            :icon="tag.icon || undefined"
             variant="outline"
             :ui="{
               base: 'rounded-full hover:bg-neutral-200/75 peer-checked:hover:bg-neutral-300 dark:hover:bg-neutral-700/40 dark:peer-checked:hover:bg-neutral-700/75 peer-checked:bg-neutral-200 peer-checked:text-dark dark:peer-checked:bg-neutral-700 dark:peer-checked:text-white peer-focus:bg-neutral-300 dark:peer-focus:bg-neutral-700/40',
@@ -134,47 +135,65 @@ function handleUpdateFilter(filterType: FilterType, filters: string | string[]) 
       </div>
     </div>
 
-    <div
-      v-if="githubStarsCount || npmDownloadsCount"
-      class="flex items-center gap-1"
-    >
-      <UButton
-        v-if="githubStarsCount"
-        variant="ghost"
-        color="neutral"
-        leading-icon="i-octicon:star-24"
-        :label="`${githubStarsCount}`"
-        class="group"
-        :to="library?.githubRepo"
-        target="_blank"
-        external
+    <div class="flex items-center justify-between gap-8">
+      <div
+        v-if="starsCount || downloadsCount"
+        class="flex items-center gap-1"
       >
-        <template #trailing>
-          <UIcon
-            class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
-            name="i-lucide:arrow-up-right"
-          />
-        </template>
-      </UButton>
+        <UButton
+          v-if="starsCount"
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-octicon:star-24"
+          :label="`${starsCount}`"
+          class="group"
+          :to="library?.githubUrl"
+          target="_blank"
+          external
+        >
+          <template #trailing>
+            <UIcon
+              class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+              name="i-lucide:arrow-up-right"
+            />
+          </template>
+        </UButton>
 
-      <UButton
-        v-if="npmDownloadsCount"
-        variant="ghost"
-        color="neutral"
-        leading-icon="i-lucide:download"
-        :label="`${npmDownloadsCount}`"
-        class="group"
-        :to="library?.npmPackage"
-        target="_blank"
-        external
-      >
-        <template #trailing>
-          <UIcon
-            class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
-            name="i-lucide:arrow-up-right"
-          />
-        </template>
-      </UButton>
+        <UButton
+          v-if="downloadsCount"
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-lucide:download"
+          :label="`${downloadsCount}`"
+          class="group"
+          :to="library?.npmUrl"
+          target="_blank"
+          external
+        >
+          <template #trailing>
+            <UIcon
+              class="transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px"
+              name="i-lucide:arrow-up-right"
+            />
+          </template>
+        </UButton>
+      </div>
+
+      <div class="flex flex-1 justify-end">
+        <UButton
+          variant="ghost"
+          color="neutral"
+          leading-icon="i-lucide:circle-plus"
+          @click="openLibraryItemInfo"
+        />
+
+        <LibraryItemInfo
+          v-model:open="isLibraryItemInfoOpened"
+          :library
+          :tag-list
+          @close="closeLibraryItemInfo"
+        />
+      </div>
     </div>
   </div>
 </template>
