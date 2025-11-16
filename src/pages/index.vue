@@ -145,26 +145,39 @@ const columnsCount = computed(() => {
  *
  * Legend:
  *
- * contW - container width
+ * containerW - container width
  *
- * contPX - container paddings on X axis
+ * containerPaddingX - container paddings on X axis
  *
  * gapX - gap on X axis
  *
  * cols - columns count
  *
- * itemP - item additional padding
+ * itemPadding - additional item padding
  *
- * Formula: ((contW - contPX - gapX * (cols - 1)) / cols) + itemP
+ * Formula: ((containerW - containerPaddingX - gapX * (cols - 1)) / cols) + itemPadding
  *
  * @example
  * ((1488 - 48 - 16 * (3 - 1)) / 3) + 16 = 485,333
  */
 const itemWidth = computed(() => {
-  if (isSmallerOrEqualMd.value || isSmallerXl.value) {
-    return (((listContainerWidth.value - 32 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + 32).toFixed(3)
+  let containerPaddingX = 0
+  let itemPadding = 0
+
+  if (isSmallerOrEqualMd.value) {
+    containerPaddingX = 32
+    itemPadding = 32
   }
-  return (((listContainerWidth.value - 48 - gap.x * (columnsCount.value - 1)) / columnsCount.value) + 16).toFixed(3)
+  else if (isSmallerXl.value) {
+    containerPaddingX = 32
+    itemPadding = 16
+  }
+  else {
+    containerPaddingX = 48
+    itemPadding = 16
+  }
+
+  return (((listContainerWidth.value - containerPaddingX - gap.x * (columnsCount.value - 1)) / columnsCount.value) + itemPadding).toFixed(3)
 })
 
 const rowVirtualizerOptions = computed(() => {
