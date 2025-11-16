@@ -408,6 +408,7 @@ watch(() => route.query, (newVal) => {
         <LibrarySearch
           ref="searchComponent"
           @on-search="handleSearch"
+          @on-clear-search="handleSearch"
         />
         <div class="w-full h-px absolute bottom-0 z-100">
           <UProgress

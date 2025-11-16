@@ -3,6 +3,7 @@ import { useDebounceFn, useEventListener } from '@vueuse/core'
 
 const emit = defineEmits<{
   onSearch: []
+  onClearSearch: []
 }>()
 
 const route = useRoute()
@@ -12,9 +13,9 @@ const searchEl = useTemplateRef('searchEl')
 const search = ref(route.query.search || '')
 const isSearchFocused = ref(false)
 
-const handleSearch = useDebounceFn(() => {
+const handleSearch = useDebounceFn(async () => {
   emit('onSearch')
-  router.push({
+  await router.push({
     query: {
       ...route.query,
       page: undefined,
@@ -27,10 +28,10 @@ function clearSearchValue() {
   search.value = ''
 }
 
-function clearSearch() {
+async function clearSearch() {
   clearSearchValue()
-
-  router.push({
+  emit('onClearSearch')
+  await router.push({
     query: {
       ...route.query,
       search: undefined,
