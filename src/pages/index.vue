@@ -22,7 +22,7 @@ if (import.meta.server) {
     ogDescription: 'A powerful tool that helps developers quickly discover the best UI libraries for their framework. Save time by filtering, sorting, and finding up-to-date, high-quality UI solutions in seconds. No more endless web searches—just the right libraries at your fingertips!',
     ogSiteName: 'UI Finder',
     ogType: 'website',
-    ogUrl: 'https://ui-finder.dev/',
+    ogUrl: 'https://ui-finder-dev.vercel.app/',
     ogImage: 'https://res.cloudinary.com/drh75w8s9/image/upload/v1760890339/ui-finder-cover_lip7wi.jpg',
 
     // Twitter
